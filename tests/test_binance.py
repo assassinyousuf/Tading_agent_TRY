@@ -126,5 +126,45 @@ class TestPaginationContinuity(unittest.TestCase):
             self.assertEqual(res["gaps"][0]["missing_candles"], 1)
 
 
+class TestScannerBinanceExtensions(unittest.TestCase):
+    def test_calculate_squeeze(self):
+        from _load import load
+        scan = load("trader-scanner", "scan")
+        # 30 bars with very tight range (squeeze)
+        n = 30
+        c = [100.0 + (i % 2) * 0.1 for i in range(n)]
+        h = [x + 0.1 for x in c]
+        l = [x - 0.1 for x in c]
+        v = [1000.0] * n
+        series = {"c": c, "h": h, "l": l, "v": v, "t": list(range(n))}
+        res = scan.calculate_squeeze(series)
+        self.assertIsNotNone(res)
+        self.assertIn(res["status"], ("IN_SQUEEZE", "NORMAL"))
+        self.assertTrue(res["bb_width_pct"] < 2.0)
+
+    def test_get_active_session(self):
+        import datetime
+        from _load import load
+        scan = load("trader-scanner", "scan")
+        # 02:00 UTC -> Asian open
+        t_asian = datetime.datetime(2026, 10, 29, 2, 0, 0)
+        label, s_open = scan.get_active_session(t_asian)
+        self.assertIn("Asian", label)
+        self.assertEqual(s_open.hour, 0)
+
+        # 09:00 UTC -> London open
+        t_london = datetime.datetime(2026, 10, 29, 9, 0, 0)
+        label, s_open = scan.get_active_session(t_london)
+        self.assertIn("London", label)
+        self.assertEqual(s_open.hour, 8)
+
+        # 14:00 UTC -> New York open
+        t_ny = datetime.datetime(2026, 10, 29, 14, 0, 0)
+        label, s_open = scan.get_active_session(t_ny)
+        self.assertIn("New York", label)
+        self.assertEqual(s_open.hour, 13)
+        self.assertEqual(s_open.minute, 30)
+
+
 if __name__ == "__main__":
     unittest.main()
