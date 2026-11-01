@@ -1,0 +1,741 @@
+{
+  "timestamp": "2026-10-29T18:07:23.510746+00:00",
+  "hypothesis": "H5-B_VP-TF",
+  "multiple_testing": {
+    "m_hypotheses": 3,
+    "bonferroni_alpha": 0.0167
+  },
+  "partitions": {
+    "TRAIN": "In-Sample Training (400 bars)",
+    "VAL": "Validation (150 bars)",
+    "TEST": "Untouched Out-of-Sample (149 bars)",
+    "OVERALL": "Continuous 2-Year Horizon (699 bars)"
+  },
+  "configurations": {
+    "H5-B_CFG1": {
+      "info": {
+        "name": "Baseline (20d High, 2.5 ATR, 2.0% Risk)",
+        "params": {
+          "lookback": 20,
+          "stop_mult": 2.5,
+          "risk_budget": 0.02,
+          "max_asset_weight": 0.4
+        }
+      },
+      "partitions": {
+        "TRAIN": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10353.16,
+            "net_total_return_pct": 3.53,
+            "cagr_pct": 3.23,
+            "annualized_vol_pct": 12.85,
+            "sharpe_ratio": 0.2513,
+            "sortino_ratio": 0.3848,
+            "max_drawdown_pct": -11.18,
+            "avg_one_way_turnover": 0.0154,
+            "total_friction_usd": 190.26,
+            "total_traded_notional_usd": 126836.79,
+            "trades_count": 54,
+            "n_trading_days": 399,
+            "compounding_error_usd": 5.4569682106375694e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -7.94,
+            "btc_sharpe": -0.1748,
+            "btc_max_dd_pct": -32.02,
+            "btc_friction_usd": 28.83,
+            "ew_net_return_pct": -8.2,
+            "ew_sharpe": -0.1392,
+            "ew_max_dd_pct": -41.98,
+            "ew_friction_usd": 28.79,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.446,
+              "empirical_mean_excess_daily": 7.935748530884967e-05,
+              "total_excess_return_pp": 11.47,
+              "ci_95_excess_pp": [
+                -58.02,
+                75.41
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.494,
+              "empirical_mean_excess_daily": -7.766062265665612e-05,
+              "total_excess_return_pp": 11.73,
+              "ci_95_excess_pp": [
+                -77.51,
+                89.43
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 54
+        },
+        "VAL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 8664.31,
+            "net_total_return_pct": -13.36,
+            "cagr_pct": -29.63,
+            "annualized_vol_pct": 14.65,
+            "sharpe_ratio": -2.0222,
+            "sortino_ratio": -2.4402,
+            "max_drawdown_pct": -15.26,
+            "avg_one_way_turnover": 0.0266,
+            "total_friction_usd": 112.07,
+            "total_traded_notional_usd": 74715.49,
+            "trades_count": 34,
+            "n_trading_days": 149,
+            "compounding_error_usd": 3.637978807091713e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -21.44,
+            "btc_sharpe": -0.8887,
+            "btc_max_dd_pct": -35.11,
+            "btc_friction_usd": 26.8,
+            "ew_net_return_pct": -29.51,
+            "ew_sharpe": -1.0532,
+            "ew_max_dd_pct": -40.87,
+            "ew_friction_usd": 25.59,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.462,
+              "empirical_mean_excess_daily": 0.00034005182864139456,
+              "total_excess_return_pp": 8.09,
+              "ci_95_excess_pp": [
+                -42.88,
+                64.98
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.3,
+              "empirical_mean_excess_daily": 0.0010016828221898594,
+              "total_excess_return_pp": 16.16,
+              "ci_95_excess_pp": [
+                -35.35,
+                92.86
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 34
+        },
+        "TEST": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10107.96,
+            "net_total_return_pct": 1.08,
+            "cagr_pct": 2.69,
+            "annualized_vol_pct": 17.25,
+            "sharpe_ratio": 0.1557,
+            "sortino_ratio": 0.2746,
+            "max_drawdown_pct": -8.92,
+            "avg_one_way_turnover": 0.0195,
+            "total_friction_usd": 89.72,
+            "total_traded_notional_usd": 59810.91,
+            "trades_count": 26,
+            "n_trading_days": 148,
+            "compounding_error_usd": 1.8189894035458565e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": 21.48,
+            "btc_sharpe": 1.664,
+            "btc_max_dd_pct": -12.32,
+            "btc_friction_usd": 33.25,
+            "ew_net_return_pct": 25.5,
+            "ew_sharpe": 1.7594,
+            "ew_max_dd_pct": -13.21,
+            "ew_friction_usd": 33.85,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.957,
+              "empirical_mean_excess_daily": -0.0013870404330569071,
+              "total_excess_return_pp": -20.4,
+              "ci_95_excess_pp": [
+                -65.01,
+                4.18
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.97,
+              "empirical_mean_excess_daily": -0.0016683448093836955,
+              "total_excess_return_pp": -24.42,
+              "ci_95_excess_pp": [
+                -77.16,
+                1.75
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 26
+        },
+        "OVERALL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 9067.14,
+            "net_total_return_pct": -9.33,
+            "cagr_pct": -5.0,
+            "annualized_vol_pct": 14.26,
+            "sharpe_ratio": -0.3504,
+            "sortino_ratio": -0.5208,
+            "max_drawdown_pct": -23.98,
+            "avg_one_way_turnover": 0.0186,
+            "total_friction_usd": 386.76,
+            "total_traded_notional_usd": 257843.05,
+            "trades_count": 114,
+            "n_trading_days": 698,
+            "compounding_error_usd": 7.275957614183426e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -16.79,
+            "btc_sharpe": -0.2136,
+            "btc_max_dd_pct": -52.97,
+            "btc_friction_usd": 27.5,
+            "ew_net_return_pct": -23.4,
+            "ew_sharpe": -0.2546,
+            "ew_max_dd_pct": -60.16,
+            "ew_friction_usd": 26.51,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.587,
+              "empirical_mean_excess_daily": -0.00010146380931880727,
+              "total_excess_return_pp": 7.46,
+              "ci_95_excess_pp": [
+                -102.45,
+                89.75
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.5525,
+              "empirical_mean_excess_daily": -8.982764433039688e-05,
+              "total_excess_return_pp": 14.07,
+              "ci_95_excess_pp": [
+                -112.79,
+                112.53
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 114
+        }
+      }
+    },
+    "H5-B_CFG2": {
+      "info": {
+        "name": "Tight (20d High, 2.0 ATR, 1.5% Risk)",
+        "params": {
+          "lookback": 20,
+          "stop_mult": 2.0,
+          "risk_budget": 0.015,
+          "max_asset_weight": 0.4
+        }
+      },
+      "partitions": {
+        "TRAIN": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10634.14,
+            "net_total_return_pct": 6.34,
+            "cagr_pct": 5.79,
+            "annualized_vol_pct": 10.9,
+            "sharpe_ratio": 0.5312,
+            "sortino_ratio": 0.8684,
+            "max_drawdown_pct": -9.5,
+            "avg_one_way_turnover": 0.0174,
+            "total_friction_usd": 217.99,
+            "total_traded_notional_usd": 145324.11,
+            "trades_count": 64,
+            "n_trading_days": 399,
+            "compounding_error_usd": 1.8189894035458565e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -7.94,
+            "btc_sharpe": -0.1748,
+            "btc_max_dd_pct": -32.02,
+            "btc_friction_usd": 28.83,
+            "ew_net_return_pct": -8.2,
+            "ew_sharpe": -0.1392,
+            "ew_max_dd_pct": -41.98,
+            "ew_friction_usd": 28.79,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.412,
+              "empirical_mean_excess_daily": 0.00014014906223513393,
+              "total_excess_return_pp": 14.28,
+              "ci_95_excess_pp": [
+                -54.69,
+                77.45
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.469,
+              "empirical_mean_excess_daily": -1.6869045730371845e-05,
+              "total_excess_return_pp": 14.54,
+              "ci_95_excess_pp": [
+                -74.86,
+                94.23
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 64
+        },
+        "VAL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 8349.92,
+            "net_total_return_pct": -16.5,
+            "cagr_pct": -35.73,
+            "annualized_vol_pct": 13.17,
+            "sharpe_ratio": -2.7136,
+            "sortino_ratio": -3.0784,
+            "max_drawdown_pct": -18.33,
+            "avg_one_way_turnover": 0.0335,
+            "total_friction_usd": 137.62,
+            "total_traded_notional_usd": 91749.93,
+            "trades_count": 44,
+            "n_trading_days": 149,
+            "compounding_error_usd": 1.8189894035458565e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -21.44,
+            "btc_sharpe": -0.8887,
+            "btc_max_dd_pct": -35.11,
+            "btc_friction_usd": 26.8,
+            "ew_net_return_pct": -29.51,
+            "ew_sharpe": -1.0532,
+            "ew_max_dd_pct": -40.87,
+            "ew_friction_usd": 25.59,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.528,
+              "empirical_mean_excess_daily": 8.668346198002746e-05,
+              "total_excess_return_pp": 4.94,
+              "ci_95_excess_pp": [
+                -51.56,
+                64.02
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.3455,
+              "empirical_mean_excess_daily": 0.0007483144555284923,
+              "total_excess_return_pp": 13.01,
+              "ci_95_excess_pp": [
+                -43.8,
+                92.96
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 44
+        },
+        "TEST": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10000.6,
+            "net_total_return_pct": 0.01,
+            "cagr_pct": 0.01,
+            "annualized_vol_pct": 15.43,
+            "sharpe_ratio": 0.001,
+            "sortino_ratio": 0.0019,
+            "max_drawdown_pct": -8.09,
+            "avg_one_way_turnover": 0.0213,
+            "total_friction_usd": 96.45,
+            "total_traded_notional_usd": 64297.67,
+            "trades_count": 28,
+            "n_trading_days": 148,
+            "compounding_error_usd": 1.8189894035458565e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": 21.48,
+            "btc_sharpe": 1.664,
+            "btc_max_dd_pct": -12.32,
+            "btc_friction_usd": 33.25,
+            "ew_net_return_pct": 25.5,
+            "ew_sharpe": 1.7594,
+            "ew_max_dd_pct": -13.21,
+            "ew_friction_usd": 33.85,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.958,
+              "empirical_mean_excess_daily": -0.0014673044266132773,
+              "total_excess_return_pp": -21.47,
+              "ci_95_excess_pp": [
+                -67.56,
+                5.01
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.9685,
+              "empirical_mean_excess_daily": -0.0017486088029400656,
+              "total_excess_return_pp": -25.49,
+              "ci_95_excess_pp": [
+                -80.41,
+                2.21
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 28
+        },
+        "OVERALL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 8879.95,
+            "net_total_return_pct": -11.2,
+            "cagr_pct": -6.03,
+            "annualized_vol_pct": 12.49,
+            "sharpe_ratio": -0.4826,
+            "sortino_ratio": -0.7333,
+            "max_drawdown_pct": -23.41,
+            "avg_one_way_turnover": 0.0216,
+            "total_friction_usd": 449.98,
+            "total_traded_notional_usd": 299984.89,
+            "trades_count": 136,
+            "n_trading_days": 698,
+            "compounding_error_usd": 3.637978807091713e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -16.79,
+            "btc_sharpe": -0.2136,
+            "btc_max_dd_pct": -52.97,
+            "btc_friction_usd": 27.5,
+            "ew_net_return_pct": -23.4,
+            "ew_sharpe": -0.2546,
+            "ew_max_dd_pct": -60.16,
+            "ew_friction_usd": 26.51,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.5925,
+              "empirical_mean_excess_daily": -0.0001378178472633621,
+              "total_excess_return_pp": 5.59,
+              "ci_95_excess_pp": [
+                -108.0,
+                90.78
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.5575,
+              "empirical_mean_excess_daily": -0.0001261816822749517,
+              "total_excess_return_pp": 12.2,
+              "ci_95_excess_pp": [
+                -121.37,
+                114.49
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 136
+        }
+      }
+    },
+    "H5-B_CFG3": {
+      "info": {
+        "name": "Wide (30d High, 3.0 ATR, 2.5% Risk)",
+        "params": {
+          "lookback": 30,
+          "stop_mult": 3.0,
+          "risk_budget": 0.025,
+          "max_asset_weight": 0.4
+        }
+      },
+      "partitions": {
+        "TRAIN": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10473.31,
+            "net_total_return_pct": 4.73,
+            "cagr_pct": 4.32,
+            "annualized_vol_pct": 13.9,
+            "sharpe_ratio": 0.3111,
+            "sortino_ratio": 0.4663,
+            "max_drawdown_pct": -12.66,
+            "avg_one_way_turnover": 0.0108,
+            "total_friction_usd": 132.54,
+            "total_traded_notional_usd": 88361.91,
+            "trades_count": 38,
+            "n_trading_days": 399,
+            "compounding_error_usd": 5.4569682106375694e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -7.94,
+            "btc_sharpe": -0.1748,
+            "btc_max_dd_pct": -32.02,
+            "btc_friction_usd": 28.83,
+            "ew_net_return_pct": -8.2,
+            "ew_sharpe": -0.1392,
+            "ew_max_dd_pct": -41.98,
+            "ew_friction_usd": 28.79,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.422,
+              "empirical_mean_excess_daily": 0.00011212794868880283,
+              "total_excess_return_pp": 12.67,
+              "ci_95_excess_pp": [
+                -56.85,
+                76.8
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.4825,
+              "empirical_mean_excess_daily": -4.489015927670296e-05,
+              "total_excess_return_pp": 12.93,
+              "ci_95_excess_pp": [
+                -75.2,
+                90.14
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 38
+        },
+        "VAL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 8053.24,
+            "net_total_return_pct": -19.47,
+            "cagr_pct": -41.18,
+            "annualized_vol_pct": 12.66,
+            "sharpe_ratio": -3.2518,
+            "sortino_ratio": -3.5141,
+            "max_drawdown_pct": -20.13,
+            "avg_one_way_turnover": 0.0204,
+            "total_friction_usd": 82.2,
+            "total_traded_notional_usd": 54798.93,
+            "trades_count": 26,
+            "n_trading_days": 149,
+            "compounding_error_usd": 3.637978807091713e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -21.44,
+            "btc_sharpe": -0.8887,
+            "btc_max_dd_pct": -35.11,
+            "btc_friction_usd": 26.8,
+            "ew_net_return_pct": -29.51,
+            "ew_sharpe": -1.0532,
+            "ew_max_dd_pct": -40.87,
+            "ew_friction_usd": 25.59,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.5775,
+              "empirical_mean_excess_daily": -0.000157551755113604,
+              "total_excess_return_pp": 1.98,
+              "ci_95_excess_pp": [
+                -52.59,
+                58.25
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.3965,
+              "empirical_mean_excess_daily": 0.0005040792384348609,
+              "total_excess_return_pp": 10.05,
+              "ci_95_excess_pp": [
+                -44.67,
+                87.13
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 26
+        },
+        "TEST": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 10673.98,
+            "net_total_return_pct": 6.74,
+            "cagr_pct": 17.46,
+            "annualized_vol_pct": 23.2,
+            "sharpe_ratio": 0.7527,
+            "sortino_ratio": 1.3176,
+            "max_drawdown_pct": -11.29,
+            "avg_one_way_turnover": 0.0153,
+            "total_friction_usd": 73.38,
+            "total_traded_notional_usd": 48921.68,
+            "trades_count": 18,
+            "n_trading_days": 148,
+            "compounding_error_usd": 1.8189894035458565e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": 21.48,
+            "btc_sharpe": 1.664,
+            "btc_max_dd_pct": -12.32,
+            "btc_friction_usd": 33.25,
+            "ew_net_return_pct": 25.5,
+            "ew_sharpe": 1.7594,
+            "ew_max_dd_pct": -13.21,
+            "ew_friction_usd": 33.85,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.9265,
+              "empirical_mean_excess_daily": -0.0009864598101460924,
+              "total_excess_return_pp": -14.74,
+              "ci_95_excess_pp": [
+                -55.29,
+                8.77
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.9545,
+              "empirical_mean_excess_daily": -0.0012677641864728808,
+              "total_excess_return_pp": -18.76,
+              "ci_95_excess_pp": [
+                -65.77,
+                4.38
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 18
+        },
+        "OVERALL": {
+          "metrics": {
+            "initial_capital": 10000.0,
+            "final_capital": 9002.87,
+            "net_total_return_pct": -9.97,
+            "cagr_pct": -5.35,
+            "annualized_vol_pct": 16.11,
+            "sharpe_ratio": -0.3319,
+            "sortino_ratio": -0.4972,
+            "max_drawdown_pct": -28.25,
+            "avg_one_way_turnover": 0.0138,
+            "total_friction_usd": 280.53,
+            "total_traded_notional_usd": 187017.06,
+            "trades_count": 82,
+            "n_trading_days": 698,
+            "compounding_error_usd": 9.094947017729282e-12
+          },
+          "benchmarks": {
+            "btc_net_return_pct": -16.79,
+            "btc_sharpe": -0.2136,
+            "btc_max_dd_pct": -52.97,
+            "btc_friction_usd": 27.5,
+            "ew_net_return_pct": -23.4,
+            "ew_sharpe": -0.2546,
+            "ew_max_dd_pct": -60.16,
+            "ew_friction_usd": 26.51,
+            "cash_net_return_pct": 0.0
+          },
+          "hypothesis_test": {
+            "vs_btc": {
+              "p_value": 0.579,
+              "empirical_mean_excess_daily": -0.00010401622608111912,
+              "total_excess_return_pp": 6.82,
+              "ci_95_excess_pp": [
+                -103.85,
+                88.45
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            },
+            "vs_ew": {
+              "p_value": 0.5465,
+              "empirical_mean_excess_daily": -9.238006109270873e-05,
+              "total_excess_return_pp": 13.43,
+              "ci_95_excess_pp": [
+                -113.05,
+                109.55
+              ],
+              "iterations": 2000,
+              "block_size": 10,
+              "seed": 42
+            }
+          },
+          "trade_count": 82
+        }
+      }
+    }
+  },
+  "sensitivity": {
+    "double_friction_30bps": {
+      "net_total_return_pct": 0.2,
+      "final_capital": 10019.63,
+      "friction_usd": 178.76,
+      "trades": 26
+    },
+    "same_close_fill": {
+      "net_total_return_pct": 1.08,
+      "final_capital": 10108.28,
+      "friction_usd": 89.72,
+      "trades": 26
+    }
+  }
+}

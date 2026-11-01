@@ -1,0 +1,90 @@
+{
+  "audit_timestamp": "2026-11-01T21:05:36.707731+00:00",
+  "audit_status": "VERIFIED NO-GO",
+  "data_accounting": {
+    "total_bars": 729,
+    "warmup_excluded_bars": 30,
+    "warmup_range": [
+      "2024-10-30",
+      "2024-11-28"
+    ],
+    "continuous_active_bars": 699,
+    "continuous_return_intervals": 698
+  },
+  "execution_timing_sensitivity": {
+    "next_open_final_equity": 10107.96,
+    "same_close_final_equity": 10108.28,
+    "unrounded_difference_usd": 0.3231,
+    "net_return_next_open_pct": 1.08,
+    "net_return_same_close_pct": 1.08,
+    "transcription_defect_identified": true
+  },
+  "bootstrap_inference": {
+    "null_hypothesis": "mu(Strategy - Benchmark) <= 0",
+    "alternative_hypothesis": "mu(Strategy - Benchmark) > 0",
+    "empirical_excess_mean_daily": -0.0013870404330569071,
+    "total_excess_pp": -20.4,
+    "ci_95": [
+      -65.01,
+      4.18
+    ],
+    "p_value": 0.957,
+    "semantic_interpretation_corrected": true
+  },
+  "multiple_testing": {
+    "preregistered_m": 3,
+    "bonferroni_prereg_alpha": 0.0167,
+    "cumulative_project_m": 22,
+    "bonferroni_project_alpha": 0.0023,
+    "significance_achieved": false
+  },
+  "benchmarks_reconciliation": {
+    "TRAIN": {
+      "btc_final": 9206.38,
+      "btc_net_return": -7.94,
+      "btc_friction": 28.83,
+      "ew_final": 9180.47,
+      "ew_net_return": -8.2,
+      "ew_friction": 28.79
+    },
+    "VAL": {
+      "btc_final": 7855.72,
+      "btc_net_return": -21.44,
+      "btc_friction": 26.8,
+      "ew_final": 7048.61,
+      "ew_net_return": -29.51,
+      "ew_friction": 25.59
+    },
+    "TEST": {
+      "btc_final": 12147.79,
+      "btc_net_return": 21.48,
+      "btc_friction": 33.25,
+      "ew_final": 12549.67,
+      "ew_net_return": 25.5,
+      "ew_friction": 33.85
+    },
+    "OVERALL": {
+      "btc_final": 8321.33,
+      "btc_net_return": -16.79,
+      "btc_friction": 27.5,
+      "ew_final": 7659.9,
+      "ew_net_return": -23.4,
+      "ew_friction": 26.51
+    }
+  },
+  "like_for_like_v4_v5_friction": {
+    "v4_dates_intervals": 673,
+    "v4_overall_friction": 1663.13,
+    "v5_like_overall_friction": 383.97,
+    "overall_cost_reduction_pct": 76.91,
+    "v4_test_friction": 372.86,
+    "v5_like_test_friction": 89.72,
+    "test_cost_reduction_pct": 75.94
+  },
+  "portfolio_risk_constraints": {
+    "max_asset_weight_cap": 0.4,
+    "max_observed_weight": 0.4,
+    "compounding_error_usd": 7.275957614183426e-12
+  },
+  "decision": "VERIFIED NO-GO"
+}

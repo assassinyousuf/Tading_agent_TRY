@@ -298,6 +298,35 @@ def fetch_yahoo(sym, timeout=20):
     raise AlertError("%s answered HTTP %d" % (last[0].split("?")[0], last[1]))
 
 
+def is_crypto(symbol):
+    if not symbol:
+        return False
+    s = str(symbol).strip().upper()
+    return s.endswith(("USDT", "BUSD", "USDC", "FDUSD"))
+
+
+def fetch_binance_quote(sym, timeout=15):
+    url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + sym.upper()
+    code, text = _get(url, timeout)
+    if code != 200:
+        raise AlertError("Binance API error HTTP %d for %s" % (code, sym))
+    try:
+        data = json.loads(text)
+    except Exception as e:
+        raise AlertError("Binance API error decoding JSON for %s: %s" % (sym, e))
+    last_price = float(data.get("lastPrice", 0))
+    prev_close = float(data.get("prevClosePrice", 0))
+    close_time_ms = int(data.get("closeTime", time.time() * 1000))
+    close_dt = datetime.datetime.fromtimestamp(close_time_ms / 1000.0, datetime.timezone.utc)
+    return {
+        "price": last_price,
+        "prev_close": prev_close,
+        "time": close_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "source": "binance",
+        "symbol": sym.upper()
+    }
+
+
 def _offline_text(folder, source, sym):
     ext = "csv" if source == "stooq" else "json"
     base = os.path.join(folder, "%s-%s.%s" % (source, sym, ext))
@@ -318,11 +347,14 @@ def get_quotes(symbols, source="yahoo", offline=None, pause=PAUSE):
         try:
             if offline:
                 text = _offline_text(offline, source, sym)
+                quotes[sym] = parse_stooq(text, sym) if source == "stooq" else parse_yahoo(text, sym)
+            elif is_crypto(sym):
+                quotes[sym] = fetch_binance_quote(sym)
             else:
                 if i and pause:
                     _sleep(pause)
                 text = fetch(stooq_url(sym)) if source == "stooq" else fetch_yahoo(sym)
-            quotes[sym] = parse_stooq(text, sym) if source == "stooq" else parse_yahoo(text, sym)
+                quotes[sym] = parse_stooq(text, sym) if source == "stooq" else parse_yahoo(text, sym)
         except AlertError as e:
             errors.append(str(e))
     return quotes, errors

@@ -1,0 +1,143 @@
+{
+  "title": "Strategy V4.3 Independent Reproducibility and Benchmark Audit Ledger",
+  "audit_timestamp": "2026-11-01T21:05:32.445879+00:00",
+  "final_decision": "NO-GO (DEPLOYMENT & PAPER TRADING PROHIBITED)",
+  "classification": "INCONCLUSIVE (REPRODUCED & VERIFIED, BUT NO OUT-OF-SAMPLE ALPHA)",
+  "findings": [
+    "Independent mathematical reproduction succeeded: V4-B_TOP2 net total return (+32.72% overall, +23.07% test), friction ($1,663.13 overall, $372.86 test), and turnover (0.1077) were verified from raw klines.",
+    "Conservation of capital and net daily return compounding verified with 7.28e-12 unrounded numerical error (< 0.01 cents).",
+    "Benchmark friction independently reproduced to the exact cent: BTC Overall $27.35, BTC Test $33.55, EW Overall $26.65, EW Test $34.49.",
+    "Formal paired block bootstrap hypothesis tests failed to reject the null hypothesis of zero excess edge out-of-sample: p = 0.3685 vs BTC, p = 0.5505 vs Equal-Weight.",
+    "Strategy lagged passive buy-and-hold benchmarks during the out-of-sample test rebound (-0.42 pp vs BTC, -6.64 pp vs EW) due to 29.9% cash drag (40 days stranded in cash).",
+    "Collinearity remains severe (average rho = 0.771), proving that rotation switches among correlated crypto beta proxies."
+  ],
+  "candle_verification": {
+    "BTCUSDT": {
+      "candle_count": 729,
+      "start_time_iso": "2024-10-30T00:00:00+00:00",
+      "end_time_iso": "2026-10-28T00:00:00+00:00"
+    },
+    "ETHUSDT": {
+      "candle_count": 729,
+      "start_time_iso": "2024-10-30T00:00:00+00:00",
+      "end_time_iso": "2026-10-28T00:00:00+00:00"
+    },
+    "SOLUSDT": {
+      "candle_count": 729,
+      "start_time_iso": "2024-10-30T00:00:00+00:00",
+      "end_time_iso": "2026-10-28T00:00:00+00:00"
+    },
+    "BNBUSDT": {
+      "candle_count": 729,
+      "start_time_iso": "2024-10-30T00:00:00+00:00",
+      "end_time_iso": "2026-10-28T00:00:00+00:00"
+    }
+  },
+  "reproduced_strategy": {
+    "overall": {
+      "final_capital": 13272.09,
+      "total_return_pct": 32.72,
+      "cagr_pct": 16.61,
+      "sharpe_ratio": 0.46,
+      "sortino_ratio": 0.71,
+      "max_drawdown_pct": 33.7,
+      "total_friction_usd": 1663.13,
+      "trades_count": 97,
+      "compounding_error": 7.275957614183426e-12
+    },
+    "test": {
+      "final_capital": 12307.4,
+      "total_return_pct": 23.07,
+      "cagr_pct": 76.1,
+      "sharpe_ratio": 1.89,
+      "sortino_ratio": 3.37,
+      "max_drawdown_pct": 12.57,
+      "total_friction_usd": 372.86,
+      "trades_count": 22
+    }
+  },
+  "reproduced_benchmarks": {
+    "overall": {
+      "btc_buy_and_hold": {
+        "initial_capital": 10000.0,
+        "entry_friction_usd": 15.0,
+        "start_price": 98663.58,
+        "end_price": 81343.5,
+        "pre_exit_equity": 8232.16,
+        "exit_friction_usd": 12.35,
+        "total_friction_usd": 27.35,
+        "final_capital": 8219.82,
+        "net_total_return_pct": -17.8,
+        "gross_total_return_pct": -17.55
+      },
+      "equal_weight_l1s": {
+        "initial_capital": 10000.0,
+        "entry_friction_usd": 15.0,
+        "pre_exit_equity": 7763.47,
+        "exit_friction_usd": 11.65,
+        "total_friction_usd": 26.65,
+        "final_capital": 7751.83,
+        "net_total_return_pct": -22.48,
+        "gross_total_return_pct": -22.25
+      },
+      "cash_only": {
+        "initial_capital": 10000.0,
+        "final_capital": 10000.0,
+        "total_friction_usd": 0.0,
+        "net_total_return_pct": 0.0,
+        "gross_total_return_pct": 0.0
+      }
+    },
+    "test": {
+      "btc_buy_and_hold": {
+        "initial_capital": 10000.0,
+        "entry_friction_usd": 15.0,
+        "start_price": 65675.01,
+        "end_price": 81343.5,
+        "pre_exit_equity": 12367.18,
+        "exit_friction_usd": 18.55,
+        "total_friction_usd": 33.55,
+        "final_capital": 12348.63,
+        "net_total_return_pct": 23.49,
+        "gross_total_return_pct": 23.86
+      },
+      "equal_weight_l1s": {
+        "initial_capital": 10000.0,
+        "entry_friction_usd": 15.0,
+        "pre_exit_equity": 12990.67,
+        "exit_friction_usd": 19.49,
+        "total_friction_usd": 34.49,
+        "final_capital": 12971.18,
+        "net_total_return_pct": 29.71,
+        "gross_total_return_pct": 30.1
+      },
+      "cash_only": {
+        "initial_capital": 10000.0,
+        "final_capital": 10000.0,
+        "total_friction_usd": 0.0,
+        "net_total_return_pct": 0.0,
+        "gross_total_return_pct": 0.0
+      }
+    }
+  },
+  "hypothesis_tests": {
+    "hypothesis_definition": "H0: mu_excess <= 0 vs H1: mu_excess > 0 (Paired Moving-Block Bootstrap)",
+    "bootstrap_parameters": {
+      "n_resamples": 2000,
+      "block_size": 10,
+      "random_seed": 42
+    },
+    "vs_btc_buy_and_hold": {
+      "mean_daily_excess_return": -5e-06,
+      "annualized_excess_return_pct": -0.19,
+      "empirical_p_value": 0.3845,
+      "hypothesis_verdict": "FAIL TO REJECT H0 (No significant alpha)"
+    },
+    "vs_equal_weight_l1s": {
+      "mean_daily_excess_return": -0.000451,
+      "annualized_excess_return_pct": -16.48,
+      "empirical_p_value": 0.6005,
+      "hypothesis_verdict": "FAIL TO REJECT H0 (No significant alpha)"
+    }
+  }
+}

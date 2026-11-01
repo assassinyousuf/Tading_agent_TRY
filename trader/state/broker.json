@@ -1,0 +1,21 @@
+{
+  "orders": [
+    {
+      "at": "2026-10-28T22:20:15-04:00",
+      "date": "2026-10-28",
+      "index": 1,
+      "fingerprint": "dd73fff8a7ef7cf9",
+      "symbol": "SOLUSDT",
+      "side": "buy",
+      "qty": "22.19",
+      "kind": "entry",
+      "max_loss": 49.98,
+      "stop": 100.27,
+      "plain": "BUY 22.19 SOLUSDT, market, good until canceled / stop-loss 100.27 / take-profit 106.42 / max loss about $49.98 if the stop fills at 100.27 (it can fill worse in a fast market)",
+      "status": "approved",
+      "reply": "yes",
+      "paper": true,
+      "broker": "binance"
+    }
+  ]
+}

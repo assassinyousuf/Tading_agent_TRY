@@ -1,0 +1,532 @@
+{
+  "gaussian_iid": {
+    "label": "Gaussian i.i.d.",
+    "k_datasets": 1000,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_sizes_evaluated": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "metrics_by_block_size": {
+      "L_2": {
+        "block_size": 2,
+        "rate_alpha_005": 0.049,
+        "wilson_ci_alpha_005": [
+          0.0373,
+          0.0642
+        ],
+        "rate_alpha_001": 0.01,
+        "wilson_ci_alpha_001": [
+          0.0054,
+          0.0183
+        ],
+        "median_p_value": 0.4965,
+        "iqr_p_value": [
+          0.2567,
+          0.7652
+        ]
+      },
+      "L_5": {
+        "block_size": 5,
+        "rate_alpha_005": 0.053,
+        "wilson_ci_alpha_005": [
+          0.0407,
+          0.0687
+        ],
+        "rate_alpha_001": 0.01,
+        "wilson_ci_alpha_001": [
+          0.0054,
+          0.0183
+        ],
+        "median_p_value": 0.4905,
+        "iqr_p_value": [
+          0.2557,
+          0.7662
+        ]
+      },
+      "L_10": {
+        "block_size": 10,
+        "rate_alpha_005": 0.052,
+        "wilson_ci_alpha_005": [
+          0.0399,
+          0.0676
+        ],
+        "rate_alpha_001": 0.011,
+        "wilson_ci_alpha_001": [
+          0.0062,
+          0.0196
+        ],
+        "median_p_value": 0.4995,
+        "iqr_p_value": [
+          0.2507,
+          0.7652
+        ]
+      },
+      "L_20": {
+        "block_size": 20,
+        "rate_alpha_005": 0.061,
+        "wilson_ci_alpha_005": [
+          0.0478,
+          0.0776
+        ],
+        "rate_alpha_001": 0.012,
+        "wilson_ci_alpha_001": [
+          0.0069,
+          0.0209
+        ],
+        "median_p_value": 0.4935,
+        "iqr_p_value": [
+          0.2448,
+          0.7752
+        ]
+      },
+      "L_30": {
+        "block_size": 30,
+        "rate_alpha_005": 0.076,
+        "wilson_ci_alpha_005": [
+          0.0611,
+          0.0941
+        ],
+        "rate_alpha_001": 0.021,
+        "wilson_ci_alpha_001": [
+          0.0138,
+          0.0319
+        ],
+        "median_p_value": 0.5095,
+        "iqr_p_value": [
+          0.2318,
+          0.7722
+        ]
+      }
+    },
+    "elapsed_seconds": 56.98
+  },
+  "garch_11": {
+    "label": "GARCH(1,1)",
+    "k_datasets": 1000,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_sizes_evaluated": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "metrics_by_block_size": {
+      "L_2": {
+        "block_size": 2,
+        "rate_alpha_005": 0.049,
+        "wilson_ci_alpha_005": [
+          0.0373,
+          0.0642
+        ],
+        "rate_alpha_001": 0.012,
+        "wilson_ci_alpha_001": [
+          0.0069,
+          0.0209
+        ],
+        "median_p_value": 0.5165,
+        "iqr_p_value": [
+          0.2448,
+          0.7582
+        ]
+      },
+      "L_5": {
+        "block_size": 5,
+        "rate_alpha_005": 0.043,
+        "wilson_ci_alpha_005": [
+          0.0321,
+          0.0574
+        ],
+        "rate_alpha_001": 0.01,
+        "wilson_ci_alpha_001": [
+          0.0054,
+          0.0183
+        ],
+        "median_p_value": 0.5005,
+        "iqr_p_value": [
+          0.2348,
+          0.7672
+        ]
+      },
+      "L_10": {
+        "block_size": 10,
+        "rate_alpha_005": 0.045,
+        "wilson_ci_alpha_005": [
+          0.0338,
+          0.0597
+        ],
+        "rate_alpha_001": 0.007,
+        "wilson_ci_alpha_001": [
+          0.0034,
+          0.0144
+        ],
+        "median_p_value": 0.5015,
+        "iqr_p_value": [
+          0.2338,
+          0.7672
+        ]
+      },
+      "L_20": {
+        "block_size": 20,
+        "rate_alpha_005": 0.051,
+        "wilson_ci_alpha_005": [
+          0.039,
+          0.0664
+        ],
+        "rate_alpha_001": 0.009,
+        "wilson_ci_alpha_001": [
+          0.0047,
+          0.017
+        ],
+        "median_p_value": 0.5085,
+        "iqr_p_value": [
+          0.2238,
+          0.7752
+        ]
+      },
+      "L_30": {
+        "block_size": 30,
+        "rate_alpha_005": 0.058,
+        "wilson_ci_alpha_005": [
+          0.0451,
+          0.0742
+        ],
+        "rate_alpha_001": 0.013,
+        "wilson_ci_alpha_001": [
+          0.0076,
+          0.0221
+        ],
+        "median_p_value": 0.5005,
+        "iqr_p_value": [
+          0.2198,
+          0.7802
+        ]
+      }
+    },
+    "elapsed_seconds": 53.42
+  },
+  "student_t_nu5": {
+    "label": "Student's t nu=5",
+    "k_datasets": 1000,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_sizes_evaluated": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "metrics_by_block_size": {
+      "L_2": {
+        "block_size": 2,
+        "rate_alpha_005": 0.048,
+        "wilson_ci_alpha_005": [
+          0.0364,
+          0.0631
+        ],
+        "rate_alpha_001": 0.01,
+        "wilson_ci_alpha_001": [
+          0.0054,
+          0.0183
+        ],
+        "median_p_value": 0.4985,
+        "iqr_p_value": [
+          0.2408,
+          0.7632
+        ]
+      },
+      "L_5": {
+        "block_size": 5,
+        "rate_alpha_005": 0.05,
+        "wilson_ci_alpha_005": [
+          0.0381,
+          0.0653
+        ],
+        "rate_alpha_001": 0.016,
+        "wilson_ci_alpha_001": [
+          0.0099,
+          0.0258
+        ],
+        "median_p_value": 0.5015,
+        "iqr_p_value": [
+          0.2328,
+          0.7692
+        ]
+      },
+      "L_10": {
+        "block_size": 10,
+        "rate_alpha_005": 0.054,
+        "wilson_ci_alpha_005": [
+          0.0416,
+          0.0698
+        ],
+        "rate_alpha_001": 0.014,
+        "wilson_ci_alpha_001": [
+          0.0084,
+          0.0234
+        ],
+        "median_p_value": 0.4995,
+        "iqr_p_value": [
+          0.2298,
+          0.7712
+        ]
+      },
+      "L_20": {
+        "block_size": 20,
+        "rate_alpha_005": 0.054,
+        "wilson_ci_alpha_005": [
+          0.0416,
+          0.0698
+        ],
+        "rate_alpha_001": 0.018,
+        "wilson_ci_alpha_001": [
+          0.0114,
+          0.0283
+        ],
+        "median_p_value": 0.5015,
+        "iqr_p_value": [
+          0.2288,
+          0.7712
+        ]
+      },
+      "L_30": {
+        "block_size": 30,
+        "rate_alpha_005": 0.057,
+        "wilson_ci_alpha_005": [
+          0.0443,
+          0.0731
+        ],
+        "rate_alpha_001": 0.017,
+        "wilson_ci_alpha_001": [
+          0.0106,
+          0.0271
+        ],
+        "median_p_value": 0.5035,
+        "iqr_p_value": [
+          0.2218,
+          0.7842
+        ]
+      }
+    },
+    "elapsed_seconds": 54.91
+  },
+  "ar1_phi_030": {
+    "label": "AR(1) phi=0.30",
+    "k_datasets": 1000,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_sizes_evaluated": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "metrics_by_block_size": {
+      "L_2": {
+        "block_size": 2,
+        "rate_alpha_005": 0.079,
+        "wilson_ci_alpha_005": [
+          0.0638,
+          0.0974
+        ],
+        "rate_alpha_001": 0.025,
+        "wilson_ci_alpha_001": [
+          0.017,
+          0.0366
+        ],
+        "median_p_value": 0.5554,
+        "iqr_p_value": [
+          0.2378,
+          0.8062
+        ]
+      },
+      "L_5": {
+        "block_size": 5,
+        "rate_alpha_005": 0.064,
+        "wilson_ci_alpha_005": [
+          0.0504,
+          0.0809
+        ],
+        "rate_alpha_001": 0.015,
+        "wilson_ci_alpha_001": [
+          0.0091,
+          0.0246
+        ],
+        "median_p_value": 0.5435,
+        "iqr_p_value": [
+          0.2567,
+          0.7752
+        ]
+      },
+      "L_10": {
+        "block_size": 10,
+        "rate_alpha_005": 0.061,
+        "wilson_ci_alpha_005": [
+          0.0478,
+          0.0776
+        ],
+        "rate_alpha_001": 0.014,
+        "wilson_ci_alpha_001": [
+          0.0084,
+          0.0234
+        ],
+        "median_p_value": 0.5365,
+        "iqr_p_value": [
+          0.2627,
+          0.7742
+        ]
+      },
+      "L_20": {
+        "block_size": 20,
+        "rate_alpha_005": 0.059,
+        "wilson_ci_alpha_005": [
+          0.046,
+          0.0754
+        ],
+        "rate_alpha_001": 0.015,
+        "wilson_ci_alpha_001": [
+          0.0091,
+          0.0246
+        ],
+        "median_p_value": 0.5315,
+        "iqr_p_value": [
+          0.2707,
+          0.7732
+        ]
+      },
+      "L_30": {
+        "block_size": 30,
+        "rate_alpha_005": 0.066,
+        "wilson_ci_alpha_005": [
+          0.0522,
+          0.0831
+        ],
+        "rate_alpha_001": 0.015,
+        "wilson_ci_alpha_001": [
+          0.0091,
+          0.0246
+        ],
+        "median_p_value": 0.5395,
+        "iqr_p_value": [
+          0.2597,
+          0.7782
+        ]
+      }
+    },
+    "elapsed_seconds": 53.79
+  },
+  "ar1_phi_050": {
+    "label": "AR(1) phi=0.50",
+    "k_datasets": 1000,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_sizes_evaluated": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "metrics_by_block_size": {
+      "L_2": {
+        "block_size": 2,
+        "rate_alpha_005": 0.12,
+        "wilson_ci_alpha_005": [
+          0.1013,
+          0.1416
+        ],
+        "rate_alpha_001": 0.049,
+        "wilson_ci_alpha_001": [
+          0.0373,
+          0.0642
+        ],
+        "median_p_value": 0.5235,
+        "iqr_p_value": [
+          0.1778,
+          0.8462
+        ]
+      },
+      "L_5": {
+        "block_size": 5,
+        "rate_alpha_005": 0.075,
+        "wilson_ci_alpha_005": [
+          0.0603,
+          0.093
+        ],
+        "rate_alpha_001": 0.019,
+        "wilson_ci_alpha_001": [
+          0.0122,
+          0.0295
+        ],
+        "median_p_value": 0.5085,
+        "iqr_p_value": [
+          0.2278,
+          0.8062
+        ]
+      },
+      "L_10": {
+        "block_size": 10,
+        "rate_alpha_005": 0.068,
+        "wilson_ci_alpha_005": [
+          0.054,
+          0.0853
+        ],
+        "rate_alpha_001": 0.012,
+        "wilson_ci_alpha_001": [
+          0.0069,
+          0.0209
+        ],
+        "median_p_value": 0.5145,
+        "iqr_p_value": [
+          0.2398,
+          0.7782
+        ]
+      },
+      "L_20": {
+        "block_size": 20,
+        "rate_alpha_005": 0.066,
+        "wilson_ci_alpha_005": [
+          0.0522,
+          0.0831
+        ],
+        "rate_alpha_001": 0.019,
+        "wilson_ci_alpha_001": [
+          0.0122,
+          0.0295
+        ],
+        "median_p_value": 0.5115,
+        "iqr_p_value": [
+          0.2458,
+          0.7782
+        ]
+      },
+      "L_30": {
+        "block_size": 30,
+        "rate_alpha_005": 0.067,
+        "wilson_ci_alpha_005": [
+          0.0531,
+          0.0842
+        ],
+        "rate_alpha_001": 0.019,
+        "wilson_ci_alpha_001": [
+          0.0122,
+          0.0295
+        ],
+        "median_p_value": 0.5045,
+        "iqr_p_value": [
+          0.2318,
+          0.7862
+        ]
+      }
+    },
+    "elapsed_seconds": 53.41
+  }
+}

@@ -1,0 +1,1087 @@
+{
+  "title": "Strategy V4.2: Corrected Multi-Asset Relative Strength Rotation Research Report",
+  "universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT"
+  ],
+  "days": 730,
+  "accounting_engine": "V4.2 Authoritative Net Equity Ledger (Crypto-Only Turnover)",
+  "partitions": {
+    "train_days": 404,
+    "val_days": 135,
+    "test_days": 135
+  },
+  "benchmarks": {
+    "train": {
+      "btc_bnh": {
+        "final_capital": 7956.84,
+        "total_return_pct": -20.43,
+        "cagr_pct": -18.71,
+        "ann_vol_pct": 41.65,
+        "sharpe_ratio": -0.45,
+        "sortino_ratio": -0.63,
+        "max_drawdown_pct": 36.93,
+        "max_drawdown_duration_days": 117,
+        "total_friction_usd": 26.95,
+        "gross": {
+          "total_return_pct": -20.19,
+          "cagr_pct": -18.49,
+          "ann_vol_pct": 41.63,
+          "sharpe_ratio": -0.44
+        }
+      },
+      "ew_bnh": {
+        "final_capital": 7868.64,
+        "total_return_pct": -21.31,
+        "cagr_pct": -19.53,
+        "ann_vol_pct": 55.2,
+        "sharpe_ratio": -0.35,
+        "sortino_ratio": -0.49,
+        "max_drawdown_pct": 43.54,
+        "max_drawdown_duration_days": 183,
+        "total_friction_usd": 26.82,
+        "gross": {
+          "total_return_pct": -19.6,
+          "cagr_pct": -17.94,
+          "ann_vol_pct": 56.85,
+          "sharpe_ratio": -0.32
+        }
+      }
+    },
+    "val": {
+      "btc_bnh": {
+        "final_capital": 8591.85,
+        "total_return_pct": -14.08,
+        "cagr_pct": -33.88,
+        "ann_vol_pct": 52.05,
+        "sharpe_ratio": -0.65,
+        "sortino_ratio": -0.91,
+        "max_drawdown_pct": 25.94,
+        "max_drawdown_duration_days": 90,
+        "total_friction_usd": 27.91,
+        "gross": {
+          "total_return_pct": -13.82,
+          "cagr_pct": -33.34,
+          "ann_vol_pct": 52.08,
+          "sharpe_ratio": -0.64
+        }
+      },
+      "ew_bnh": {
+        "final_capital": 7979.8,
+        "total_return_pct": -20.2,
+        "cagr_pct": -45.94,
+        "ann_vol_pct": 56.74,
+        "sharpe_ratio": -0.81,
+        "sortino_ratio": -1.11,
+        "max_drawdown_pct": 30.56,
+        "max_drawdown_duration_days": 133,
+        "total_friction_usd": 26.99,
+        "gross": {
+          "total_return_pct": -19.53,
+          "cagr_pct": -44.69,
+          "ann_vol_pct": 56.83,
+          "sharpe_ratio": -0.79
+        }
+      }
+    },
+    "test": {
+      "btc_bnh": {
+        "final_capital": 12348.63,
+        "total_return_pct": 23.49,
+        "cagr_pct": 77.72,
+        "ann_vol_pct": 36.12,
+        "sharpe_ratio": 2.15,
+        "sortino_ratio": 3.91,
+        "max_drawdown_pct": 10.87,
+        "max_drawdown_duration_days": 37,
+        "total_friction_usd": 33.55,
+        "gross": {
+          "total_return_pct": 23.86,
+          "cagr_pct": 79.18,
+          "ann_vol_pct": 36.1,
+          "sharpe_ratio": 2.19
+        }
+      },
+      "ew_bnh": {
+        "final_capital": 12971.18,
+        "total_return_pct": 29.71,
+        "cagr_pct": 103.21,
+        "ann_vol_pct": 40.2,
+        "sharpe_ratio": 2.57,
+        "sortino_ratio": 4.53,
+        "max_drawdown_pct": 11.87,
+        "max_drawdown_duration_days": 27,
+        "total_friction_usd": 34.49,
+        "gross": {
+          "total_return_pct": 30.83,
+          "cagr_pct": 108.01,
+          "ann_vol_pct": 39.72,
+          "sharpe_ratio": 2.72
+        }
+      }
+    },
+    "overall": {
+      "btc_bnh": {
+        "final_capital": 8219.82,
+        "total_return_pct": -17.8,
+        "cagr_pct": -10.09,
+        "ann_vol_pct": 42.87,
+        "sharpe_ratio": -0.24,
+        "sortino_ratio": -0.34,
+        "max_drawdown_pct": 52.97,
+        "max_drawdown_duration_days": 387,
+        "total_friction_usd": 27.35,
+        "gross": {
+          "total_return_pct": -17.55,
+          "cagr_pct": -9.95,
+          "ann_vol_pct": 42.87,
+          "sharpe_ratio": -0.23
+        }
+      },
+      "ew_bnh": {
+        "final_capital": 7751.83,
+        "total_return_pct": -22.48,
+        "cagr_pct": -12.91,
+        "ann_vol_pct": 52.03,
+        "sharpe_ratio": -0.25,
+        "sortino_ratio": -0.35,
+        "max_drawdown_pct": 60.56,
+        "max_drawdown_duration_days": 385,
+        "total_friction_usd": 26.65,
+        "gross": {
+          "total_return_pct": -19.77,
+          "cagr_pct": -11.27,
+          "ann_vol_pct": 53.85,
+          "sharpe_ratio": -0.21
+        }
+      }
+    }
+  },
+  "strategies": [
+    {
+      "id": "V4_A_TOP1",
+      "name": "V4-A: Relative Strength (Top 1)",
+      "top_n": 1,
+      "use_btc_filter": false,
+      "use_7d_filter": false,
+      "train": {
+        "final_capital": 9307.04,
+        "total_return_pct": -6.93,
+        "cagr_pct": -6.3,
+        "ann_vol_pct": 63.82,
+        "sharpe_ratio": -0.1,
+        "sortino_ratio": -0.15,
+        "calmar_ratio": -0.11,
+        "max_drawdown_pct": 55.88,
+        "max_drawdown_duration_days": 178,
+        "rebalances_count": 403,
+        "total_friction_usd": 1897.5,
+        "total_traded_notional_usd": 1264998.07,
+        "avg_turnover": 0.139,
+        "avg_crypto_traded_weight": 0.2754,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 1.0,
+        "compounding_error": 1.4551915228366852e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -68.84,
+            241.2
+          ],
+          "sharpe_ci_95": [
+            -1.18,
+            3.93
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 7993.58,
+        "total_return_pct": -20.06,
+        "cagr_pct": -45.69,
+        "ann_vol_pct": 61.71,
+        "sharpe_ratio": -0.74,
+        "sortino_ratio": -1.07,
+        "calmar_ratio": -1.68,
+        "max_drawdown_pct": 27.22,
+        "max_drawdown_duration_days": 133,
+        "rebalances_count": 134,
+        "total_friction_usd": 631.71,
+        "total_traded_notional_usd": 421141.01,
+        "avg_turnover": 0.1791,
+        "avg_crypto_traded_weight": 0.3507,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 1.0,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -82.09,
+            174.63
+          ],
+          "sharpe_ci_95": [
+            -1.49,
+            3.13
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 11083.01,
+        "total_return_pct": 10.83,
+        "cagr_pct": 32.35,
+        "ann_vol_pct": 49.61,
+        "sharpe_ratio": 0.65,
+        "sortino_ratio": 1.07,
+        "calmar_ratio": 1.99,
+        "max_drawdown_pct": 16.29,
+        "max_drawdown_duration_days": 48,
+        "rebalances_count": 134,
+        "total_friction_usd": 607.35,
+        "total_traded_notional_usd": 404899.15,
+        "avg_turnover": 0.1418,
+        "avg_crypto_traded_weight": 0.2761,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 1.0,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -58.66,
+            784.49
+          ],
+          "sharpe_ci_95": [
+            -1.36,
+            13.44
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 7884.06,
+        "total_return_pct": -21.16,
+        "cagr_pct": -12.1,
+        "ann_vol_pct": 60.7,
+        "sharpe_ratio": -0.2,
+        "sortino_ratio": -0.3,
+        "calmar_ratio": -0.17,
+        "max_drawdown_pct": 69.33,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 2852.88,
+        "total_traded_notional_usd": 1901921.99,
+        "avg_turnover": 0.1441,
+        "avg_crypto_traded_weight": 0.2868,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 1.0,
+        "compounding_error": 7.275957614183426e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -62.45,
+            99.87
+          ],
+          "sharpe_ci_95": [
+            -1.04,
+            1.63
+          ]
+        }
+      }
+    },
+    {
+      "id": "V4_A_TOP2",
+      "name": "V4-A: Relative Strength (Top 2)",
+      "top_n": 2,
+      "use_btc_filter": false,
+      "use_7d_filter": false,
+      "train": {
+        "final_capital": 9939.69,
+        "total_return_pct": -0.6,
+        "cagr_pct": -0.55,
+        "ann_vol_pct": 53.36,
+        "sharpe_ratio": -0.01,
+        "sortino_ratio": -0.01,
+        "calmar_ratio": -0.01,
+        "max_drawdown_pct": 46.73,
+        "max_drawdown_duration_days": 115,
+        "rebalances_count": 403,
+        "total_friction_usd": 988.75,
+        "total_traded_notional_usd": 659169.86,
+        "avg_turnover": 0.0695,
+        "avg_crypto_traded_weight": 0.1365,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 2.0,
+        "compounding_error": 2.546585164964199e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -59.74,
+            205.41
+          ],
+          "sharpe_ci_95": [
+            -1.13,
+            3.84
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 7914.12,
+        "total_return_pct": -20.86,
+        "cagr_pct": -47.15,
+        "ann_vol_pct": 55.48,
+        "sharpe_ratio": -0.85,
+        "sortino_ratio": -1.17,
+        "calmar_ratio": -1.67,
+        "max_drawdown_pct": 28.22,
+        "max_drawdown_duration_days": 133,
+        "rebalances_count": 134,
+        "total_friction_usd": 276.1,
+        "total_traded_notional_usd": 184065.51,
+        "avg_turnover": 0.0784,
+        "avg_crypto_traded_weight": 0.1493,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 2.0,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -85.09,
+            140.79
+          ],
+          "sharpe_ci_95": [
+            -1.61,
+            3.1
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 12965.62,
+        "total_return_pct": 29.66,
+        "cagr_pct": 102.98,
+        "ann_vol_pct": 45.06,
+        "sharpe_ratio": 2.29,
+        "sortino_ratio": 4.0,
+        "calmar_ratio": 8.19,
+        "max_drawdown_pct": 12.57,
+        "max_drawdown_duration_days": 31,
+        "rebalances_count": 134,
+        "total_friction_usd": 367.11,
+        "total_traded_notional_usd": 244737.54,
+        "avg_turnover": 0.0784,
+        "avg_crypto_traded_weight": 0.1493,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 2.0,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -34.78,
+            1264.98
+          ],
+          "sharpe_ci_95": [
+            -0.93,
+            23.54
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 9844.77,
+        "total_return_pct": -1.55,
+        "cagr_pct": -0.85,
+        "ann_vol_pct": 52.18,
+        "sharpe_ratio": -0.02,
+        "sortino_ratio": -0.02,
+        "calmar_ratio": -0.01,
+        "max_drawdown_pct": 63.25,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 1494.75,
+        "total_traded_notional_usd": 996497.06,
+        "avg_turnover": 0.0706,
+        "avg_crypto_traded_weight": 0.1397,
+        "pct_time_invested": 100.0,
+        "avg_holdings": 2.0,
+        "compounding_error": 6.730260793119669e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -54.32,
+            102.75
+          ],
+          "sharpe_ci_95": [
+            -1.06,
+            2.0
+          ]
+        }
+      }
+    },
+    {
+      "id": "V4_B_TOP1",
+      "name": "V4-B: RS + BTC Trend Filter (Top 1)",
+      "top_n": 1,
+      "use_btc_filter": true,
+      "use_7d_filter": false,
+      "train": {
+        "final_capital": 13360.32,
+        "total_return_pct": 33.6,
+        "cagr_pct": 30.03,
+        "ann_vol_pct": 47.7,
+        "sharpe_ratio": 0.63,
+        "sortino_ratio": 1.03,
+        "calmar_ratio": 0.98,
+        "max_drawdown_pct": 30.76,
+        "max_drawdown_duration_days": 176,
+        "rebalances_count": 403,
+        "total_friction_usd": 1299.92,
+        "total_traded_notional_usd": 866610.01,
+        "avg_turnover": 0.1266,
+        "avg_crypto_traded_weight": 0.1787,
+        "pct_time_invested": 47.9,
+        "avg_holdings": 0.48,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -50.41,
+            251.98
+          ],
+          "sharpe_ci_95": [
+            -1.1,
+            5.09
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 8654.4,
+        "total_return_pct": -13.46,
+        "cagr_pct": -32.56,
+        "ann_vol_pct": 31.06,
+        "sharpe_ratio": -1.05,
+        "sortino_ratio": -1.46,
+        "calmar_ratio": -1.9,
+        "max_drawdown_pct": 17.16,
+        "max_drawdown_duration_days": 91,
+        "rebalances_count": 134,
+        "total_friction_usd": 498.79,
+        "total_traded_notional_usd": 332528.49,
+        "avg_turnover": 0.1716,
+        "avg_crypto_traded_weight": 0.2687,
+        "pct_time_invested": 43.3,
+        "avg_holdings": 0.43,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -76.36,
+            62.41
+          ],
+          "sharpe_ci_95": [
+            -2.63,
+            2.01
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 11332.36,
+        "total_return_pct": 13.32,
+        "cagr_pct": 40.63,
+        "ann_vol_pct": 44.98,
+        "sharpe_ratio": 0.9,
+        "sortino_ratio": 1.49,
+        "calmar_ratio": 2.72,
+        "max_drawdown_pct": 14.93,
+        "max_drawdown_duration_days": 33,
+        "rebalances_count": 134,
+        "total_friction_usd": 508.6,
+        "total_traded_notional_usd": 339068.33,
+        "avg_turnover": 0.1493,
+        "avg_crypto_traded_weight": 0.2388,
+        "pct_time_invested": 70.1,
+        "avg_holdings": 0.7,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -56.07,
+            549.55
+          ],
+          "sharpe_ci_95": [
+            -1.46,
+            9.77
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 13103.1,
+        "total_return_pct": 31.03,
+        "cagr_pct": 15.8,
+        "ann_vol_pct": 44.21,
+        "sharpe_ratio": 0.36,
+        "sortino_ratio": 0.58,
+        "calmar_ratio": 0.37,
+        "max_drawdown_pct": 42.41,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 2554.39,
+        "total_traded_notional_usd": 1702928.45,
+        "avg_turnover": 0.1397,
+        "avg_crypto_traded_weight": 0.208,
+        "pct_time_invested": 51.3,
+        "avg_holdings": 0.51,
+        "compounding_error": 2.1827872842550278e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -39.5,
+            130.2
+          ],
+          "sharpe_ci_95": [
+            -0.99,
+            2.77
+          ]
+        }
+      }
+    },
+    {
+      "id": "V4_B_TOP2",
+      "name": "V4-B: RS + BTC Trend Filter (Top 2)",
+      "top_n": 2,
+      "use_btc_filter": true,
+      "use_7d_filter": false,
+      "train": {
+        "final_capital": 11803.1,
+        "total_return_pct": 18.03,
+        "cagr_pct": 16.21,
+        "ann_vol_pct": 37.17,
+        "sharpe_ratio": 0.44,
+        "sortino_ratio": 0.66,
+        "calmar_ratio": 0.71,
+        "max_drawdown_pct": 22.94,
+        "max_drawdown_duration_days": 115,
+        "rebalances_count": 403,
+        "total_friction_usd": 995.01,
+        "total_traded_notional_usd": 663339.32,
+        "avg_turnover": 0.1104,
+        "avg_crypto_traded_weight": 0.1464,
+        "pct_time_invested": 47.9,
+        "avg_holdings": 0.96,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -44.93,
+            151.86
+          ],
+          "sharpe_ci_95": [
+            -1.23,
+            3.96
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 9136.44,
+        "total_return_pct": -8.64,
+        "cagr_pct": -21.82,
+        "ann_vol_pct": 27.44,
+        "sharpe_ratio": -0.8,
+        "sortino_ratio": -1.11,
+        "calmar_ratio": -1.35,
+        "max_drawdown_pct": 16.19,
+        "max_drawdown_duration_days": 91,
+        "rebalances_count": 134,
+        "total_friction_usd": 225.39,
+        "total_traded_notional_usd": 150262.59,
+        "avg_turnover": 0.097,
+        "avg_crypto_traded_weight": 0.1194,
+        "pct_time_invested": 43.3,
+        "avg_holdings": 0.87,
+        "compounding_error": 0.0,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -70.64,
+            82.42
+          ],
+          "sharpe_ci_95": [
+            -2.63,
+            2.65
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 12307.4,
+        "total_return_pct": 23.07,
+        "cagr_pct": 76.1,
+        "ann_vol_pct": 40.32,
+        "sharpe_ratio": 1.89,
+        "sortino_ratio": 3.37,
+        "calmar_ratio": 6.05,
+        "max_drawdown_pct": 12.57,
+        "max_drawdown_duration_days": 31,
+        "rebalances_count": 134,
+        "total_friction_usd": 372.86,
+        "total_traded_notional_usd": 248574.82,
+        "avg_turnover": 0.1119,
+        "avg_crypto_traded_weight": 0.1642,
+        "pct_time_invested": 70.1,
+        "avg_holdings": 1.4,
+        "compounding_error": 1.6370904631912708e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -45.73,
+            920.92
+          ],
+          "sharpe_ci_95": [
+            -1.4,
+            17.37
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 13272.09,
+        "total_return_pct": 32.72,
+        "cagr_pct": 16.61,
+        "ann_vol_pct": 36.05,
+        "sharpe_ratio": 0.46,
+        "sortino_ratio": 0.71,
+        "calmar_ratio": 0.49,
+        "max_drawdown_pct": 33.7,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 1663.13,
+        "total_traded_notional_usd": 1108754.64,
+        "avg_turnover": 0.1077,
+        "avg_crypto_traded_weight": 0.1441,
+        "pct_time_invested": 51.3,
+        "avg_holdings": 1.03,
+        "compounding_error": 7.275957614183426e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -32.79,
+            113.69
+          ],
+          "sharpe_ci_95": [
+            -1.0,
+            3.01
+          ]
+        }
+      }
+    },
+    {
+      "id": "V4_C_TOP1",
+      "name": "V4-C: Multi-Horizon Confirmation (Top 1)",
+      "top_n": 1,
+      "use_btc_filter": true,
+      "use_7d_filter": true,
+      "train": {
+        "final_capital": 15379.76,
+        "total_return_pct": 53.8,
+        "cagr_pct": 47.72,
+        "ann_vol_pct": 42.5,
+        "sharpe_ratio": 1.12,
+        "sortino_ratio": 1.95,
+        "calmar_ratio": 1.55,
+        "max_drawdown_pct": 30.76,
+        "max_drawdown_duration_days": 115,
+        "rebalances_count": 403,
+        "total_friction_usd": 2190.8,
+        "total_traded_notional_usd": 1460534.15,
+        "avg_turnover": 0.1836,
+        "avg_crypto_traded_weight": 0.268,
+        "pct_time_invested": 41.9,
+        "avg_holdings": 0.42,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -35.14,
+            279.17
+          ],
+          "sharpe_ci_95": [
+            -0.92,
+            5.98
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 8234.65,
+        "total_return_pct": -17.65,
+        "cagr_pct": -41.11,
+        "ann_vol_pct": 30.18,
+        "sharpe_ratio": -1.36,
+        "sortino_ratio": -1.87,
+        "calmar_ratio": -1.97,
+        "max_drawdown_pct": 20.87,
+        "max_drawdown_duration_days": 91,
+        "rebalances_count": 134,
+        "total_friction_usd": 468.49,
+        "total_traded_notional_usd": 312324.59,
+        "avg_turnover": 0.1791,
+        "avg_crypto_traded_weight": 0.2537,
+        "pct_time_invested": 35.8,
+        "avg_holdings": 0.36,
+        "compounding_error": 0.0,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -78.71,
+            38.66
+          ],
+          "sharpe_ci_95": [
+            -2.89,
+            1.21
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 11053.79,
+        "total_return_pct": 10.54,
+        "cagr_pct": 31.4,
+        "ann_vol_pct": 50.12,
+        "sharpe_ratio": 0.63,
+        "sortino_ratio": 1.25,
+        "calmar_ratio": 1.42,
+        "max_drawdown_pct": 22.13,
+        "max_drawdown_duration_days": 62,
+        "rebalances_count": 134,
+        "total_friction_usd": 979.5,
+        "total_traded_notional_usd": 653001.92,
+        "avg_turnover": 0.3134,
+        "avg_crypto_traded_weight": 0.4328,
+        "pct_time_invested": 56.7,
+        "avg_holdings": 0.57,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -71.76,
+            1015.18
+          ],
+          "sharpe_ci_95": [
+            -2.18,
+            14.56
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 13999.3,
+        "total_return_pct": 39.99,
+        "cagr_pct": 20.03,
+        "ann_vol_pct": 41.97,
+        "sharpe_ratio": 0.48,
+        "sortino_ratio": 0.83,
+        "calmar_ratio": 0.45,
+        "max_drawdown_pct": 44.69,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 4151.83,
+        "total_traded_notional_usd": 2767889.37,
+        "avg_turnover": 0.208,
+        "avg_crypto_traded_weight": 0.2972,
+        "pct_time_invested": 43.5,
+        "avg_holdings": 0.44,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -34.29,
+            135.87
+          ],
+          "sharpe_ci_95": [
+            -0.9,
+            2.92
+          ]
+        }
+      }
+    },
+    {
+      "id": "V4_C_TOP2",
+      "name": "V4-C: Multi-Horizon Confirmation (Top 2)",
+      "top_n": 2,
+      "use_btc_filter": true,
+      "use_7d_filter": true,
+      "train": {
+        "final_capital": 13800.83,
+        "total_return_pct": 38.01,
+        "cagr_pct": 33.91,
+        "ann_vol_pct": 33.91,
+        "sharpe_ratio": 1.0,
+        "sortino_ratio": 1.68,
+        "calmar_ratio": 1.5,
+        "max_drawdown_pct": 22.64,
+        "max_drawdown_duration_days": 115,
+        "rebalances_count": 403,
+        "total_friction_usd": 1390.18,
+        "total_traded_notional_usd": 926783.48,
+        "avg_turnover": 0.1427,
+        "avg_crypto_traded_weight": 0.1787,
+        "pct_time_invested": 41.9,
+        "avg_holdings": 0.78,
+        "compounding_error": 1.2732925824820995e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -30.79,
+            184.41
+          ],
+          "sharpe_ci_95": [
+            -1.01,
+            4.78
+          ]
+        }
+      },
+      "val": {
+        "final_capital": 8977.28,
+        "total_return_pct": -10.23,
+        "cagr_pct": -25.48,
+        "ann_vol_pct": 25.73,
+        "sharpe_ratio": -0.99,
+        "sortino_ratio": -1.4,
+        "calmar_ratio": -1.59,
+        "max_drawdown_pct": 15.99,
+        "max_drawdown_duration_days": 91,
+        "rebalances_count": 134,
+        "total_friction_usd": 307.8,
+        "total_traded_notional_usd": 205201.83,
+        "avg_turnover": 0.1343,
+        "avg_crypto_traded_weight": 0.1642,
+        "pct_time_invested": 35.8,
+        "avg_holdings": 0.66,
+        "compounding_error": 1.8189894035458565e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -69.04,
+            57.56
+          ],
+          "sharpe_ci_95": [
+            -2.94,
+            1.98
+          ]
+        }
+      },
+      "test": {
+        "final_capital": 10828.31,
+        "total_return_pct": 8.28,
+        "cagr_pct": 24.22,
+        "ann_vol_pct": 38.48,
+        "sharpe_ratio": 0.63,
+        "sortino_ratio": 1.31,
+        "calmar_ratio": 1.5,
+        "max_drawdown_pct": 16.16,
+        "max_drawdown_duration_days": 62,
+        "rebalances_count": 134,
+        "total_friction_usd": 749.05,
+        "total_traded_notional_usd": 499365.61,
+        "avg_turnover": 0.2687,
+        "avg_crypto_traded_weight": 0.3433,
+        "pct_time_invested": 56.7,
+        "avg_holdings": 1.01,
+        "compounding_error": 3.637978807091713e-12,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -66.84,
+            708.7
+          ],
+          "sharpe_ci_95": [
+            -2.9,
+            12.96
+          ]
+        }
+      },
+      "overall": {
+        "final_capital": 13415.62,
+        "total_return_pct": 34.16,
+        "cagr_pct": 17.29,
+        "ann_vol_pct": 33.37,
+        "sharpe_ratio": 0.52,
+        "sortino_ratio": 0.89,
+        "calmar_ratio": 0.5,
+        "max_drawdown_pct": 34.83,
+        "max_drawdown_duration_days": 385,
+        "rebalances_count": 673,
+        "total_friction_usd": 2742.99,
+        "total_traded_notional_usd": 1828662.94,
+        "avg_turnover": 0.1657,
+        "avg_crypto_traded_weight": 0.208,
+        "pct_time_invested": 43.5,
+        "avg_holdings": 0.8,
+        "compounding_error": 2.000888343900442e-11,
+        "bootstrap": {
+          "cagr_ci_95": [
+            -30.15,
+            106.71
+          ],
+          "sharpe_ci_95": [
+            -1.01,
+            2.95
+          ]
+        }
+      }
+    }
+  ],
+  "sensitivity": [
+    {
+      "strategy_id": "V4_B_TOP2",
+      "cost_sensitivity": [
+        {
+          "tier": "Low (BNB Tier)",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "total_return_pct": 40.0,
+          "cagr_pct": 20.04,
+          "sharpe": 0.56,
+          "max_dd_pct": 32.97,
+          "friction_paid_usd": 1082.92
+        },
+        {
+          "tier": "Standard (Baseline)",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "total_return_pct": 32.72,
+          "cagr_pct": 16.61,
+          "sharpe": 0.46,
+          "max_dd_pct": 33.7,
+          "friction_paid_usd": 1663.13
+        },
+        {
+          "tier": "Stress (Adverse)",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "total_return_pct": 20.43,
+          "cagr_pct": 10.61,
+          "sharpe": 0.29,
+          "max_dd_pct": 35.02,
+          "friction_paid_usd": 2637.1
+        }
+      ],
+      "param_sensitivity": [
+        {
+          "lookback_days": 20,
+          "rebalance_days": 1,
+          "total_return_pct": 32.65,
+          "cagr_pct": 16.57,
+          "sharpe": 0.46,
+          "max_dd_pct": 31.74,
+          "friction_paid_usd": 1851.1
+        },
+        {
+          "lookback_days": 20,
+          "rebalance_days": 7,
+          "total_return_pct": 27.38,
+          "cagr_pct": 14.04,
+          "sharpe": 0.41,
+          "max_dd_pct": 30.03,
+          "friction_paid_usd": 682.88
+        },
+        {
+          "lookback_days": 30,
+          "rebalance_days": 1,
+          "total_return_pct": 32.72,
+          "cagr_pct": 16.61,
+          "sharpe": 0.46,
+          "max_dd_pct": 33.7,
+          "friction_paid_usd": 1663.13
+        },
+        {
+          "lookback_days": 30,
+          "rebalance_days": 7,
+          "total_return_pct": 5.45,
+          "cagr_pct": 2.92,
+          "sharpe": 0.08,
+          "max_dd_pct": 31.51,
+          "friction_paid_usd": 551.02
+        },
+        {
+          "lookback_days": 60,
+          "rebalance_days": 1,
+          "total_return_pct": 13.21,
+          "cagr_pct": 7.07,
+          "sharpe": 0.2,
+          "max_dd_pct": 33.86,
+          "friction_paid_usd": 1406.51
+        },
+        {
+          "lookback_days": 60,
+          "rebalance_days": 7,
+          "total_return_pct": -18.33,
+          "cagr_pct": -10.56,
+          "sharpe": -0.3,
+          "max_dd_pct": 40.05,
+          "friction_paid_usd": 522.59
+        }
+      ]
+    },
+    {
+      "strategy_id": "V4_C_TOP2",
+      "cost_sensitivity": [
+        {
+          "tier": "Low (BNB Tier)",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "total_return_pct": 44.91,
+          "cagr_pct": 22.3,
+          "sharpe": 0.67,
+          "max_dd_pct": 33.2,
+          "friction_paid_usd": 1807.92
+        },
+        {
+          "tier": "Standard (Baseline)",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "total_return_pct": 34.16,
+          "cagr_pct": 17.29,
+          "sharpe": 0.52,
+          "max_dd_pct": 34.83,
+          "friction_paid_usd": 2742.99
+        },
+        {
+          "tier": "Stress (Adverse)",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "total_return_pct": 16.6,
+          "cagr_pct": 8.69,
+          "sharpe": 0.26,
+          "max_dd_pct": 37.73,
+          "friction_paid_usd": 4256.81
+        }
+      ],
+      "param_sensitivity": [
+        {
+          "lookback_days": 20,
+          "rebalance_days": 1,
+          "total_return_pct": 32.29,
+          "cagr_pct": 16.4,
+          "sharpe": 0.5,
+          "max_dd_pct": 31.48,
+          "friction_paid_usd": 2743.78
+        },
+        {
+          "lookback_days": 20,
+          "rebalance_days": 7,
+          "total_return_pct": -8.47,
+          "cagr_pct": -4.69,
+          "sharpe": -0.16,
+          "max_dd_pct": 37.51,
+          "friction_paid_usd": 594.62
+        },
+        {
+          "lookback_days": 30,
+          "rebalance_days": 1,
+          "total_return_pct": 34.16,
+          "cagr_pct": 17.29,
+          "sharpe": 0.52,
+          "max_dd_pct": 34.83,
+          "friction_paid_usd": 2742.99
+        },
+        {
+          "lookback_days": 30,
+          "rebalance_days": 7,
+          "total_return_pct": -25.09,
+          "cagr_pct": -14.51,
+          "sharpe": -0.49,
+          "max_dd_pct": 39.1,
+          "friction_paid_usd": 549.2
+        },
+        {
+          "lookback_days": 60,
+          "rebalance_days": 1,
+          "total_return_pct": -4.65,
+          "cagr_pct": -2.59,
+          "sharpe": -0.08,
+          "max_dd_pct": 36.42,
+          "friction_paid_usd": 2048.03
+        },
+        {
+          "lookback_days": 60,
+          "rebalance_days": 7,
+          "total_return_pct": -1.56,
+          "cagr_pct": -0.86,
+          "sharpe": -0.03,
+          "max_dd_pct": 36.19,
+          "friction_paid_usd": 679.75
+        }
+      ]
+    }
+  ],
+  "generated_at": "2026-10-29T16:15:55.115645+00:00"
+}

@@ -1,0 +1,22 @@
+{
+  "created_by": "trader-entry",
+  "symbol": "SOLUSDT",
+  "setup": "level",
+  "side": "buy",
+  "date": "2026-10-29",
+  "status": "triggered",
+  "time": "12:05 AM",
+  "bar_start": "00:00",
+  "bar_index": 0,
+  "price": 102.32,
+  "level": 99.5,
+  "interval": "5m",
+  "opening_range": {
+    "high": 102.55,
+    "low": 102.31,
+    "minutes": 15
+  },
+  "source": "binance",
+  "checked_at": "2026-10-29T07:57:57Z",
+  "reason": "the 0:00 bar closed above the level"
+}

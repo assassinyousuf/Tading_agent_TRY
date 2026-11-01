@@ -1,0 +1,116 @@
+{
+  "audit_timestamp": "2026-10-29T19:43:00+00:00",
+  "audit_target": "Direction C.4 Production Statistical Corrections and Regression Gate",
+  "final_verdict": "CORRECTIONS VERIFIED -- RESEARCH FRAMEWORK ONLY",
+  "verdict_rationale": "Direct source inspection, transparent mathematical derivations, and regression tests confirm that trader-timemachine/benchmark_engine.py now contains the corrected Deflated Sharpe Ratio (DSR) dimensional scaling, the null-centered moving-block bootstrap hypothesis test, conventional arithmetic Sharpe ratio, and DSR sensitivity grid reporting. All 476 tests pass with zero failures and zero errors.",
+  "production_corrections": {
+    "deflated_sharpe_ratio": {
+      "file": "trader-timemachine/benchmark_engine.py",
+      "status": "CORRECTED_AND_VERIFIED",
+      "pre_correction_legacy_output": {
+        "z_stat": -31.32,
+        "dsr": 0.0000,
+        "defect": "Divided annualized Sharpe numerator by daily standard error, inflating z by sqrt(365.25)=19.11"
+      },
+      "post_correction_production_output": {
+        "z_stat": -1.6372,
+        "dsr": 0.0508,
+        "expected_max_sr_annual": 2.3863,
+        "se_sr_annual": 0.7246,
+        "annual_daily_equivalence": true,
+        "test_inputs": {
+          "observed_sharpe": 1.20,
+          "n_obs": 698,
+          "n_trials": 67,
+          "trial_sharpe_std": 1.0
+        }
+      },
+      "edge_cases_handled": [
+        "observed_sharpe <= 0 returns 0.0",
+        "n_obs <= 10 returns 0.0",
+        "non-finite inputs (NaN, inf) return 0.0",
+        "zero volatility returns 0.0",
+        "extreme moments (kurtosis=20, skewness=-2) properly widen se_sr"
+      ],
+      "api_compatibility": "Preserved (returns float DSR by default, dict if return_details=True)"
+    },
+    "paired_block_bootstrap_test": {
+      "file": "trader-timemachine/benchmark_engine.py",
+      "status": "CORRECTED_AND_VERIFIED",
+      "pre_correction_legacy_output": {
+        "p_value": 0.1220,
+        "defect": "Uncentered percentile inversion (fraction of replicates <= 0.0) rather than hypothesis test under H0"
+      },
+      "post_correction_production_output": {
+        "p_value": 0.1800,
+        "p_value_uncentered_legacy": 0.1220,
+        "hypothesis_specification": {
+          "null_hypothesis": "H0: mu(D_t) <= 0",
+          "alternative_hypothesis": "H1: mu(D_t) > 0 (one-sided upper tail by default)",
+          "centering_rule": "D_tilde_t = D_t - mean(D)",
+          "resampling_method": "moving_block_bootstrap"
+        }
+      },
+      "features_verified": [
+        "Strictly positive effect yields p = 0.0",
+        "Strictly negative effect yields p = 1.0",
+        "Agreement with analytical Student t-test on independent series",
+        "AR(1) persistence (phi=0.50) expands variance (L=10 yields higher p-value than L=1)",
+        "Non-divisible sample size (N=698, L=10) handled via correct truncation",
+        "Multiple block lengths (5, 10, 20) verified",
+        "Deterministic execution using dedicated random.Random(seed) without global state pollution",
+        "Degenerate inputs (sample < block_size) return status SAMPLE_TOO_SHORT and p=1.0"
+      ]
+    },
+    "arithmetic_sharpe_ratio": {
+      "file": "trader-timemachine/benchmark_engine.py",
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "function_name": "calc_arithmetic_sharpe",
+      "conventions": {
+        "return_type": "Daily periodic arithmetic return (P_t - P_{t-1}) / P_{t-1}",
+        "rf_conversion": "Linear daily rate conversion: rf_annual / annual_factor",
+        "degrees_of_freedom": "Sample variance with N - 1 degrees of freedom",
+        "annualization": "Multiplied by sqrt(annual_factor)"
+      },
+      "hand_calculated_cases": [
+        {"rets": [0.01, 0.02, 0.03], "rf": 0.0, "expected": 38.2230297, "actual": 38.2230297},
+        {"rets": [0.01, 0.02, 0.03], "rf": 0.036525, "expected": 38.0319146, "actual": 38.0319146}
+      ],
+      "distinct_from_cagr_sharpe": true
+    },
+    "dsr_sensitivity_reporting": {
+      "file": "trader-timemachine/benchmark_engine.py",
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "function_name": "calc_dsr_sensitivity_grid",
+      "trial_counts": [1, 5, 15, 25, 67, 150],
+      "trial_stds": [0.30, 0.50, 0.70, 1.00],
+      "catalog_integration": "Added to trader/direction_c_benchmark_catalog.json",
+      "documentation_warnings": [
+        "Historical effective trial count (M_eff) cannot be empirically reconstructed because aligned daily return series for V1-V3 do not exist.",
+        "Values such as M_eff in [15, 25] and sigma_trials = 0.50 are heuristic sensitivity assumptions, not measured facts.",
+        "A sensitivity grid does not resolve unknown research-selection bias or macro survivorship bias."
+      ]
+    }
+  },
+  "test_suite_execution": {
+    "total_tests": 476,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "execution_time_seconds": 29.170,
+    "c4_dedicated_tests": 11,
+    "c3_adversarial_tests": 8,
+    "benchmark_engine_tests": 12,
+    "formatting_compliance": "test_repo.py 11/11 passing (no em-dash violations)"
+  },
+  "safety_and_scope_invariants": {
+    "strategy_v5_status": "VERIFIED NO-GO (FROZEN)",
+    "direction_a_b_v6_started": false,
+    "live_trading_enabled": false,
+    "testnet_orders_enabled": false,
+    "broker_execution_enabled": false,
+    "forward_paper_trading_enabled": false,
+    "historical_reports_rewritten": false
+  }
+}
+

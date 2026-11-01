@@ -88,6 +88,41 @@ FRESH_MINUTES = 15
 SETUP_WORDS = {"orb": "opening-range breakout", "flag": "flag", "bounce": "oversold bounce"}
 
 
+def is_crypto(symbol):
+    if not symbol:
+        return False
+    s = str(symbol).strip().upper()
+    return s.endswith(("USDT", "BUSD", "USDC", "FDUSD", "BTC", "ETH", "BNB")) or "/" in s
+
+
+def crypto_qty_round(qty, price=None, step_size=None):
+    from decimal import Decimal
+    q = Decimal(str(qty))
+    if step_size is not None and Decimal(str(step_size)) > Decimal("0"):
+        ss = Decimal(str(step_size))
+        return float((q // ss) * ss)
+    p = float(price or 0)
+    if p >= 1000:
+        ss = Decimal("0.0001")
+    elif p >= 100:
+        ss = Decimal("0.01")
+    elif p >= 1:
+        ss = Decimal("0.01")
+    elif p >= 0.01:
+        ss = Decimal("0.1")
+    else:
+        ss = Decimal("1")
+    return float((q // ss) * ss)
+
+
+def fmt_qty(qty, crypto=False):
+    if not crypto and abs(qty - round(qty)) < 1e-9:
+        return str(int(round(qty)))
+    if abs(qty - round(qty)) < 1e-9:
+        return str(int(round(qty)))
+    return ("%.6f" % qty).rstrip("0").rstrip(".")
+
+
 class SizeError(Exception):
     pass
 
@@ -319,7 +354,7 @@ def size_trade(plan, cfg, budget=None, limit=None, price=None, cash=None, today=
     side = str(plan.get("side") or "buy").strip().lower()
     if side != "buy":
         raise SizeError("this pack sizes long (buy) day trades only; the plan says %r" % side)
-    if today and plan.get("date") and str(plan["date"]) != today:
+    if not is_crypto(sym) and today and plan.get("date") and str(plan["date"]) != today:
         raise SizeError("the plan is for %s and today is %s in New York: make a new plan with trader-exit"
                         % (plan["date"], today))
     entry_plan, stop, target = _f(plan.get("entry")), _f(plan.get("stop")), _f(plan.get("target"))
@@ -363,21 +398,37 @@ def size_trade(plan, cfg, budget=None, limit=None, price=None, cash=None, today=
         cash_note = "cash %s in trader/portfolio.json minus the %s buffer" % (money(cash), money(cash_buffer))
     available = max(round(available, 2), 0.0)
 
+    crypto = is_crypto(sym)
+    fee_rate = float(c.get("fee_rate", 0.001) if crypto else (c.get("fee_rate") or 0.0))
+    fee_per_unit = fee_rate * (ref + stop) if fee_rate > 0 else 0.0
+    risk_with_fee = risk + fee_per_unit
+    fractional = bool(c.get("fractional", False)) or crypto
+
+    def calc_qty(usd, per):
+        if not fractional:
+            return shares_for(usd, per)
+        raw_q = float(usd) / float(per) if per > 0 else 0.0
+        return crypto_qty_round(raw_q, price=ref, step_size=plan.get("step_size"))
+
     limits = []
     max_loss = _f(c.get("max_loss_per_trade_usd"))
     if max_loss:
-        limits.append({"name": "max loss", "usd": max_loss, "per": risk, "shares": shares_for(max_loss, risk),
-                       "how": "%s max loss / %s risk a share" % (money(max_loss), _price(risk))})
+        q_loss = calc_qty(max_loss, risk_with_fee)
+        how_loss = "%s max loss / %s risk a share" % (money(max_loss), _price(risk))
+        if fee_rate > 0:
+            how_loss = "%s max loss / %s risk a unit (+%.2f%% fee)" % (money(max_loss), _price(risk), fee_rate * 100)
+        limits.append({"name": "max loss", "usd": max_loss, "per": risk_with_fee, "shares": q_loss,
+                       "how": how_loss})
     cap_pct = _f(c.get("max_position_pct"))
     if cap_pct:
         cap = round(budget * cap_pct / 100.0, 2)
-        limits.append({"name": "position cap", "usd": cap, "per": ref, "shares": shares_for(cap, ref),
+        limits.append({"name": "position cap", "usd": cap, "per": ref, "shares": calc_qty(cap, ref),
                        "how": "%s%% of %s = %s / %s" % (_num(cap_pct), money(budget), money(cap), _price(ref))})
     max_order = _f(c.get("max_order_usd"))
     if max_order:
-        limits.append({"name": "max order", "usd": max_order, "per": ref, "shares": shares_for(max_order, ref),
+        limits.append({"name": "max order", "usd": max_order, "per": ref, "shares": calc_qty(max_order, ref),
                        "how": "%s / %s" % (money(max_order), _price(ref))})
-    limits.append({"name": "cash", "usd": available, "per": ref, "shares": shares_for(available, ref),
+    limits.append({"name": "cash", "usd": available, "per": ref, "shares": calc_qty(available, ref),
                    "how": "%s = %s / %s" % (cash_note, money(available), _price(ref))})
 
     qty = max(0, min(l["shares"] for l in limits))
@@ -385,24 +436,29 @@ def size_trade(plan, cfg, budget=None, limit=None, price=None, cash=None, today=
     for l in limits:
         l["binds"] = l["name"] == bound[0]
     cost = round(qty * ref, 2)
-    loss = round(qty * risk_c / 100.0, 2)
+    loss = round(qty * risk_with_fee, 2) if fee_rate > 0 else round(qty * risk_c / 100.0, 2)
+    fee_est = round(qty * fee_per_unit, 2) if fee_rate > 0 else 0.0
     refusal = None
     if qty == 0:
+        unit_w = "unit" if crypto else "share"
         if bound[0] == "max loss":
-            refusal = ("one share risks %s (entry %s minus stop %s), more than your %s max loss per trade. "
+            refusal = ("one %s risks %s (entry %s minus stop %s%s), more than your %s max loss per trade. "
                        "No order. Skip this trade, or plan a closer stop with trader-exit."
-                       % (money(risk), _price(ref), _price(stop), money(max_loss)))
+                       % (unit_w, money(risk_with_fee), _price(ref), _price(stop),
+                          (" + fee" if fee_rate > 0 else ""), money(max_loss)))
         else:
-            refusal = ("one share of %s costs %s, more than your %s limit (%s). No order."
-                       % (sym, money(ref), bound[0], limits[[l["name"] for l in limits].index(bound[0])]["how"]))
+            refusal = ("one %s of %s costs %s, more than your %s limit (%s). No order."
+                       % (unit_w, sym, money(ref), bound[0], limits[[l["name"] for l in limits].index(bound[0])]["how"]))
     elif _f(c.get("min_reward_risk")) and reward_c < _f(c["min_reward_risk"]) * risk_c - EPS:
         refusal = ("reward:risk %.2f (target %s, entry %s, stop %s) is under your minimum %s, so trader-risk "
                    "would block it. No order. Skip it, or make a new plan with trader-exit."
                    % (reward_c / float(risk_c), _price(target), _price(ref), _price(stop), _num(c["min_reward_risk"])))
     elif cost < float(c.get("min_order_usd") or 0) - 0.005:
-        refusal = ("%d share%s of %s is %s, under your %s minimum order. No order."
-                   % (qty, "" if qty == 1 else "s", sym, money(cost), money(c["min_order_usd"])))
-    return {
+        q_label = fmt_qty(qty, crypto=crypto)
+        unit_w = "unit" if (crypto and qty == 1) else ("units" if crypto else ("share" if qty == 1 else "shares"))
+        refusal = ("%s %s of %s is %s, under your %s minimum order. No order."
+                   % (q_label, unit_w, sym, money(cost), money(c["min_order_usd"])))
+    res = {
         "symbol": sym, "side": "buy", "setup": plan.get("setup", ""), "date": plan.get("date"),
         "entry_time": plan.get("entry_time", ""), "entry_plan": round_cent(entry_plan),
         "entry": ref, "entry_from": ref_from, "stop": stop, "target": target,
@@ -413,30 +469,44 @@ def size_trade(plan, cfg, budget=None, limit=None, price=None, cash=None, today=
         "cost": cost, "max_loss": loss, "flat_by": plan.get("flat_by") or c.get("flat_by"),
         "order_type": "limit" if limit is not None else "market", "refusal": refusal,
     }
+    if fee_rate > 0:
+        res["fee_rate"] = fee_rate
+        res["fee_est"] = fee_est
+    return res
 
 
 def bracket_order(s):
-    """The one proposed order, Alpaca place_stock_order fields (strings) plus why and plan."""
+    """The one proposed order, Alpaca/Binance bracket order fields plus why and plan."""
     if s["refusal"] or s["qty"] <= 0:
         return None
-    o = {"symbol": s["symbol"], "side": "buy", "qty": str(int(s["qty"])), "type": s["order_type"],
-         "time_in_force": "day"}
+    crypto = is_crypto(s["symbol"])
+    qty_str = fmt_qty(s["qty"], crypto=crypto)
+    o = {"symbol": s["symbol"], "side": "buy", "qty": qty_str, "type": s["order_type"],
+         "time_in_force": "gtc" if crypto else "day"}
     if s["order_type"] == "limit":
         o["limit_price"] = _price(s["entry"])
     setup = SETUP_WORDS.get(s["setup"], s["setup"] or "day trade")
-    why = ("%s on %s: %d shares, bound by your %s (%d x %s = %s at the stop)"
-           % (setup, s["symbol"], s["qty"], {"max loss": "%s max loss per trade" % money(s["max_loss_per_trade_usd"] or 0),
-                                             "position cap": "position cap", "max order": "max order",
-                                             "cash": "cash after the buffer"}[s["bound_by"]],
-              s["qty"], _price(s["risk_per_share"]), money(s["max_loss"])))
+    unit_word = "units" if (crypto or s["qty"] != int(s["qty"])) else ("share" if s["qty"] == 1 else "shares")
+    why = ("%s on %s: %s %s, bound by your %s (%s x %s = %s at the stop)"
+           % (setup, s["symbol"], qty_str, unit_word,
+              {"max loss": "%s max loss per trade" % money(s["max_loss_per_trade_usd"] or 0),
+               "position cap": "position cap", "max order": "max order",
+               "cash": "cash after the buffer"}[s["bound_by"]],
+              qty_str, _price(s["risk_per_share"]), money(s["max_loss"])))
+    plan_dict = {
+        "entry": s["entry"], "stop": s["stop"], "target": s["target"],
+        "risk_per_share": s["risk_per_share"], "max_loss": s["max_loss"], "setup": s["setup"],
+        "entry_time": s["entry_time"], "flat_by": s["flat_by"]
+    }
+    if s.get("fee_rate", 0.0) > 0:
+        plan_dict["fee_rate"] = s["fee_rate"]
+        plan_dict["fee_est"] = s.get("fee_est", 0.0)
     o.update({
         "order_class": "bracket",
         "take_profit_limit_price": _price(s["target"]),
         "stop_loss_stop_price": _price(s["stop"]),
         "why": why,
-        "plan": {"entry": s["entry"], "stop": s["stop"], "target": s["target"],
-                 "risk_per_share": s["risk_per_share"], "max_loss": s["max_loss"], "setup": s["setup"],
-                 "entry_time": s["entry_time"], "flat_by": s["flat_by"]},
+        "plan": plan_dict,
     })
     return o
 
@@ -456,6 +526,45 @@ def plan_report(s, order, notes=()):
     lines.append("Sized at %s (%s). Risk %s a share (entry %s minus stop %s). Reward:risk %.2f."
                  % (_price(s["entry"]), src, _price(s["risk_per_share"]), _price(s["entry"]), _price(s["stop"]),
                     s["reward_risk"]))
+    lines.append("")
+    crypto = is_crypto(s["symbol"])
+    unit_label = "units" if crypto else "whole shares"
+    lines.append("Limits (%s; the smallest one wins):" % unit_label)
+    for l in s["limits"]:
+        if crypto:
+            q_fmt = fmt_qty(l["shares"], crypto=True)
+            lines.append("  %-13s %-58s %6s units%s" % (l["name"], l["how"], q_fmt,
+                                                        "  <- binds" if l["binds"] else ""))
+        else:
+            lines.append("  %-13s %-58s %3d shares%s" % (l["name"], l["how"], l["shares"],
+                                                          "  <- binds" if l["binds"] else ""))
+    lines.append("")
+    if order is None:
+        lines.append("No order: " + s["refusal"])
+        lines.append("Education and tooling, not financial advice.")
+        return "\n".join(lines)
+    qty_str = fmt_qty(s["qty"], crypto=crypto)
+    unit_word = "unit" if (crypto and s["qty"] == 1) else ("units" if crypto or s["qty"] != int(s["qty"]) else ("share" if s["qty"] == 1 else "shares"))
+    lines.append("Size: %s %s of %s = %s at %s. Max loss at the stop: %s x %s = %s."
+                 % (qty_str, unit_word, s["symbol"], money(s["cost"]), _price(s["entry"]), qty_str,
+                    _price(s["risk_per_share"]), money(s["max_loss"])))
+    if s.get("fee_rate", 0.0) > 0:
+        lines.append("Binance taker fee: %.2f%% (~%s total fee on entry and stop exit)."
+                     % (s["fee_rate"] * 100, money(s["fee_est"])))
+    lines.append("A stop is an order, not a promise: in a fast market it can fill below %s." % _price(s["stop"]))
+    lines.append("")
+    lines.append("Proposed bracket order (place_stock_order arguments, nothing has been placed):")
+    how = "limit %s" % order["limit_price"] if order["type"] == "limit" else "market"
+    lines.append("  buy %s %s, %s, %s, take-profit %s, stop-loss %s"
+                 % (order["qty"], order["symbol"], how, order["time_in_force"],
+                    order["take_profit_limit_price"], order["stop_loss_stop_price"]))
+    if s["flat_by"]:
+        lines.append("Flat by %s New York: anything still open then gets closed (trader-alerts rings, "
+                     "trader-broker flatten)." % s["flat_by"])
+    lines.append("")
+    lines.append("Next: trader-risk checks it, then trader-broker asks you yes or no.")
+    lines.append("Education and tooling, not financial advice.")
+    return "\n".join(lines)
     lines.append("")
     lines.append("Limits (whole shares; the smallest one wins):")
     for l in s["limits"]:

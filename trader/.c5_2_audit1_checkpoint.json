@@ -1,0 +1,170 @@
+{
+  "gaussian_iid_n500": {
+    "label": "Gaussian i.i.d. (N=500)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 5000,
+    "n_obs": 500,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 29,
+    "empirical_rejection_rate": 0.0058,
+    "wilson_95_ci": [
+      0.004,
+      0.0083
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 1.16,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 181.86
+  },
+  "garch_11_n500": {
+    "label": "GARCH(1,1) (N=500)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 5000,
+    "n_obs": 500,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 26,
+    "empirical_rejection_rate": 0.0052,
+    "wilson_95_ci": [
+      0.0036,
+      0.0076
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 1.04,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 176.76
+  },
+  "student_t_nu5_n500": {
+    "label": "Student's t nu=5 (N=500)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 5000,
+    "n_obs": 500,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 34,
+    "empirical_rejection_rate": 0.0068,
+    "wilson_95_ci": [
+      0.0049,
+      0.0095
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 1.36,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 176.65
+  },
+  "ar1_phi_030_n500": {
+    "label": "AR(1) phi=0.30 (N=500)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 5000,
+    "n_obs": 500,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 42,
+    "empirical_rejection_rate": 0.0084,
+    "wilson_95_ci": [
+      0.0062,
+      0.0113
+    ],
+    "encloses_nominal": false,
+    "distortion_ratio": 1.68,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 181.6
+  },
+  "ar1_phi_050_n500": {
+    "label": "AR(1) phi=0.50 (N=500)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 5000,
+    "n_obs": 500,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 65,
+    "empirical_rejection_rate": 0.013,
+    "wilson_95_ci": [
+      0.0102,
+      0.0165
+    ],
+    "encloses_nominal": false,
+    "distortion_ratio": 2.6,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 180.97
+  },
+  "gaussian_iid_n1000": {
+    "label": "Gaussian i.i.d. (N=1000)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 2500,
+    "n_obs": 1000,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 13,
+    "empirical_rejection_rate": 0.0052,
+    "wilson_95_ci": [
+      0.003,
+      0.0089
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 1.04,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 190.62
+  },
+  "ar1_phi_050_n1000": {
+    "label": "AR(1) phi=0.50 (N=1000)",
+    "nominal_alpha": 0.005,
+    "k_datasets": 2500,
+    "n_obs": 1000,
+    "n_boot": 5000,
+    "block_size": 10,
+    "rejections_count": 19,
+    "empirical_rejection_rate": 0.0076,
+    "wilson_95_ci": [
+      0.0049,
+      0.0118
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 1.52,
+    "finite_monte_carlo_parameters": {
+      "b_replicates": 5000,
+      "max_k_for_rejection": 24,
+      "discrete_p_val_at_k_max": 0.004999,
+      "discrete_p_val_at_k_next": 0.005199,
+      "p_value_step_resolution": 0.0002
+    },
+    "elapsed_seconds": 180.39
+  }
+}

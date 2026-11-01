@@ -1,0 +1,44 @@
+{
+  "frozen_spec": {
+    "strategy_id": "BINANCE_SPOT_ORB_20D_V1",
+    "version": "1.0.0",
+    "market": "spot",
+    "interval": "15m",
+    "lookback_period": 20,
+    "target_r_multiple": 2.0,
+    "max_holding_bars": 16,
+    "stop_loss_pct_floor": 0.02,
+    "taker_fee_rate": 0.001,
+    "slippage_rate": 0.0005,
+    "max_concurrent_positions": 1
+  },
+  "symbol": "SOLUSDT",
+  "days_evaluated": 30,
+  "candles_analyzed": 2130,
+  "total_signals_detected": 74,
+  "signals_taken": 38,
+  "signals_skipped_max_exposure": 36,
+  "signals_rejected_filters": 0,
+  "performance": {
+    "total_trades": 37,
+    "wins": 10,
+    "losses": 27,
+    "win_rate_pct": 27.03,
+    "win_rate_95_ci": [
+      12.72,
+      41.34
+    ],
+    "expectancy_r": -0.288,
+    "expectancy_return_pct": -0.413,
+    "profit_factor": 0.39,
+    "max_drawdown_r": 12.52
+  },
+  "backtest_comparison": {
+    "backtest_oos_trades": 74,
+    "backtest_oos_win_rate": 24.32,
+    "backtest_oos_expectancy_r": -0.345,
+    "backtest_oos_profit_factor": 0.23,
+    "backtest_oos_max_drawdown_r": 25.51
+  },
+  "generated_at": "2026-10-29T15:00:08.182804+00:00"
+}

@@ -1,0 +1,1389 @@
+{
+  "timestamp": "20261101_195453",
+  "tasks_count": 14,
+  "is_expanded": true,
+  "temperatures_tested": [
+    0.0,
+    0.2,
+    0.5,
+    0.8
+  ],
+  "repetitions_per_temp": 3,
+  "configurations": [
+    "SINGLE_RESEARCHER",
+    "RESEARCHER_REVIEWER",
+    "FULL_COORDINATOR"
+  ],
+  "aggregated_by_temp_and_config": {
+    "SINGLE_RESEARCHER__T_0.0": {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.0,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 70.92,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 6715.0,
+        "std": 0.0
+      },
+      "latency_ms": {
+        "mean": 220.75,
+        "std": 34.17
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.561,
+        "quality_score_per_second": 321.27
+      }
+    },
+    "RESEARCHER_REVIEWER__T_0.0": {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.0,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8237.0,
+        "std": 0.0
+      },
+      "latency_ms": {
+        "mean": 291.57,
+        "std": 32.88
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.245,
+        "quality_score_per_second": 289.43
+      }
+    },
+    "FULL_COORDINATOR__T_0.0": {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.0,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8125.0,
+        "std": 0.0
+      },
+      "latency_ms": {
+        "mean": 1227.84,
+        "std": 28.94
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.386,
+        "quality_score_per_second": 68.73
+      }
+    },
+    "SINGLE_RESEARCHER__T_0.2": {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.2,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 70.92,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 6753.0,
+        "std": 7.07
+      },
+      "latency_ms": {
+        "mean": 162.79,
+        "std": 57.61
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.502,
+        "quality_score_per_second": 435.66
+      }
+    },
+    "RESEARCHER_REVIEWER__T_0.2": {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.2,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8282.0,
+        "std": 6.48
+      },
+      "latency_ms": {
+        "mean": 237.19,
+        "std": 51.46
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.19,
+        "quality_score_per_second": 355.79
+      }
+    },
+    "FULL_COORDINATOR__T_0.2": {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.2,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8169.0,
+        "std": 3.74
+      },
+      "latency_ms": {
+        "mean": 1349.41,
+        "std": 51.28
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.331,
+        "quality_score_per_second": 62.54
+      }
+    },
+    "SINGLE_RESEARCHER__T_0.5": {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.5,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 70.92,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 6762.0,
+        "std": 7.48
+      },
+      "latency_ms": {
+        "mean": 243.95,
+        "std": 31.12
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.488,
+        "quality_score_per_second": 290.72
+      }
+    },
+    "RESEARCHER_REVIEWER__T_0.5": {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.5,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8280.0,
+        "std": 2.83
+      },
+      "latency_ms": {
+        "mean": 231.59,
+        "std": 60.36
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.192,
+        "quality_score_per_second": 364.39
+      }
+    },
+    "FULL_COORDINATOR__T_0.5": {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.5,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 84.39,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 78.57,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8156.0,
+        "std": 1.41
+      },
+      "latency_ms": {
+        "mean": 1360.25,
+        "std": 45.02
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.347,
+        "quality_score_per_second": 62.04
+      }
+    },
+    "SINGLE_RESEARCHER__T_0.8": {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.8,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 70.92,
+        "std": 0.0
+      },
+      "rejection_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "rejection_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "false_rejection_rate": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 6758.0,
+        "std": 7.87
+      },
+      "latency_ms": {
+        "mean": 273.64,
+        "std": 47.3
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 10.494,
+        "quality_score_per_second": 259.18
+      }
+    },
+    "RESEARCHER_REVIEWER__T_0.8": {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.8,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 81.22,
+        "std": 0.96
+      },
+      "rejection_recall": {
+        "mean": 84.85,
+        "std": 4.29
+      },
+      "rejection_precision": {
+        "mean": 75.64,
+        "std": 0.91
+      },
+      "false_rejection_rate": {
+        "mean": 100.0,
+        "std": 0.0
+      },
+      "tokens": {
+        "mean": 8613.0,
+        "std": 91.22
+      },
+      "latency_ms": {
+        "mean": 290.07,
+        "std": 33.61
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 9.43,
+        "quality_score_per_second": 280.02
+      }
+    },
+    "FULL_COORDINATOR__T_0.8": {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.8,
+      "repetitions": 3,
+      "overall_score": {
+        "mean": 85.27,
+        "std": 1.72
+      },
+      "rejection_recall": {
+        "mean": 84.85,
+        "std": 4.29
+      },
+      "rejection_precision": {
+        "mean": 82.91,
+        "std": 5.4
+      },
+      "false_rejection_rate": {
+        "mean": 66.67,
+        "std": 27.22
+      },
+      "tokens": {
+        "mean": 8552.0,
+        "std": 179.94
+      },
+      "latency_ms": {
+        "mean": 1372.38,
+        "std": 46.88
+      },
+      "cost_effectiveness": {
+        "quality_score_per_1k_tokens": 9.971,
+        "quality_score_per_second": 62.13
+      }
+    }
+  },
+  "raw_run_records": [
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.0,
+      "repetition": 1,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6715,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2492,
+      "elapsed_ms": 184.12,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.0,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8237,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2646,
+      "elapsed_ms": 246.81,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.0,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8125,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2646,
+      "elapsed_ms": 1187.06,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.0,
+      "repetition": 2,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6715,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2492,
+      "elapsed_ms": 266.37,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.0,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8237,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2646,
+      "elapsed_ms": 303.04,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.0,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8125,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2646,
+      "elapsed_ms": 1251.29,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.0,
+      "repetition": 3,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6715,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2492,
+      "elapsed_ms": 211.76,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.0,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8237,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2646,
+      "elapsed_ms": 324.87,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.0,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8125,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2646,
+      "elapsed_ms": 1245.16,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.2,
+      "repetition": 1,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6763,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2540,
+      "elapsed_ms": 180.36,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.2,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8276,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2685,
+      "elapsed_ms": 249.31,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.2,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8164,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2685,
+      "elapsed_ms": 1304.77,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.2,
+      "repetition": 2,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6748,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2525,
+      "elapsed_ms": 222.9,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.2,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8291,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2700,
+      "elapsed_ms": 293.27,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.2,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8173,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2694,
+      "elapsed_ms": 1421.23,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.2,
+      "repetition": 3,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6748,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2525,
+      "elapsed_ms": 85.1,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.2,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8279,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2688,
+      "elapsed_ms": 168.99,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.2,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8170,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2691,
+      "elapsed_ms": 1322.22,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.5,
+      "repetition": 1,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6754,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2531,
+      "elapsed_ms": 269.44,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.5,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8282,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2691,
+      "elapsed_ms": 248.01,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.5,
+      "repetition": 1,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8155,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2676,
+      "elapsed_ms": 1341.46,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.5,
+      "repetition": 2,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6772,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2549,
+      "elapsed_ms": 200.13,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.5,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8282,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2691,
+      "elapsed_ms": 150.84,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.5,
+      "repetition": 2,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8155,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2676,
+      "elapsed_ms": 1316.96,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.5,
+      "repetition": 3,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6760,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2537,
+      "elapsed_ms": 262.28,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.5,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8276,
+      "prompt_tokens": 5591,
+      "completion_tokens": 2685,
+      "elapsed_ms": 295.92,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.5,
+      "repetition": 3,
+      "mean_overall_score": 84.39,
+      "rejection_precision": 78.57,
+      "rejection_recall": 100.0,
+      "false_rejection_rate": 100.0,
+      "true_positives": 11,
+      "false_positives": 3,
+      "false_negatives": 0,
+      "true_negatives": 0,
+      "total_tokens": 8158,
+      "prompt_tokens": 5479,
+      "completion_tokens": 2679,
+      "elapsed_ms": 1422.32,
+      "failed_requests": 14,
+      "dimension_scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 57.14,
+        "statistical_reasoning": 76.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.8,
+      "repetition": 1,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6754,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2531,
+      "elapsed_ms": 303.59,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.8,
+      "repetition": 1,
+      "mean_overall_score": 81.63,
+      "rejection_precision": 75.0,
+      "rejection_recall": 81.82,
+      "false_rejection_rate": 100.0,
+      "true_positives": 9,
+      "false_positives": 3,
+      "false_negatives": 2,
+      "true_negatives": 0,
+      "total_tokens": 8679,
+      "prompt_tokens": 5815,
+      "completion_tokens": 2864,
+      "elapsed_ms": 328.64,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 92.86,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 64.29,
+        "statistical_reasoning": 71.43,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 64.29,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.8,
+      "repetition": 1,
+      "mean_overall_score": 83.67,
+      "rejection_precision": 76.92,
+      "rejection_recall": 90.91,
+      "false_rejection_rate": 100.0,
+      "true_positives": 10,
+      "false_positives": 3,
+      "false_negatives": 1,
+      "true_negatives": 0,
+      "total_tokens": 8314,
+      "prompt_tokens": 5538,
+      "completion_tokens": 2776,
+      "elapsed_ms": 1308.31,
+      "failed_requests": 13,
+      "dimension_scores": {
+        "hypothesis_quality": 96.43,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 60.71,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 71.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.8,
+      "repetition": 2,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6751,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2528,
+      "elapsed_ms": 310.46,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.8,
+      "repetition": 2,
+      "mean_overall_score": 82.14,
+      "rejection_precision": 76.92,
+      "rejection_recall": 90.91,
+      "false_rejection_rate": 100.0,
+      "true_positives": 10,
+      "false_positives": 3,
+      "false_negatives": 1,
+      "true_negatives": 0,
+      "total_tokens": 8484,
+      "prompt_tokens": 5705,
+      "completion_tokens": 2779,
+      "elapsed_ms": 294.84,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 96.43,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 50.0,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 71.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.8,
+      "repetition": 2,
+      "mean_overall_score": 84.49,
+      "rejection_precision": 81.82,
+      "rejection_recall": 81.82,
+      "false_rejection_rate": 66.67,
+      "true_positives": 9,
+      "false_positives": 2,
+      "false_negatives": 2,
+      "true_negatives": 1,
+      "total_tokens": 8593,
+      "prompt_tokens": 5656,
+      "completion_tokens": 2937,
+      "elapsed_ms": 1389.67,
+      "failed_requests": 11,
+      "dimension_scores": {
+        "hypothesis_quality": 92.86,
+        "experimental_reproducibility": 85.71,
+        "leakage_detection": 67.86,
+        "statistical_reasoning": 73.57,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 71.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "SINGLE_RESEARCHER",
+      "temperature": 0.8,
+      "repetition": 3,
+      "mean_overall_score": 70.92,
+      "rejection_precision": 0.0,
+      "rejection_recall": 0.0,
+      "false_rejection_rate": 0.0,
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 11,
+      "true_negatives": 3,
+      "total_tokens": 6769,
+      "prompt_tokens": 4223,
+      "completion_tokens": 2546,
+      "elapsed_ms": 206.86,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 60.71,
+        "experimental_reproducibility": 92.86,
+        "leakage_detection": 68.57,
+        "statistical_reasoning": 78.57,
+        "cost_model_validity": 74.29,
+        "appropriate_rejection": 21.43,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "RESEARCHER_REVIEWER",
+      "temperature": 0.8,
+      "repetition": 3,
+      "mean_overall_score": 79.9,
+      "rejection_precision": 75.0,
+      "rejection_recall": 81.82,
+      "false_rejection_rate": 100.0,
+      "true_positives": 9,
+      "false_positives": 3,
+      "false_negatives": 2,
+      "true_negatives": 0,
+      "total_tokens": 8676,
+      "prompt_tokens": 5818,
+      "completion_tokens": 2858,
+      "elapsed_ms": 246.72,
+      "failed_requests": 0,
+      "dimension_scores": {
+        "hypothesis_quality": 92.86,
+        "experimental_reproducibility": 78.57,
+        "leakage_detection": 42.86,
+        "statistical_reasoning": 80.71,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 64.29,
+        "evidence_grounded_conclusions": 100.0
+      }
+    },
+    {
+      "config_id": "FULL_COORDINATOR",
+      "temperature": 0.8,
+      "repetition": 3,
+      "mean_overall_score": 87.65,
+      "rejection_precision": 90.0,
+      "rejection_recall": 81.82,
+      "false_rejection_rate": 33.33,
+      "true_positives": 9,
+      "false_positives": 1,
+      "false_negatives": 2,
+      "true_negatives": 2,
+      "total_tokens": 8749,
+      "prompt_tokens": 5715,
+      "completion_tokens": 3034,
+      "elapsed_ms": 1419.16,
+      "failed_requests": 10,
+      "dimension_scores": {
+        "hypothesis_quality": 92.86,
+        "experimental_reproducibility": 85.71,
+        "leakage_detection": 71.43,
+        "statistical_reasoning": 85.0,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 78.57,
+        "evidence_grounded_conclusions": 100.0
+      }
+    }
+  ]
+}

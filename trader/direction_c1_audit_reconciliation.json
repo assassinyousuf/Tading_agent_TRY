@@ -1,0 +1,265 @@
+{
+  "audit_timestamp": "2026-10-29T18:47:10.450048+00:00",
+  "audit_target": "Direction C Benchmark & Statistical Engine",
+  "final_status": "VERIFIED FOR RESEARCH USE -- WITH DOCUMENTED LIMITATIONS",
+  "metric_definitions_reconciled": {
+    "Cash": {
+      "cagr_pct": 0.0,
+      "ann_mean_pct": 0.0,
+      "ann_vol_pct": 0.0,
+      "compounded_sharpe": 0.0,
+      "arithmetic_sharpe": 0.0,
+      "compounded_sortino": 0.0,
+      "arithmetic_sortino": 0.0,
+      "sharpe_status": "UNDEFINED_ZERO"
+    },
+    "BTC_Gross": {
+      "cagr_pct": -9.03,
+      "ann_mean_pct": -0.25,
+      "ann_vol_pct": 42.93,
+      "compounded_sharpe": -0.2102,
+      "arithmetic_sharpe": -0.0059,
+      "compounded_sortino": -0.3022,
+      "arithmetic_sortino": -0.0084,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "BTC_Net": {
+      "cagr_pct": -9.17,
+      "ann_mean_pct": -0.41,
+      "ann_vol_pct": 42.93,
+      "compounded_sharpe": -0.2136,
+      "arithmetic_sharpe": -0.0095,
+      "compounded_sortino": -0.307,
+      "arithmetic_sortino": -0.0137,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "EW_Gross": {
+      "cagr_pct": -12.88,
+      "ann_mean_pct": -0.68,
+      "ann_vol_pct": 51.13,
+      "compounded_sharpe": -0.252,
+      "arithmetic_sharpe": -0.0132,
+      "compounded_sortino": -0.3524,
+      "arithmetic_sortino": -0.0185,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "EW_Net": {
+      "cagr_pct": -13.02,
+      "ann_mean_pct": -0.83,
+      "ann_vol_pct": 51.13,
+      "compounded_sharpe": -0.2546,
+      "arithmetic_sharpe": -0.0163,
+      "compounded_sortino": -0.3561,
+      "arithmetic_sortino": -0.0228,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "50_50_Drift": {
+      "cagr_pct": -2.04,
+      "ann_mean_pct": 0.25,
+      "ann_vol_pct": 21.52,
+      "compounded_sharpe": -0.0946,
+      "arithmetic_sharpe": 0.0118,
+      "compounded_sortino": -0.1368,
+      "arithmetic_sortino": 0.017,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "50_50_Monthly": {
+      "cagr_pct": -2.9,
+      "ann_mean_pct": -0.66,
+      "ann_vol_pct": 21.37,
+      "compounded_sharpe": -0.1355,
+      "arithmetic_sharpe": -0.0307,
+      "compounded_sortino": -0.194,
+      "arithmetic_sortino": -0.044,
+      "sharpe_status": "VALID_DIVERGES"
+    },
+    "VolTarget_25": {
+      "cagr_pct": -8.29,
+      "ann_mean_pct": -5.0,
+      "ann_vol_pct": 27.02,
+      "compounded_sharpe": -0.3067,
+      "arithmetic_sharpe": -0.185,
+      "compounded_sortino": -0.4285,
+      "arithmetic_sortino": -0.2585,
+      "sharpe_status": "VALID_DIVERGES"
+    }
+  },
+  "mde_power_reconciliation": {
+    "evaluation_days": 698,
+    "mde_active_vs_cash_pct": 77.22,
+    "mde_correlated_crypto_pair_pct": 38.27,
+    "mde_active_vs_50_50_btc_pct": 38.71,
+    "flaw_documented": "Report assumed sigma_D = sigma_BTC unconditionally, overstating MDE for correlated pairs"
+  },
+  "bootstrap_audit": {
+    "centered_p_value": 0.535,
+    "uncentered_p_value": 0.8795,
+    "ci_95": [
+      -205.75,
+      37.61
+    ]
+  },
+  "deflated_sharpe_audit": {
+    "M_1": {
+      "dsr": 0.9483,
+      "z_stat": 1.6288,
+      "expected_max_annual_sharpe": 0.0,
+      "annual_sharpe_std_error": 0.7368
+    },
+    "M_5": {
+      "dsr": 0.504,
+      "z_stat": 0.0101,
+      "expected_max_annual_sharpe": 1.1926,
+      "annual_sharpe_std_error": 0.7368
+    },
+    "M_67": {
+      "dsr": 0.0537,
+      "z_stat": -1.6102,
+      "expected_max_annual_sharpe": 2.3863,
+      "annual_sharpe_std_error": 0.7368
+    },
+    "M_150": {
+      "dsr": 0.023,
+      "z_stat": -1.9954,
+      "expected_max_annual_sharpe": 2.6701,
+      "annual_sharpe_std_error": 0.7368
+    }
+  },
+  "authoritative_walk_forward_table": [
+    {
+      "fold": 1,
+      "train_indices": [
+        30,
+        329
+      ],
+      "train_dates": [
+        "2024-11-29",
+        "2025-09-24"
+      ],
+      "train_bars": 300,
+      "test_indices": [
+        330,
+        408
+      ],
+      "test_dates": [
+        "2025-09-25",
+        "2025-12-12"
+      ],
+      "test_bars": 79,
+      "warmup_indices": [
+        0,
+        29
+      ],
+      "contiguous_test": true,
+      "leak_free": true
+    },
+    {
+      "fold": 2,
+      "train_indices": [
+        109,
+        408
+      ],
+      "train_dates": [
+        "2025-02-16",
+        "2025-12-12"
+      ],
+      "train_bars": 300,
+      "test_indices": [
+        409,
+        487
+      ],
+      "test_dates": [
+        "2025-12-13",
+        "2026-03-01"
+      ],
+      "test_bars": 79,
+      "warmup_indices": [
+        79,
+        108
+      ],
+      "contiguous_test": true,
+      "leak_free": true
+    },
+    {
+      "fold": 3,
+      "train_indices": [
+        188,
+        487
+      ],
+      "train_dates": [
+        "2025-05-06",
+        "2026-03-01"
+      ],
+      "train_bars": 300,
+      "test_indices": [
+        488,
+        566
+      ],
+      "test_dates": [
+        "2026-03-02",
+        "2026-05-19"
+      ],
+      "test_bars": 79,
+      "warmup_indices": [
+        158,
+        187
+      ],
+      "contiguous_test": true,
+      "leak_free": true
+    },
+    {
+      "fold": 4,
+      "train_indices": [
+        267,
+        566
+      ],
+      "train_dates": [
+        "2025-07-24",
+        "2026-05-19"
+      ],
+      "train_bars": 300,
+      "test_indices": [
+        567,
+        645
+      ],
+      "test_dates": [
+        "2026-05-20",
+        "2026-08-06"
+      ],
+      "test_bars": 79,
+      "warmup_indices": [
+        237,
+        266
+      ],
+      "contiguous_test": true,
+      "leak_free": true
+    },
+    {
+      "fold": 5,
+      "train_indices": [
+        346,
+        645
+      ],
+      "train_dates": [
+        "2025-10-11",
+        "2026-08-06"
+      ],
+      "train_bars": 300,
+      "test_indices": [
+        646,
+        728
+      ],
+      "test_dates": [
+        "2026-08-07",
+        "2026-10-28"
+      ],
+      "test_bars": 83,
+      "warmup_indices": [
+        316,
+        345
+      ],
+      "contiguous_test": true,
+      "leak_free": true
+    }
+  ]
+}

@@ -91,6 +91,13 @@ FRESH_MINUTES = 15
 REF_WORDS = {"plan": "the plan's entry", "price": "the latest price", "limit": "the limit price",
              "stop price": "the stop price", "stale price": "an old price"}
 
+
+def is_crypto(symbol):
+    if not symbol:
+        return False
+    s = str(symbol).strip().upper()
+    return s.endswith(("USDT", "BUSD", "USDC", "FDUSD"))
+
 NYSE_HOLIDAYS = {
     "2026-01-01": "New Year's Day",
     "2026-01-19": "Martin Luther King, Jr. Day",
@@ -461,8 +468,10 @@ def check(orders, cfg, portfolio=None, prices=None, state=None, today=None, now=
         if bracket:
             if notional is not None:
                 reasons.append("format: a bracket order needs a whole-share qty, not a notional amount")
-            elif _f(qty) is not None and abs(_f(qty) - round(_f(qty))) > 1e-9:
+            elif not is_crypto(sym) and _f(qty) is not None and abs(_f(qty) - round(_f(qty))) > 1e-9:
                 reasons.append("format: a bracket order takes whole shares only, got qty %r" % qty)
+            elif is_crypto(sym) and (_f(qty) is None or _f(qty) <= 0):
+                reasons.append("format: a bracket order needs a positive qty, got %r" % qty)
             if tif not in ("day", "gtc"):
                 reasons.append("format: a bracket order needs time_in_force day or gtc, got %r" % tif)
             if o.get("take_profit_limit_price") is None or o.get("stop_loss_stop_price") is None:
@@ -479,7 +488,7 @@ def check(orders, cfg, portfolio=None, prices=None, state=None, today=None, now=
                                "(\"allow_options\": false)" % sym)
             else:
                 warns.append("option order: options can lose 100%% of what you pay")
-        elif sym and ("/" in sym or not TICKER.match(sym)):
+        elif sym and not is_crypto(sym) and ("/" in sym or not TICKER.match(sym)):
             reasons.append("asset: %s does not look like a US stock or ETF ticker; "
                            "this pack trades stocks and ETFs only" % sym)
 
@@ -593,12 +602,17 @@ def check(orders, cfg, portfolio=None, prices=None, state=None, today=None, now=
                 else:
                     risk_c = int(round(abs(ref - stop) * 100))
                     risk_ps = risk_c / 100.0
+                    fee_rate = float(c.get("fee_rate", 0.001) if is_crypto(sym) else (c.get("fee_rate") or 0.0))
+                    fee_per_unit = fee_rate * (ref + stop) if fee_rate > 0 else 0.0
+                    risk_with_fee = risk_ps + fee_per_unit
                     shares = q if q is not None else ((value or 0) / ref)
-                    max_loss = round(shares * risk_ps, 2)
+                    max_loss = round(shares * risk_with_fee, 2)
                     cap = _f(c.get("max_loss_per_trade_usd"))
                     if cap and max_loss > cap + CENT:
-                        later.append("loss: %s shares x %s risk a share = %s at the stop, over your %s max loss "
-                                     "per trade" % (_num(shares), _p(risk_ps), money(max_loss), money(cap)))
+                        unit_w = "units" if is_crypto(sym) else "shares"
+                        unit_risk_str = "unit" if is_crypto(sym) else "share"
+                        later.append("loss: %s %s x %s risk a %s = %s at the stop, over your %s max loss "
+                                     "per trade" % (_num(shares), unit_w, _p(risk_with_fee), unit_risk_str, money(max_loss), money(cap)))
                     min_rr = _f(c.get("min_reward_risk"))
                     if target:
                         if (long and target <= ref + CENT) or (not long and target >= ref - CENT):
@@ -623,8 +637,9 @@ def check(orders, cfg, portfolio=None, prices=None, state=None, today=None, now=
             if cap_t and len(entries_today) + batch_entries >= cap_t:
                 later.append("trades: %d entries placed today plus %d passed earlier in this batch, your limit "
                              "is %d a day" % (len(entries_today), batch_entries, cap_t))
-            later.extend(win_reasons)
-            if c.get("pdt_guard") and pdt_n >= 3:
+            if not is_crypto(sym):
+                later.extend(win_reasons)
+            if not is_crypto(sym) and c.get("pdt_guard") and pdt_n >= 3:
                 later.append("pdt: %d day trades in the last 5 business days (%s); a 4th trips the "
                              "pattern-day-trader rule your broker applies (\"pdt_guard\": true)"
                              % (pdt_n, ", ".join(pdt_list)))
@@ -683,7 +698,7 @@ def check(orders, cfg, portfolio=None, prices=None, state=None, today=None, now=
                     acct["shares"][sym] = held - value / ref
         results.append({
             "index": i, "symbol": sym, "side": side, "kind": kind,
-            "amount": money(_f(notional) or 0) if notional is not None else ("%s shares" % qty),
+            "amount": money(_f(notional) or 0) if notional is not None else ("%s units" % qty if is_crypto(sym) else "%s shares" % qty),
             "value_usd": round(value, 2) if value is not None else None,
             "entry_ref": round(ref, 2) if ref else None, "entry_ref_from": ref_from,
             "stop": stop, "target": target, "risk_per_share": risk_ps, "max_loss": max_loss,

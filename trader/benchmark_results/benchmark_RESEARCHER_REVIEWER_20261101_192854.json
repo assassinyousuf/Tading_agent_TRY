@@ -1,0 +1,564 @@
+{
+  "config_id": "RESEARCHER_REVIEWER",
+  "total_tasks": 9,
+  "mean_overall_score": 94.76,
+  "dimension_means": {
+    "hypothesis_quality": 100.0,
+    "experimental_reproducibility": 100.0,
+    "leakage_detection": 100.0,
+    "statistical_reasoning": 83.33,
+    "cost_model_validity": 80.0,
+    "appropriate_rejection": 100.0,
+    "evidence_grounded_conclusions": 100.0
+  },
+  "rejection_precision": 100.0,
+  "rejection_recall": 100.0,
+  "total_tokens": 5270,
+  "mean_latency_ms": 0.21,
+  "task_results": [
+    {
+      "task_id": "TASK-04-LOOKAHEAD-BIAS",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.915583+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "cfeb4b5bd4a2a3eadd3b410ccc04c04ff1a2865748e04f11ea36bb8194776a30",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "ba8510485e6e9b7cbed9e6a923a7fb57fd44ccc2ca61cebf2c29e590649a3e10",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Critical failure: Severe data leakage and lookahead bias detected in feature/indicator calculation using future candle data (t+1, t+2). Completely unrealizable in production.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-LEAKAGE-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Feature normalization using future closing prices across sample allows perfect anticipation of cyclical turns.",
+        "validation_criteria": {
+          "min_sharpe": 1.5,
+          "max_drawdown_pct": 10.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 5,
+        "snooping_risk_score": 3,
+        "granularity_risk_score": 2,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Critical failure: Severe data leakage and lookahead bias detected in feature/indicator calculation using future candle data (t+1, t+2). Completely unrealizable in production.",
+        "required_revisions": [
+          "Eliminate all future time index references",
+          "Use strictly causal indicators computed on bar close t-1."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 70.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 91.43,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Leakage/Lookahead trap was correctly rejected (100.0)",
+          "Statistical Reasoning: Baseline score on standard task (70.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 357,
+      "completion_tokens": 212,
+      "total_tokens": 569,
+      "latency_ms": 0.598,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-07-STAT-INTERPRET",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.916081+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "6f869ab95e40da09a93eaf9483bbce259250bf75fb2edfa5ff8f215a7e6fe68d",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "3617949a3fc16f721b9b1459434ed45f545601497d48fbff7b8ddf8b53789261",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Methodological defect: Nominal p-value on strongly autocorrelated non-stationary returns produces spurious statistical significance. Stationary bootstrap and AR adjustment required.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-STAT_INTERPRET-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Quantitative research hypothesis addressing STAT_INTERPRET scenario under TRAIN market conditions.",
+        "validation_criteria": {
+          "min_sharpe": 0.5,
+          "max_drawdown_pct": 30.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 4,
+        "granularity_risk_score": 2,
+        "turnover_realism_score": 2,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Methodological defect: Nominal p-value on strongly autocorrelated non-stationary returns produces spurious statistical significance. Stationary bootstrap and AR adjustment required.",
+        "required_revisions": [
+          "Perform stationary block bootstrap",
+          "Compute Deflated Sharpe Ratio against benchmark."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 100.0,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 100.0,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Statistical flaw / p-hacking trap was correctly rejected (100.0)",
+          "Cost Model: Realistic turnover and friction scored by reviewer (2/5) (100.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 373,
+      "completion_tokens": 209,
+      "total_tokens": 582,
+      "latency_ms": 0.304,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-08-UNREALISTIC-FRICTION",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.916509+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "ef73be3888ca90a7fd8fe03c8d1bfc36f3ce3965e2f0ef42aa0d898e06d84812",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "8bb82c3f44625909035bc7a549a608f0a6c4b97266c155453c7f268cca605752",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Cost model failure: 0.00% transaction fee and zero slippage on high turnover intraday strategy violates execution realism. Strategy return will be entirely erased by real friction.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-FRICTION-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Quantitative research hypothesis addressing FRICTION scenario under TRAIN market conditions.",
+        "validation_criteria": {
+          "min_sharpe": 0.5,
+          "max_drawdown_pct": 30.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 2,
+        "granularity_risk_score": 2,
+        "turnover_realism_score": 5,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Cost model failure: 0.00% transaction fee and zero slippage on high turnover intraday strategy violates execution realism. Strategy return will be entirely erased by real friction.",
+        "required_revisions": [
+          "Incorporate realistic Binance taker fees (0.10% spot / 0.05% futures)",
+          "Add 0.05% slippage buffer."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 70.0,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 95.71,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Baseline score on standard task (70.0)",
+          "Cost Model: Zero-friction proposal was correctly rejected (100.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 321,
+      "completion_tokens": 209,
+      "total_tokens": 530,
+      "latency_ms": 0.263,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-05-MULTIPLE-TESTING",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.916829+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "708a72fe44ad7776f6255b250565cc13440473c869100eab67e320007616e162",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "37ec73c2986f7f33a30d59e589541f9b14ac56fd8dd6f5e2b4d105455ffc226a",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Critical failure: Unbounded parameter sweep (2000 combinations / excessive polynomial degrees) represents blatant data snooping and overfitting without multiple testing control.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-SWEEP-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Exhaustive grid search across 2,000 moving average combinations to empirically locate the global maximum in-sample Sharpe ratio.",
+        "validation_criteria": {
+          "min_sharpe": 0.8,
+          "max_drawdown_pct": 20.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 5,
+        "granularity_risk_score": 5,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Critical failure: Unbounded parameter sweep (2000 combinations / excessive polynomial degrees) represents blatant data snooping and overfitting without multiple testing control.",
+        "required_revisions": [
+          "Bound parameter grid to M <= 5 points",
+          "Preregister hypothesis before testing",
+          "Apply Deflated Sharpe Ratio with full M_total accounting."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 100.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 95.71,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Statistical flaw / p-hacking trap was correctly rejected (100.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 378,
+      "completion_tokens": 227,
+      "total_tokens": 605,
+      "latency_ms": 0.204,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-09-NON-REPRODUCIBLE",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.917122+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "df74d0481c0414c74e0a41899a62a98b033a4552d7044f11f097a46fe54742c4",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "9047edfaf1cc256120888eded58a7f617a2b9e032a12aa49a2fd1564e2397fca",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Reproducibility failure: Stochastic unseeded draws and undefined partition boundaries cannot be preregistered or verified deterministically in SQLite.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-NON_REPRODUCIBLE-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Quantitative research hypothesis addressing NON_REPRODUCIBLE scenario under TRAIN market conditions.",
+        "validation_criteria": {
+          "min_sharpe": 0.5,
+          "max_drawdown_pct": 30.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 3,
+        "granularity_risk_score": 4,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Reproducibility failure: Stochastic unseeded draws and undefined partition boundaries cannot be preregistered or verified deterministically in SQLite.",
+        "required_revisions": [
+          "Define deterministic seed",
+          "Preregister fixed parameter grid",
+          "Specify chronological partition boundaries."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 70.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 91.43,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Baseline score on standard task (70.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 336,
+      "completion_tokens": 209,
+      "total_tokens": 545,
+      "latency_ms": 0.22,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-03-DATA-LEAKAGE",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.917236+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "179200e9a4d7fd5986fb49416219544c0820ccbd15c3a49b9a59f84501812b23",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "ba8510485e6e9b7cbed9e6a923a7fb57fd44ccc2ca61cebf2c29e590649a3e10",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Critical failure: Severe data leakage and lookahead bias detected in feature/indicator calculation using future candle data (t+1, t+2). Completely unrealizable in production.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-LEAKAGE-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Feature normalization using future closing prices across sample allows perfect anticipation of cyclical turns.",
+        "validation_criteria": {
+          "min_sharpe": 1.5,
+          "max_drawdown_pct": 10.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 5,
+        "snooping_risk_score": 3,
+        "granularity_risk_score": 2,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Critical failure: Severe data leakage and lookahead bias detected in feature/indicator calculation using future candle data (t+1, t+2). Completely unrealizable in production.",
+        "required_revisions": [
+          "Eliminate all future time index references",
+          "Use strictly causal indicators computed on bar close t-1."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 70.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 91.43,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Leakage/Lookahead trap was correctly rejected (100.0)",
+          "Statistical Reasoning: Baseline score on standard task (70.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 361,
+      "completion_tokens": 212,
+      "total_tokens": 573,
+      "latency_ms": 0.072,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-06-OVERFITTING",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.917347+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "2805a401a780bb0f4b7af6b26d59d26cbbc3f9f63830ec767714b5065d7b7e14",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "37ec73c2986f7f33a30d59e589541f9b14ac56fd8dd6f5e2b4d105455ffc226a",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Critical failure: Unbounded parameter sweep (2000 combinations / excessive polynomial degrees) represents blatant data snooping and overfitting without multiple testing control.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-SWEEP-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Exhaustive grid search across 2,000 moving average combinations to empirically locate the global maximum in-sample Sharpe ratio.",
+        "validation_criteria": {
+          "min_sharpe": 0.8,
+          "max_drawdown_pct": 20.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 5,
+        "granularity_risk_score": 5,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Critical failure: Unbounded parameter sweep (2000 combinations / excessive polynomial degrees) represents blatant data snooping and overfitting without multiple testing control.",
+        "required_revisions": [
+          "Bound parameter grid to M <= 5 points",
+          "Preregister hypothesis before testing",
+          "Apply Deflated Sharpe Ratio with full M_total accounting."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 100.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 95.71,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Statistical flaw / p-hacking trap was correctly rejected (100.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 329,
+      "completion_tokens": 227,
+      "total_tokens": 556,
+      "latency_ms": 0.072,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-01-VALID-MOM",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.917541+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "b9e5a58ff090600b53479b33ec0cf84e461a3ee0ff81e22f8f2a0a0dc97c2418",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "2547523bf6aa2f094238967cf15d65c7ad1a947fca9cc53b45ecf367e023d7cc",
+      "decision": "PROCEEDED",
+      "decision_rationale": "Reviewer approved proposal: The proposed SMA crossover logic is economically grounded and uses a minimal parameter grid of M=2 points on daily data, minimizing data snooping risk.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-MOM-SMA-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "Medium-term momentum effect in BTCUSDT daily price discovery causes trend continuation following moving average crossovers with low transaction costs.",
+        "validation_criteria": {
+          "min_sharpe": 0.5,
+          "max_drawdown_pct": 35.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": {
+        "proposal_id": "PROP-VALID-SMA-01",
+        "hypothesis_id": "H-MOM-SMA-01",
+        "universe": [
+          "BTCUSDT"
+        ],
+        "timeframe": "1d",
+        "parameter_grid": {
+          "fast_period": [
+            10.0,
+            15.0
+          ],
+          "slow_period": [
+            30.0
+          ]
+        },
+        "partition_protocol_id": "CHRONOLOGICAL_V1"
+      },
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 2,
+        "granularity_risk_score": 1,
+        "turnover_realism_score": 2,
+        "overall_recommendation": "RECOMMEND_APPROVAL",
+        "critique_rationale": "The proposed SMA crossover logic is economically grounded and uses a minimal parameter grid of M=2 points on daily data, minimizing data snooping risk.",
+        "required_revisions": []
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 100.0,
+        "cost_model_validity": 100.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 100.0,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Valid strategy primitive identified (+25.0)",
+          "Hypothesis Quality: Substantive economic rationale (+25.0)",
+          "Hypothesis Quality: Quantitative validation criteria present (+25.0)",
+          "Hypothesis Quality: Evaluation budget strictly bounded (+25.0)",
+          "Reproducibility: Explicit asset universe specified (+25.0)",
+          "Reproducibility: Explicit '1d' timeframe (+25.0)",
+          "Reproducibility: Parameter grid bounded (M=2 <= 5) (+25.0)",
+          "Reproducibility: Partition protocol ID specified (+25.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Strict bounded parameter grid M=2 (100.0)",
+          "Cost Model: Realistic turnover and friction scored by reviewer (2/5) (100.0)",
+          "Appropriate Rejection: Sound task correctly proceeded/approved (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 527,
+      "completion_tokens": 260,
+      "total_tokens": 787,
+      "latency_ms": 0.119,
+      "error_message": null
+    },
+    {
+      "task_id": "TASK-02-UNDERSPEC-HYP",
+      "config_id": "RESEARCHER_REVIEWER",
+      "timestamp": "2026-11-01T19:28:54.917668+00:00",
+      "model_identifier": "benchmark-mock-v1",
+      "prompt_sha256": "ea68c88987615159e22e038da9fe7eef342556fde36be9a6af305c5774207bcf",
+      "dataset_digest": "46fab6fe741645d2bc9bfb9c2ec2e180fd27d04696ffe30fe08ffb0cbeaf0bb5",
+      "artifact_digest": "6ae005f0022b8773103227b66c7750561d59bdf7075272a5c29c0280b1245750",
+      "decision": "REJECTED",
+      "decision_rationale": "Independent reviewer rejected proposal: Unfalsifiable mandate: Vague claims to maximize profit without loss cannot be validated quantitatively. Requires concrete strategy primitive and explicit hurdle criteria.",
+      "raw_hypothesis": {
+        "hypothesis_id": "H-VAGUE-01",
+        "strategy_name": "SyntheticSMAStrategy",
+        "economic_rationale": "AI strategy that generates maximum profit across all market regimes without losing money.",
+        "validation_criteria": {
+          "min_sharpe": 2.0
+        },
+        "max_evaluation_budget": 10
+      },
+      "raw_proposal": null,
+      "reviewer_critique": {
+        "lookahead_risk_score": 1,
+        "snooping_risk_score": 5,
+        "granularity_risk_score": 3,
+        "turnover_realism_score": 3,
+        "overall_recommendation": "RECOMMEND_REJECTION",
+        "critique_rationale": "Unfalsifiable mandate: Vague claims to maximize profit without loss cannot be validated quantitatively. Requires concrete strategy primitive and explicit hurdle criteria.",
+        "required_revisions": [
+          "Specify concrete mathematical strategy",
+          "Define explicit falsifiable validation criteria."
+        ]
+      },
+      "scores": {
+        "hypothesis_quality": 100.0,
+        "experimental_reproducibility": 100.0,
+        "leakage_detection": 100.0,
+        "statistical_reasoning": 70.0,
+        "cost_model_validity": 70.0,
+        "appropriate_rejection": 100.0,
+        "evidence_grounded_conclusions": 100.0,
+        "overall_score": 91.43,
+        "detailed_audit_notes": [
+          "Hypothesis Quality: Flawed task was correctly rejected (100.0)",
+          "Reproducibility: Non-reproducible / flawed task was correctly rejected (100.0)",
+          "Leakage Detection: Clean proposal accurately identified with low lookahead risk=1 (100.0)",
+          "Statistical Reasoning: Baseline score on standard task (70.0)",
+          "Cost Model: Reviewer flagged friction realism concern (3/5) (70.0)",
+          "Appropriate Rejection: Flawed task correctly rejected (100.0)",
+          "Evidence Groundedness: Strictly confined to approved TRAIN partition (100.0)"
+        ]
+      },
+      "prompt_tokens": 328,
+      "completion_tokens": 195,
+      "total_tokens": 523,
+      "latency_ms": 0.075,
+      "error_message": null
+    }
+  ]
+}

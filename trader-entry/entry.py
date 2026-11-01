@@ -59,6 +59,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 UA = "Mozilla/5.0 (compatible; day-trader-skill/2.0; +https://github.com/Jakeschincariol/day-trader-skill)"
@@ -351,8 +352,61 @@ def offline_file(path, sym):
     return path
 
 
+BINANCE_HOST = "https://api.binance.com"
+
+
+def is_crypto(sym):
+    sym = str(sym).upper()
+    return sym.endswith("USDT") or sym.endswith("BUSD") or sym.endswith("BTC") or sym.endswith("ETH") or "/" in sym
+
+
+def binance_get(endpoint, params=None, timeout=20):
+    url = BINANCE_HOST + endpoint
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+    last_err = None
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read().decode("utf-8", "replace")
+        except Exception as e:
+            last_err = e
+            time.sleep(1.0)
+    raise EntryError("Binance API error on %s: %s" % (endpoint, last_err))
+
+
+def fetch_binance_chart(sym, interval="5m", limit=100):
+    text = binance_get("/api/v3/klines", {"symbol": sym.upper(), "interval": interval, "limit": limit})
+    try:
+        data = json.loads(text)
+    except ValueError as e:
+        raise EntryError("invalid kline json for %s: %s" % (sym, e))
+    if not isinstance(data, list):
+        raise EntryError("unexpected klines format for %s: %s" % (sym, data))
+    bars = []
+    for k in data:
+        t = int(k[0]) // 1000
+        bars.append({
+            "t": t,
+            "o": float(k[1]),
+            "h": float(k[2]),
+            "l": float(k[3]),
+            "c": float(k[4]),
+            "v": float(k[5]),
+        })
+    return {
+        "symbol": sym.upper(),
+        "source": "binance",
+        "meta": {"symbol": sym.upper(), "dataGranularity": interval, "regularMarketTime": bars[-1]["t"] if bars else None},
+        "bars": bars,
+        "prev_close": bars[0]["o"] if bars else None,
+        "data_time": bars[-1]["t"] if bars else None,
+    }
+
+
 def get_chart(sym, interval, day=None, offline=None, today=None):
-    """Bars for one ticker, from Yahoo (range=1d for today) or a saved file."""
+    """Bars for one ticker, from Yahoo (range=1d for today), Binance, or a saved file."""
     sym = sym.upper()
     if offline:
         f = offline_file(offline, sym)
@@ -360,16 +414,33 @@ def get_chart(sym, interval, day=None, offline=None, today=None):
             text = read_text(f)
         except (OSError, ValueError) as e:
             raise EntryError("could not read %s: %s" % (f, e))
-    else:
-        today = today or to_eastern(utc_now()).date()
+        try:
+            doc = json.loads(text)
+            if isinstance(doc, list) and doc and isinstance(doc[0], list):
+                bars = [{"t": int(k[0]) // 1000, "o": float(k[1]), "h": float(k[2]), "l": float(k[3]), "c": float(k[4]), "v": float(k[5])} for k in doc]
+                return {"symbol": sym, "source": "binance", "meta": {"symbol": sym, "dataGranularity": interval}, "bars": bars, "prev_close": bars[0]["o"], "data_time": bars[-1]["t"]}
+        except Exception:
+            pass
+        ch = parse_chart(text, sym)
+        if ch["symbol"] != yahoo_symbol(sym):
+            raise EntryError("the chart file holds %s, not %s" % (ch["symbol"], sym))
+        gran = ch["meta"].get("dataGranularity")
+        if gran and gran != interval:
+            raise EntryError("%s has %s bars, not %s: use --interval %s" % (sym, gran, interval, gran))
+        return ch
+
+    if is_crypto(sym):
+        return fetch_binance_chart(sym, interval=interval, limit=100)
+
+    today = today or to_eastern(utc_now()).date()
+    try:
         text = yahoo_get(chart_path(sym, chart_range(day or today, today, interval), interval))
-    ch = parse_chart(text, sym)
-    if ch["symbol"] != yahoo_symbol(sym):
-        raise EntryError("the chart file holds %s, not %s" % (ch["symbol"], sym))
-    gran = ch["meta"].get("dataGranularity")
-    if gran and gran != interval:
-        raise EntryError("%s has %s bars, not %s: use --interval %s" % (sym, gran, interval, gran))
-    return ch
+        ch = parse_chart(text, sym)
+        return ch
+    except Exception:
+        if is_crypto(sym) or "USDT" in sym:
+            return fetch_binance_chart(sym, interval=interval, limit=100)
+        raise
 
 
 # ---------------------------------------------------------------- the rule
@@ -429,29 +500,57 @@ def evaluate(chart, now_utc, setup="orb", or_minutes=15, interval="5m", level=No
     dt = chart.get("data_time")
     res["data_time"] = to_eastern(utc_of(dt)).strftime("%Y-%m-%d %H:%M:%S") if dt else None
     ok, why = trading_day(day)
-    if not ok:
-        res.update(status="no-data", phase="closed", reason="the NYSE is closed today (%s)" % why,
-                   next_open=next_open(day))
-        return res
-    o, c = session(day)
-    open_dt = datetime.datetime.combine(day, o)
-    close_dt = datetime.datetime.combine(day, c)
-    early = c != CLOSE
-    before = datetime.datetime.combine(day, parse_hhmm(cfg["no_entries_before"], "no_entries_before"))
-    cutoff = early_cutoff(day, parse_hhmm(cfg["no_entries_after"], "no_entries_after"), close_dt)
-    or_end = open_dt + datetime.timedelta(minutes=or_minutes)
-    res.update(opens=hm(o), closes=hm(c), early_close=NYSE_EARLY_CLOSE.get(day.isoformat()),
-               no_entries_before=hm(before), no_entries_after=hm(cutoff))
+    crypto = is_crypto(chart["symbol"])
+    if crypto:
+        now_time = now_utc.time()
+        today = now_utc.date()
+        if now_time < datetime.time(8, 0):
+            open_dt = datetime.datetime.combine(today, datetime.time(0, 0))
+            s_name = "Asian (00:00 UTC)"
+        elif now_time < datetime.time(13, 30):
+            open_dt = datetime.datetime.combine(today, datetime.time(8, 0))
+            s_name = "London (08:00 UTC)"
+        else:
+            open_dt = datetime.datetime.combine(today, datetime.time(13, 30))
+            s_name = "New York (13:30 UTC)"
+        close_dt = open_dt + datetime.timedelta(hours=8)
+        before = open_dt
+        cutoff = close_dt
+        or_end = open_dt + datetime.timedelta(minutes=or_minutes)
+        res.update(opens=open_dt.strftime("%H:%M UTC"), closes=close_dt.strftime("%H:%M UTC"),
+                   no_entries_before=open_dt.strftime("%H:%M"), no_entries_after=close_dt.strftime("%H:%M"),
+                   session_name=s_name, source="binance")
+    else:
+        if not ok:
+            res.update(status="no-data", phase="closed", reason="the NYSE is closed today (%s)" % why,
+                       next_open=next_open(day))
+            return res
+        o, c = session(day)
+        open_dt = datetime.datetime.combine(day, o)
+        close_dt = datetime.datetime.combine(day, c)
+        early = c != CLOSE
+        before = datetime.datetime.combine(day, parse_hhmm(cfg["no_entries_before"], "no_entries_before"))
+        cutoff = early_cutoff(day, parse_hhmm(cfg["no_entries_after"], "no_entries_after"), close_dt)
+        or_end = open_dt + datetime.timedelta(minutes=or_minutes)
+        res.update(opens=hm(o), closes=hm(c), early_close=NYSE_EARLY_CLOSE.get(day.isoformat()),
+                   no_entries_before=hm(before), no_entries_after=hm(cutoff))
 
     by_slot = {}
     for b in chart["bars"]:
         if b["t"] % step:
             continue                       # Yahoo's live tick (10:49:45) is not a bar
-        et = to_eastern(utc_of(b["t"]))
-        if et.date() != day or not (open_dt <= et < close_dt):
-            continue
-        slot = int((et - open_dt).total_seconds()) // step
-        by_slot[slot] = dict(b, et=et, end=et + datetime.timedelta(seconds=step), slot=slot)
+        if crypto:
+            bt_dt = datetime.datetime.fromtimestamp(b["t"], tz=datetime.timezone.utc).replace(tzinfo=None)
+            if not (open_dt <= bt_dt < close_dt):
+                continue
+            slot = int((bt_dt - open_dt).total_seconds()) // step
+            by_slot[slot] = dict(b, et=bt_dt, end=bt_dt + datetime.timedelta(seconds=step), slot=slot)
+        else:
+            et = to_eastern(utc_of(b["t"]))
+            if et.date() != day or not (open_dt <= et < close_dt):
+                continue
+            slot = int((et - open_dt).total_seconds()) // step
+            by_slot[slot] = dict(b, et=et, end=et + datetime.timedelta(seconds=step), slot=slot)
     bars, pending = [], None
     now_ts = ts_of(now_utc)
     top = max(by_slot) if by_slot else -1
@@ -474,9 +573,10 @@ def evaluate(chart, now_utc, setup="orb", or_minutes=15, interval="5m", level=No
     res["_bars"] = bars
     res["bars_closed"] = len(bars)
 
-    if local < open_dt:
-        res.update(phase="pre-open", reason="the NYSE opens at 9:30%s" % (
-            " and the %d-minute range is set at %s" % (or_minutes, short(or_end)) if setup == "orb" else ""))
+    cur_clock = now_utc if crypto else local
+    if cur_clock < open_dt:
+        res.update(phase="pre-open", reason=("the Binance session opens at %s UTC" if crypto else "the NYSE opens at 9:30%s") % (
+            short(open_dt) if crypto else (" and the %d-minute range is set at %s" % (or_minutes, short(or_end)) if setup == "orb" else "")))
         return res
 
     or_bars = [b for b in bars if b["slot"] < n_or]
@@ -484,14 +584,14 @@ def evaluate(chart, now_utc, setup="orb", or_minutes=15, interval="5m", level=No
     if or_bars:
         res["opening_range"] = {"high": r2(max(b["h"] for b in or_bars)), "low": r2(min(b["l"] for b in or_bars)),
                                 "minutes": or_minutes, "bars": len(or_bars), "of": n_or,
-                                "complete": local >= or_end, "avg_volume": int(round(avg_vol))}
+                                "complete": cur_clock >= or_end, "avg_volume": int(round(avg_vol))}
     if setup == "orb":
-        if local < or_end:
+        if cur_clock < or_end:
             res.update(phase="forming", reason="%d of %d range bars closed; the range is set at %s" % (
                 len(or_bars), n_or, short(or_end)))
             return res
         if not or_bars:
-            res.update(status="no-data", phase="open", reason="Yahoo sent no bars for the opening range")
+            res.update(status="no-data", phase="open", reason="%s sent no bars for the opening range" % ("Binance" if crypto else "Yahoo"))
             return res
         lvl = max(b["h"] for b in or_bars)
     else:
@@ -561,12 +661,13 @@ def entry_doc(res, now_utc):
     """trader/entry.json, the contract shape (plus a plain-words reason)."""
     t = res.get("trigger") or {}
     orr = res.get("opening_range")
+    source = res.get("source") or ("binance" if is_crypto(res["symbol"]) else "yahoo")
     return {"created_by": "trader-entry", "symbol": res["symbol"], "setup": res["setup"], "side": "buy",
             "date": res["date"], "status": res["status"], "time": t.get("time"), "bar_start": t.get("bar_start"),
             "bar_index": t.get("bar_index"), "price": t.get("price"), "level": res.get("level"),
             "interval": res["interval"],
             "opening_range": {"high": orr["high"], "low": orr["low"], "minutes": orr["minutes"]} if orr else None,
-            "source": "yahoo", "checked_at": iso(now_utc), "reason": res.get("reason")}
+            "source": source, "checked_at": iso(now_utc), "reason": res.get("reason")}
 
 
 def write_json(path, doc):
@@ -595,14 +696,17 @@ def describe(res):
     """Plain lines for a person."""
     when = datetime.datetime.strptime(res["now"], "%Y-%m-%d %H:%M:%S")
     bars = "5-minute" if res["interval"] == "5m" else "1-minute"
-    head = "%s  %s %s ET  %s on %s bars (Yahoo, free, can lag)" % (
-        res["symbol"], when.strftime("%a %Y-%m-%d"), when.strftime("%H:%M"), setup_name(res), bars)
+    is_c = is_crypto(res["symbol"])
+    head = "%s  %s %s %s  %s on %s bars (%s)" % (
+        res["symbol"], when.strftime("%a %Y-%m-%d"), when.strftime("%H:%M"), "UTC" if is_c else "ET",
+        setup_name(res), bars, "Binance 24/7" if is_c else "Yahoo, free, can lag")
     if res.get("data_time") and res["data_time"] <= res["now"] and res["data_time"][:10] == res["date"]:
         head += ", data to %s" % res["data_time"][11:]
     out = [head]
     orr = res.get("opening_range")
     if orr:
-        start = datetime.datetime.strptime(res["opens"], "%H:%M")
+        open_str = res["opens"].split()[0]
+        start = datetime.datetime.strptime(open_str, "%H:%M")
         end = start + datetime.timedelta(minutes=orr["minutes"])
         out.append("Opening range %s-%s: high $%.2f, low $%.2f (%d of %d bars%s)." % (
             short(start), short(end), orr["high"], orr["low"], orr["bars"], orr["of"],

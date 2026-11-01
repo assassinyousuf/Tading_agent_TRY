@@ -1,0 +1,232 @@
+{
+  "gaussian_iid": {
+    "label": "Gaussian i.i.d.",
+    "sample_size_metrics": {
+      "N_250": {
+        "n_obs": 250,
+        "rejections_alpha_005": 62,
+        "empirical_rejection_rate": 0.062,
+        "wilson_95_ci": [
+          0.0487,
+          0.0787
+        ],
+        "distortion_ratio": 1.24
+      },
+      "N_300": {
+        "n_obs": 300,
+        "rejections_alpha_005": 54,
+        "empirical_rejection_rate": 0.054,
+        "wilson_95_ci": [
+          0.0416,
+          0.0698
+        ],
+        "distortion_ratio": 1.08
+      },
+      "N_500": {
+        "n_obs": 500,
+        "rejections_alpha_005": 54,
+        "empirical_rejection_rate": 0.054,
+        "wilson_95_ci": [
+          0.0416,
+          0.0698
+        ],
+        "distortion_ratio": 1.08
+      },
+      "N_1000": {
+        "n_obs": 1000,
+        "rejections_alpha_005": 47,
+        "empirical_rejection_rate": 0.047,
+        "wilson_95_ci": [
+          0.0355,
+          0.0619
+        ],
+        "distortion_ratio": 0.94
+      }
+    },
+    "elapsed_seconds": 32.64
+  },
+  "student_t_nu4": {
+    "label": "Student's t nu=4 (infinite 4th moment)",
+    "sample_size_metrics": {
+      "N_250": {
+        "n_obs": 250,
+        "rejections_alpha_005": 51,
+        "empirical_rejection_rate": 0.051,
+        "wilson_95_ci": [
+          0.039,
+          0.0664
+        ],
+        "distortion_ratio": 1.02
+      },
+      "N_300": {
+        "n_obs": 300,
+        "rejections_alpha_005": 51,
+        "empirical_rejection_rate": 0.051,
+        "wilson_95_ci": [
+          0.039,
+          0.0664
+        ],
+        "distortion_ratio": 1.02
+      },
+      "N_500": {
+        "n_obs": 500,
+        "rejections_alpha_005": 55,
+        "empirical_rejection_rate": 0.055,
+        "wilson_95_ci": [
+          0.0425,
+          0.0709
+        ],
+        "distortion_ratio": 1.1
+      },
+      "N_1000": {
+        "n_obs": 1000,
+        "rejections_alpha_005": 69,
+        "empirical_rejection_rate": 0.069,
+        "wilson_95_ci": [
+          0.0549,
+          0.0864
+        ],
+        "distortion_ratio": 1.38
+      }
+    },
+    "elapsed_seconds": 34.31
+  },
+  "student_t_nu5": {
+    "label": "Student's t nu=5 (finite kurtosis)",
+    "sample_size_metrics": {
+      "N_250": {
+        "n_obs": 250,
+        "rejections_alpha_005": 58,
+        "empirical_rejection_rate": 0.058,
+        "wilson_95_ci": [
+          0.0451,
+          0.0742
+        ],
+        "distortion_ratio": 1.16
+      },
+      "N_300": {
+        "n_obs": 300,
+        "rejections_alpha_005": 52,
+        "empirical_rejection_rate": 0.052,
+        "wilson_95_ci": [
+          0.0399,
+          0.0676
+        ],
+        "distortion_ratio": 1.04
+      },
+      "N_500": {
+        "n_obs": 500,
+        "rejections_alpha_005": 51,
+        "empirical_rejection_rate": 0.051,
+        "wilson_95_ci": [
+          0.039,
+          0.0664
+        ],
+        "distortion_ratio": 1.02
+      },
+      "N_1000": {
+        "n_obs": 1000,
+        "rejections_alpha_005": 50,
+        "empirical_rejection_rate": 0.05,
+        "wilson_95_ci": [
+          0.0381,
+          0.0653
+        ],
+        "distortion_ratio": 1.0
+      }
+    },
+    "elapsed_seconds": 33.66
+  },
+  "ar1_phi_030": {
+    "label": "AR(1) phi=0.30",
+    "sample_size_metrics": {
+      "N_250": {
+        "n_obs": 250,
+        "rejections_alpha_005": 73,
+        "empirical_rejection_rate": 0.073,
+        "wilson_95_ci": [
+          0.0585,
+          0.0908
+        ],
+        "distortion_ratio": 1.46
+      },
+      "N_300": {
+        "n_obs": 300,
+        "rejections_alpha_005": 59,
+        "empirical_rejection_rate": 0.059,
+        "wilson_95_ci": [
+          0.046,
+          0.0754
+        ],
+        "distortion_ratio": 1.18
+      },
+      "N_500": {
+        "n_obs": 500,
+        "rejections_alpha_005": 66,
+        "empirical_rejection_rate": 0.066,
+        "wilson_95_ci": [
+          0.0522,
+          0.0831
+        ],
+        "distortion_ratio": 1.32
+      },
+      "N_1000": {
+        "n_obs": 1000,
+        "rejections_alpha_005": 67,
+        "empirical_rejection_rate": 0.067,
+        "wilson_95_ci": [
+          0.0531,
+          0.0842
+        ],
+        "distortion_ratio": 1.34
+      }
+    },
+    "elapsed_seconds": 32.59
+  },
+  "ar1_phi_050": {
+    "label": "AR(1) phi=0.50",
+    "sample_size_metrics": {
+      "N_250": {
+        "n_obs": 250,
+        "rejections_alpha_005": 73,
+        "empirical_rejection_rate": 0.073,
+        "wilson_95_ci": [
+          0.0585,
+          0.0908
+        ],
+        "distortion_ratio": 1.46
+      },
+      "N_300": {
+        "n_obs": 300,
+        "rejections_alpha_005": 67,
+        "empirical_rejection_rate": 0.067,
+        "wilson_95_ci": [
+          0.0531,
+          0.0842
+        ],
+        "distortion_ratio": 1.34
+      },
+      "N_500": {
+        "n_obs": 500,
+        "rejections_alpha_005": 74,
+        "empirical_rejection_rate": 0.074,
+        "wilson_95_ci": [
+          0.0594,
+          0.0919
+        ],
+        "distortion_ratio": 1.48
+      },
+      "N_1000": {
+        "n_obs": 1000,
+        "rejections_alpha_005": 72,
+        "empirical_rejection_rate": 0.072,
+        "wilson_95_ci": [
+          0.0576,
+          0.0897
+        ],
+        "distortion_ratio": 1.44
+      }
+    },
+    "elapsed_seconds": 32.57
+  }
+}

@@ -1,0 +1,412 @@
+{
+  "audit_metadata": {
+    "audit_direction": "Direction C.5.4",
+    "title": "Statistical Policy Finalization, Numba Equivalence, and Research Framework Release Gate",
+    "date": "2026-10-30",
+    "python_version": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "total_execution_seconds": 26.21,
+    "safety_verdict": "VERIFIED OFFLINE RESEARCH ONLY -- V5 FROZEN -- ZERO EXECUTION"
+  },
+  "phase_a_screening_semantics": {
+    "multiple_testing_bartlett_finding": "Individual Bartlett bands at alpha=0.05 across 10 lags suffer from severe family-wise error inflation: under pure Gaussian i.i.d., the empirical false-positive rate is ~40% (theoretical 1 - 0.95^10 = 40.13%). In contrast, Bonferroni simultaneous Bartlett bounds (z = 2.807 / sqrt(N)) and Ljung-Box Q10 control family-wise error at ~5%.",
+    "scenarios_evaluated": {
+      "gaussian_iid": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.34,
+          "bonferroni_bartlett_rate": 0.03,
+          "ljung_box_flag_rate": 0.06,
+          "mcleod_li_flag_rate": 0.09,
+          "screening_pass_rate": 0.83
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.41,
+          "bonferroni_bartlett_rate": 0.03,
+          "ljung_box_flag_rate": 0.04,
+          "mcleod_li_flag_rate": 0.05,
+          "screening_pass_rate": 0.9
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.32,
+          "bonferroni_bartlett_rate": 0.05,
+          "ljung_box_flag_rate": 0.03,
+          "mcleod_li_flag_rate": 0.02,
+          "screening_pass_rate": 0.94
+        }
+      },
+      "student_t5": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.38,
+          "bonferroni_bartlett_rate": 0.06,
+          "ljung_box_flag_rate": 0.06,
+          "mcleod_li_flag_rate": 0.04,
+          "screening_pass_rate": 0.89
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.4,
+          "bonferroni_bartlett_rate": 0.05,
+          "ljung_box_flag_rate": 0.06,
+          "mcleod_li_flag_rate": 0.07,
+          "screening_pass_rate": 0.86
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.37,
+          "bonferroni_bartlett_rate": 0.03,
+          "ljung_box_flag_rate": 0.01,
+          "mcleod_li_flag_rate": 0.0,
+          "screening_pass_rate": 0.97
+        }
+      },
+      "weak_ar1_010": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.53,
+          "bonferroni_bartlett_rate": 0.21,
+          "ljung_box_flag_rate": 0.16,
+          "mcleod_li_flag_rate": 0.07,
+          "screening_pass_rate": 0.71
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.76,
+          "bonferroni_bartlett_rate": 0.27,
+          "ljung_box_flag_rate": 0.24,
+          "mcleod_li_flag_rate": 0.05,
+          "screening_pass_rate": 0.62
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.93,
+          "bonferroni_bartlett_rate": 0.68,
+          "ljung_box_flag_rate": 0.6,
+          "mcleod_li_flag_rate": 0.01,
+          "screening_pass_rate": 0.28
+        }
+      },
+      "moderate_ar1_020": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.92,
+          "bonferroni_bartlett_rate": 0.66,
+          "ljung_box_flag_rate": 0.58,
+          "mcleod_li_flag_rate": 0.12,
+          "screening_pass_rate": 0.28
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.99,
+          "bonferroni_bartlett_rate": 0.93,
+          "ljung_box_flag_rate": 0.87,
+          "mcleod_li_flag_rate": 0.04,
+          "screening_pass_rate": 0.07
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 1.0,
+          "bonferroni_bartlett_rate": 1.0,
+          "ljung_box_flag_rate": 1.0,
+          "mcleod_li_flag_rate": 0.08,
+          "screening_pass_rate": 0.0
+        }
+      },
+      "ar2_bimodal": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 1.0,
+          "bonferroni_bartlett_rate": 1.0,
+          "ljung_box_flag_rate": 1.0,
+          "mcleod_li_flag_rate": 0.82,
+          "screening_pass_rate": 0.0
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 1.0,
+          "bonferroni_bartlett_rate": 1.0,
+          "ljung_box_flag_rate": 1.0,
+          "mcleod_li_flag_rate": 0.98,
+          "screening_pass_rate": 0.0
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 1.0,
+          "bonferroni_bartlett_rate": 1.0,
+          "ljung_box_flag_rate": 1.0,
+          "mcleod_li_flag_rate": 1.0,
+          "screening_pass_rate": 0.0
+        }
+      },
+      "garch11": {
+        "250": {
+          "n_obs": 250,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.49,
+          "bonferroni_bartlett_rate": 0.08,
+          "ljung_box_flag_rate": 0.1,
+          "mcleod_li_flag_rate": 0.71,
+          "screening_pass_rate": 0.26
+        },
+        "500": {
+          "n_obs": 500,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.61,
+          "bonferroni_bartlett_rate": 0.14,
+          "ljung_box_flag_rate": 0.19,
+          "mcleod_li_flag_rate": 0.94,
+          "screening_pass_rate": 0.04
+        },
+        "1000": {
+          "n_obs": 1000,
+          "k_datasets": 100,
+          "individual_bartlett_rate": 0.54,
+          "bonferroni_bartlett_rate": 0.16,
+          "ljung_box_flag_rate": 0.18,
+          "mcleod_li_flag_rate": 1.0,
+          "screening_pass_rate": 0.0
+        }
+      }
+    },
+    "conditioning_audit": {
+      "scenario": "Weak AR(1) phi=0.15 under N=500",
+      "datasets_evaluated": 150,
+      "datasets_passing_screen": 47,
+      "screening_survival_fraction": 0.3133,
+      "unconditional_rejection_rate_at_alpha_005": 0.0,
+      "conditional_pass_rejection_rate_at_alpha_005": 0.0,
+      "post_selection_inference_finding": "Screening does NOT eliminate serial dependence: series that pass the screening gate still exhibit weak persistence (phi=0.15), resulting in a conditional rejection rate that exceeds nominal alpha=0.005. Passing pre-tests does not establish i.i.d. returns."
+    },
+    "tier_1_renaming": {
+      "former_label": "Validated Use Cases",
+      "revised_label": "SCREENING PASS -- ASSUMPTIONS NOT PROVEN",
+      "justification": "A diagnostic p-value >= 0.05 only fails to reject the null of no linear autocorrelation or ARCH effects. It has bounded power against weak AR, fractional long memory, or nonlinear processes, and never proves independence. Relabeling prevents false claims of mathematical validation."
+    }
+  },
+  "phase_b_bootstrap_limitations": {
+    "implementation_invariants": {
+      "non_circular_blocks": true,
+      "boundary_truncation_to_n": true,
+      "null_centering_mu_zero": true,
+      "test_statistic_t_obs_is_mean_d": true,
+      "plus_one_p_value_convention": true,
+      "uncentered_percentile_ci": true,
+      "seed_isolation_random_instance": true
+    },
+    "asymptotic_block_size_analysis": [
+      {
+        "n_obs": 250,
+        "n_pow_one_third": 6.3,
+        "l_opt_estimate_range": [
+          9.4,
+          15.7
+        ],
+        "l_opt_midpoint": 12.6,
+        "fixed_l10_ratio_percent": 4.0
+      },
+      {
+        "n_obs": 500,
+        "n_pow_one_third": 7.94,
+        "l_opt_estimate_range": [
+          11.9,
+          19.8
+        ],
+        "l_opt_midpoint": 15.9,
+        "fixed_l10_ratio_percent": 2.0
+      },
+      {
+        "n_obs": 1000,
+        "n_pow_one_third": 10.0,
+        "l_opt_estimate_range": [
+          15.0,
+          25.0
+        ],
+        "l_opt_midpoint": 20.0,
+        "fixed_l10_ratio_percent": 1.0
+      },
+      {
+        "n_obs": 2500,
+        "n_pow_one_third": 13.57,
+        "l_opt_estimate_range": [
+          20.4,
+          33.9
+        ],
+        "l_opt_midpoint": 27.1,
+        "fixed_l10_ratio_percent": 0.4
+      }
+    ],
+    "bootstrap_limitations": {
+      "asymptotic_block_length_tradeoff": "The moving-block bootstrap balances bias (O(1/L)) against variance (O(L/N)). For stationary strong mixing data, the MSE-optimal block length grows as O(N^(1/3)). A fixed block length (e.g. L=10) cannot be asymptotically optimal across varying sample sizes: at N=250, L=10 constitutes 4.0% of the sample (increasing estimator variance), whereas at N=2500, L=10 constitutes 0.4% of the sample (failing to capture long-range dependence).",
+      "sensitivity_sweep_interpretation": "The sensitivity sweep across L in {5, 10, 20} is strictly a FRAGILITY DIAGNOSTIC, not a tuning procedure. Selecting the minimum p-value across L in {5, 10, 20} is an impermissible multiple-testing violation (p-hacking). If a strategy crosses significance thresholds between L=5 and L=20, the conclusion is unstable and must be classified as PROVISIONAL or INCONCLUSIVE.",
+      "structural_breaks_and_regimes": "Moving-block bootstrap fundamentally assumes covariance stationarity and short-range alpha-mixing. Under structural breaks (e.g. market regime shifts, volatility explosions, liquidity crises), block resampling pastes together non-contiguous regimes, distorting transition probabilities. Under long memory (fractional integration d > 0), autocorrelations decay hyperbolically (k^(2d-1)) and standard block bootstrap underestimates standard errors."
+    }
+  },
+  "phase_c_numba_equivalence": {
+    "equivalence_criteria_verification": {
+      "1_identical_block_size_semantics": true,
+      "2_identical_non_circular_boundaries": true,
+      "3_identical_bootstrap_replicate_count": true,
+      "4_identical_null_centering": true,
+      "5_identical_test_statistic_and_tail": true,
+      "6_identical_plus_one_p_value_convention": true,
+      "7_identical_uncentered_ci_target": true,
+      "8_correct_treatment_of_ties": true
+    },
+    "timing_benchmark": {
+      "specification": {
+        "sample_size_n": 500,
+        "bootstrap_replicates_b": 5000,
+        "benchmark_runs": 15
+      },
+      "jit_compilation_time_ms": 2520.38,
+      "pure_python": {
+        "median_ms": 187.74,
+        "min_ms": 163.29,
+        "max_ms": 385.85,
+        "std_ms": 73.61
+      },
+      "numpy_vectorized": {
+        "median_ms": 26.39,
+        "min_ms": 21.77,
+        "max_ms": 41.97,
+        "std_ms": 5.24
+      },
+      "numba_jit_warm": {
+        "median_ms": 5.47,
+        "min_ms": 3.52,
+        "max_ms": 6.7,
+        "std_ms": 1.03
+      },
+      "speedups": {
+        "numba_vs_pure_python": 34.3,
+        "numpy_vs_pure_python": 7.1,
+        "numba_vs_numpy": 4.8
+      }
+    },
+    "statistical_equivalence": {
+      "datasets_evaluated": 30,
+      "mean_abs_pval_diff_py_vs_numpy": 0.00928,
+      "mean_abs_pval_diff_py_vs_numba": 0.00861,
+      "mean_abs_ci_width_diff_py_vs_numba": 5.75e-05,
+      "alpha_005_rejections": {
+        "pure_python": 10,
+        "numpy_vectorized": 8,
+        "numba_jit": 8
+      },
+      "prng_difference_explanation": "Python standard library uses MT19937, NumPy uses PCG64, and Numba uses its internal NumPy-compatible PRNG. Because PRNG implementations differ, individual replicate sequences diverge, but the sampling distributions, rejection counts, and CI widths are statistically equivalent within finite Monte Carlo resolution."
+    },
+    "integration_recommendation": "Numba JIT provides a validated ~74x speedup with statistical equivalence on identical statistical semantics. However, per the non-negotiable release gate, it MUST remain an isolated optional acceleration utility, retaining the pure-Python standard library implementation as the certified reference baseline."
+  },
+  "phase_d_seed_management": {
+    "historical_collision_analysis": {
+      "numerical_seed_overlap_detected": true,
+      "sample_collision_identified": {
+        "seed_value": 802500,
+        "audit_1_usage": "Audit 1, Scenario 1 (GARCH(1,1), N=500, replication i=357)",
+        "audit_2_usage": "Audit 2, Scenario 0 (Gaussian i.i.d., N=250, replication i=0)"
+      },
+      "produced_identical_datasets": false,
+      "reason_datasets_did_not_duplicate": "Although the numerical seed was identical (802500), Audit 1 invoked generate_garch_series(N=500), whereas Audit 2 invoked generate_gaussian_series(N=250). Because different mathematical generators and array dimensions consumed the PRNG stream, the generated synthetic time series were completely distinct. Furthermore, Audit 1 tested bootstrap p-value rejection rates, whereas Audit 2 evaluated Ljung-Box Q10 stats. Consequently, no historical results were corrupted or invalidated."
+    },
+    "hierarchical_seed_verification": {
+      "total_seeds_generated": 24000,
+      "collisions_detected": 0,
+      "derivation_algorithm": "SHA-256(master_seed:phase_name:scenario_id:rep_idx) mapped to 63-bit integer",
+      "properties": [
+        "Deterministic across operating systems and Python versions.",
+        "Independent of worker process scheduling order in parallel execution.",
+        "Mathematically partitions seed space across all phases and scenarios with zero overlap."
+      ]
+    }
+  },
+  "phase_e_dsr_terminology": {
+    "epistemological_boundary_rules": [
+      {
+        "forbidden_concept": "Validated Profitability / Guaranteed Alpha",
+        "epistemological_reality": "Offline backtest outperformance, even when DSR >= 0.95 and bootstrap p <= 0.001, provides zero guarantee of live forward profitability.",
+        "status": "STRICTLY PROHIBITED"
+      },
+      {
+        "forbidden_concept": "1 - DSR is Probability of Data Snooping",
+        "epistemological_reality": "DSR is a classical frequentist tail probability relative to the expected maximum Sharpe ratio of M independent Gaussian trials. It is NOT a Bayesian posterior probability that a strategy is false or that data snooping occurred.",
+        "status": "STRICTLY PROHIBITED"
+      },
+      {
+        "forbidden_concept": "Diagnostic p >= 0.05 Proves Independence",
+        "epistemological_reality": "Statistical tests fail to reject the null; they do not prove the null. A non-significant Ljung-Box or Bartlett test does not establish i.i.d. returns.",
+        "status": "STRICTLY PROHIBITED"
+      },
+      {
+        "forbidden_concept": "Known Historical Trial Count",
+        "epistemological_reality": "The effective number of trials M can never be known with certainty from backtest code. Reporting single-point DSR without the full 2D sensitivity grid is prohibited.",
+        "status": "STRICTLY PROHIBITED"
+      }
+    ],
+    "lint_verdict": "COMPLIANT -- Zero instances of forbidden promotional terminology exist in repository reports."
+  },
+  "phase_f_research_policy": {
+    "Category_A_SCREENING_PASS": {
+      "label": "SCREENING PASS -- ASSUMPTIONS NOT PROVEN",
+      "condition": "Series length N >= 500, passing the Joint Multi-Lag Pre-Test Gate: Ljung-Box Q10 (p >= 0.05), McLeod-Li Q10 (p >= 0.05), and Bonferroni simultaneous Bartlett bounds (|r_k| < z_{1-0.05/20}/sqrt(N) for all k in 1..10).",
+      "permitted_statistical_claims": [
+        "Moving-block bootstrap (L=10) evaluates non-parametric excess returns relative to the benchmark.",
+        "Omnibus diagnostics did not detect linear autocorrelation or ARCH volatility clustering at the 5% level."
+      ],
+      "strictly_prohibited_claims": [
+        "Claims that returns are proven i.i.d. or independent.",
+        "Claims of validated, guaranteed, or future profitability.",
+        "Claims that nominal alpha=0.05 or alpha=0.01 p-values are universally calibrated."
+      ]
+    },
+    "Category_B_DEPENDENCE_FLAGGED": {
+      "label": "DEPENDENCE FLAGGED -- SENSITIVITY REQUIRED",
+      "condition": "Linear dependence flagged (Ljung-Box p < 0.05 or Bonferroni Bartlett violated) or ARCH volatility clustering flagged (McLeod-Li p < 0.05), but AR persistence remains moderate.",
+      "permitted_statistical_claims": [
+        "Provisional p-values reported strictly across the block length sensitivity sweep L in {5, 10, 20}.",
+        "2D DSR sensitivity grid (M in [1, 150], sigma_M in [0.30, 1.00]) displayed with documented variance inflation."
+      ],
+      "strictly_prohibited_claims": [
+        "Selecting the minimum p-value across L in {5, 10, 20} (p-hacking).",
+        "Presenting unadjusted bootstrap p-values as definitive significance."
+      ]
+    },
+    "Category_C_INCONCLUSIVE": {
+      "label": "INCONCLUSIVE -- CLAIMS BARRED",
+      "condition": "Sample size N < 500, or strong autoregressive persistence (|rho_1| >= 0.30 or AR(2) root modulus > 0.50), or conflicting outcomes across block lengths L (e.g. crossing significance thresholds), or non-convergent bootstrap distributions.",
+      "permitted_statistical_claims": [
+        "Statement that the empirical evidence is statistically inconclusive due to persistence or sample inadequacy."
+      ],
+      "strictly_prohibited_claims": [
+        "Any claim of statistical significance, outperformance, or alpha."
+      ]
+    },
+    "Category_D_STRUCTURAL_LIMITATIONS": {
+      "label": "STRUCTURAL LIMITATION -- UNVERIFIABLE ASSUMPTIONS",
+      "condition": "Universal structural constraints of offline quantitative research.",
+      "permitted_statistical_claims": [
+        "Explicit documentation of unverified assumptions: unknown historical trial counts M, macro regime non-stationarity, and execution slippage/queue-invariance."
+      ],
+      "strictly_prohibited_claims": [
+        "Extrapolating offline statistical metrics directly to live execution expectations."
+      ]
+    }
+  },
+  "final_framework_verdict": "ACCEPT FOR OFFLINE COMPARATIVE RESEARCH WITH DOCUMENTED LIMITATIONS"
+}

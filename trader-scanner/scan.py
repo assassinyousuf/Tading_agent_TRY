@@ -69,6 +69,8 @@ Exit code 0 when the scan found something, 1 when it did not or could not run.
 """
 
 import argparse
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
 import datetime
 import gzip
 import json
@@ -281,8 +283,46 @@ def fetch_binance_klines(sym, interval="5m", limit=100):
     return parse_binance_klines(raw)
 
 
-def build_binance_universe(limit=100, min_volume_usdt=0):
-    text = binance_get("/api/v3/ticker/24hr")
+STABLECOIN_BASES = {"USDC", "FDUSD", "TUSD", "USDP", "DAI", "BUSD", "EUR", "AEUR"}
+LEVERAGED_SUFFIXES = ("UPUSDT", "DOWNUSDT", "BULLUSDT", "BEARUSDT")
+
+
+def get_eligible_symbols(market="spot"):
+    """Query exchangeInfo first to filter eligible symbols dynamically."""
+    endpoint = "/fapi/v1/exchangeInfo" if market.lower() == "futures" else "/api/v3/exchangeInfo"
+    raw = binance_get(endpoint)
+    info = json.loads(raw)
+    eligible = set()
+    for s in info.get("symbols", []):
+        if s.get("status") != "TRADING":
+            continue
+        if s.get("quoteAsset") != "USDT":
+            continue
+        base = s.get("baseAsset", "")
+        if base in STABLECOIN_BASES:
+            continue
+        sym = s.get("symbol", "")
+        if any(sym.endswith(x) for x in LEVERAGED_SUFFIXES):
+            continue
+        if market.lower() == "futures":
+            if s.get("contractType") != "PERPETUAL":
+                continue
+        else:
+            if not s.get("isSpotTradingAllowed", True):
+                continue
+        eligible.add(sym)
+    return eligible
+
+
+def build_binance_universe(limit=30, min_volume_usdt=10000000, market="spot", eligible_set=None):
+    if eligible_set is None:
+        try:
+            eligible_set = get_eligible_symbols(market=market)
+        except Exception:
+            eligible_set = None
+
+    endpoint = "/fapi/v1/ticker/24hr" if market.lower() == "futures" else "/api/v3/ticker/24hr"
+    text = binance_get(endpoint)
     try:
         tickers = json.loads(text)
     except ValueError as e:
@@ -292,7 +332,9 @@ def build_binance_universe(limit=100, min_volume_usdt=0):
         sym = item.get("symbol", "")
         if not sym.endswith("USDT"):
             continue
-        if any(sym.endswith(x) for x in ("UPUSDT", "DOWNUSDT", "BULLUSDT", "BEARUSDT")):
+        if eligible_set is not None and sym not in eligible_set:
+            continue
+        if any(sym.endswith(x) for x in LEVERAGED_SUFFIXES):
             continue
         try:
             vol = float(item.get("quoteVolume", 0))
@@ -1233,49 +1275,55 @@ def cmd_orb(a):
     s_open_ts = int((s_open.replace(tzinfo=datetime.timezone.utc)).timestamp())
     now_ts = int((now.replace(tzinfo=datetime.timezone.utc)).timestamp())
 
-    for sym in symbols:
-        counts["scanned"] += 1
-        if a.pause:
-            SLEEP(a.pause)
+    def fetch_sym(s):
         try:
-            ch = fetch_binance_klines(sym, interval="5m", limit=100)
-            counts["fetched"] += 1
-        except Exception:
-            continue
+            return s, fetch_binance_klines(s, interval="5m", limit=100), None
+        except Exception as e:
+            return s, None, e
 
-        bars = []
-        for i in range(len(ch["t"])):
-            bt = ch["t"][i]
-            if bt >= s_open_ts and bt + 300 <= now_ts:
-                bars.append({
-                    "t": bt,
-                    "o": ch["o"][i],
-                    "h": ch["h"][i],
-                    "l": ch["l"][i],
-                    "c": ch["c"][i],
-                    "v": ch["v"][i],
-                })
-        if len(bars) < n_or:
-            continue
-        or_bars = bars[:n_or]
-        or_high = max(b["h"] for b in or_bars)
-        or_low = min(b["l"] for b in or_bars)
-        after_bars = bars[n_or:]
-        for b in after_bars:
-            if b["c"] > or_high:
-                close_dt = datetime.datetime.fromtimestamp(b["t"] + 300, tz=datetime.timezone.utc).replace(tzinfo=None)
-                pct_over = round((b["c"] - or_high) / or_high * 100.0, 2)
-                hits.append({
-                    "symbol": sym,
-                    "at": close_dt.strftime("%H:%M UTC"),
-                    "price": b["c"],
-                    "or_high": or_high,
-                    "or_low": or_low,
-                    "pct_over": pct_over,
-                    "session": s_label,
-                    "volume": b["v"]
-                })
-                break
+    workers = getattr(a, "workers", 4) or 4
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = [executor.submit(fetch_sym, sym) for sym in symbols]
+        for fut in concurrent.futures.as_completed(futures):
+            sym, ch, err = fut.result()
+            counts["scanned"] += 1
+            if err or not ch:
+                continue
+            counts["fetched"] += 1
+
+            bars = []
+            for i in range(len(ch["t"])):
+                bt = ch["t"][i]
+                if bt >= s_open_ts and bt + 300 <= now_ts:
+                    bars.append({
+                        "t": bt,
+                        "o": ch["o"][i],
+                        "h": ch["h"][i],
+                        "l": ch["l"][i],
+                        "c": ch["c"][i],
+                        "v": ch["v"][i],
+                    })
+            if len(bars) < n_or:
+                continue
+            or_bars = bars[:n_or]
+            or_high = max(b["h"] for b in or_bars)
+            or_low = min(b["l"] for b in or_bars)
+            after_bars = bars[n_or:]
+            for b in after_bars:
+                if b["c"] > or_high:
+                    close_dt = datetime.datetime.fromtimestamp(b["t"] + 300, tz=datetime.timezone.utc).replace(tzinfo=None)
+                    pct_over = round((b["c"] - or_high) / or_high * 100.0, 2)
+                    hits.append({
+                        "symbol": sym,
+                        "at": close_dt.strftime("%H:%M UTC"),
+                        "price": b["c"],
+                        "or_high": or_high,
+                        "or_low": or_low,
+                        "pct_over": pct_over,
+                        "session": s_label,
+                        "volume": b["v"]
+                    })
+                    break
 
     hits.sort(key=lambda x: x["pct_over"], reverse=True)
     counts["confirmed"] = len(hits)
@@ -1318,18 +1366,24 @@ def cmd_squeeze(a):
 
     progress(a, "Scanning %d symbols for 4-hour volatility squeezes..." % len(symbols))
     results = []
-    for sym in symbols:
-        if a.pause:
-            SLEEP(a.pause)
+
+    def fetch_squeeze(s):
         try:
-            ch = fetch_binance_klines(sym, interval="4h", limit=50)
-        except Exception:
-            continue
-        sq = calculate_squeeze(ch)
-        if not sq:
-            continue
-        if sq["in_squeeze"] or sq["fired"] or sq["status"] == "BREAKOUT":
-            results.append(dict(sq, symbol=sym))
+            ch = fetch_binance_klines(s, interval="4h", limit=50)
+            sq = calculate_squeeze(ch)
+            return s, sq, None
+        except Exception as e:
+            return s, None, e
+
+    workers = getattr(a, "workers", 4) or 4
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = [executor.submit(fetch_squeeze, sym) for sym in symbols]
+        for fut in concurrent.futures.as_completed(futures):
+            sym, sq, err = fut.result()
+            if err or not sq:
+                continue
+            if sq["in_squeeze"] or sq["fired"] or sq["status"] == "BREAKOUT":
+                results.append(dict(sq, symbol=sym))
 
     def sort_key(x):
         priority = 0 if x["status"] == "BREAKOUT" else (1 if x["status"] == "SQUEEZE_FIRED" else 2)
@@ -1396,6 +1450,8 @@ def main(argv=None):
         p.add_argument("--out", default="trader/watchlist.json")
         p.add_argument("--no-write", action="store_true")
         p.add_argument("--pause", type=float, default=PAUSE, help="seconds between requests (%.1f)" % PAUSE)
+        p.add_argument("--workers", type=int, default=4, help="concurrency worker threads (default 4)")
+        p.add_argument("--market", choices=["spot", "futures"], default="spot", help="Binance market (default spot)")
         p.add_argument("--show", type=int, default=50, help="hits to print (all are written)")
         p.add_argument("--quiet", action="store_true")
         p.add_argument("--json", action="store_true")

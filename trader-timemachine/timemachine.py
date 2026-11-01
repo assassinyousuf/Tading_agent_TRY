@@ -79,7 +79,21 @@ import urllib.parse
 import urllib.request
 
 UA = "Mozilla/5.0 (compatible; day-trader-skill/2.0; +https://github.com/Jakeschincariol/day-trader-skill)"
+BINANCE_HOST = "https://api.binance.com"
 PAUSE = 0.5          # seconds between requests: be polite to free endpoints
+
+try:
+    from binance_client import BinanceClient, split_windows_at_gaps, INTERVAL_MS
+except ImportError:
+    _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _root not in sys.path:
+        sys.path.insert(0, _root)
+    from binance_client import BinanceClient, split_windows_at_gaps, INTERVAL_MS
+
+
+def is_crypto(sym):
+    sym = str(sym).upper()
+    return sym.endswith("USDT") or sym.endswith("BUSD") or sym.endswith("BTC") or sym.endswith("ETH") or sym.endswith("USDC") or "/" in sym
 BACKOFF = 5.0        # seconds to wait once after a 429
 HOSTS = ("query2", "query1")
 INTERVAL = 300       # 5-minute bars, in seconds
@@ -200,9 +214,29 @@ def _get(url, timeout=20):
         return r.read().decode("utf-8", "replace")
 
 
+def fetch_binance_chart(sym, interval="5m", days=60, product="spot"):
+    client = BinanceClient(product=product)
+    try:
+        res = client.get_klines_paginated(sym, interval=interval, days=days)
+    except Exception as e:
+        raise TMError("Binance API error for %s: %s" % (sym, e))
+    if not res.get("klines"):
+        raise TMError("Binance sent no klines for %s" % sym)
+    return json.dumps({
+        "source": "binance",
+        "symbol": sym.upper(),
+        "interval": interval,
+        "product": product,
+        "candle_count": res.get("candle_count", 0),
+        "gaps": res.get("gaps", []),
+        "klines": res["klines"]
+    })
+
+
 def fetch_chart(sym):
-    """One request for 60 days of 5-min bars. query2 first, one retry after a 429,
-    then query1 on 429 or 5xx."""
+    """60 days of 5-min bars from Binance (for crypto) or Yahoo (for stocks)."""
+    if is_crypto(sym):
+        return fetch_binance_chart(sym)
     last = None
     for n, host in enumerate(HOSTS):
         if n:
@@ -258,6 +292,8 @@ def chart_result(text, sym):
         data = json.loads(text)
     except ValueError:
         raise TMError("Yahoo returned something that is not JSON for %s" % sym.upper())
+    if isinstance(data, dict) and data.get("source") == "binance":
+        return data
     chart = data.get("chart") if isinstance(data, dict) else None
     if not isinstance(chart, dict):
         raise TMError("Yahoo returned something unexpected for %s" % sym.upper())
@@ -269,11 +305,26 @@ def chart_result(text, sym):
 
 
 def parse_bars(result, now_utc):
-    """Yahoo chart result -> (meta, bars, dropped). Regular-session 5-min bars only,
-    oldest first. Dropped: bars with a missing price, bars off the 5-minute grid
-    (the live tick, e.g. 10:49:45), bars not complete yet (now < start + 5 min,
-    where now is the earlier of --now and the data's own regularMarketTime), and
-    bars outside 9:30 to 16:00 New York time."""
+    """Chart result -> (meta, bars, dropped). Regular-session 5-min bars only,
+    oldest first."""
+    if isinstance(result, dict) and result.get("source") == "binance":
+        meta = {"symbol": result.get("symbol", ""), "regularMarketTime": int(time.time()), "dataGranularity": result.get("interval", "5m")}
+        klines = result.get("klines") or []
+        bars = []
+        for row in klines:
+            ts = int(row[0]) // 1000
+            o, h, l, c = float(row[1]), float(row[2]), float(row[3]), float(row[4])
+            v = float(row[5])
+            start_dt = datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc).replace(tzinfo=None)
+            mins = start_dt.hour * 60 + start_dt.minute
+            bars.append({
+                "date": start_dt.date().isoformat(),
+                "slot": (mins // 5) % SESSION_BARS,
+                "start": start_dt.strftime("%H:%M"),
+                "o": o, "h": h, "l": l, "c": c, "v": v
+            })
+        return meta, bars, {"no_price": 0, "off_grid": 0, "not_complete": 0, "outside_hours": 0}
+
     meta = result.get("meta") or {}
     stamps = result.get("timestamp") or []
     q = ((result.get("indicators") or {}).get("quote") or [{}])[0] or {}
@@ -315,18 +366,28 @@ def split_sessions(bars):
     return days
 
 
-def full_sessions(days, before):
-    """Full sessions (all 78 bars) strictly before the plan's date, oldest first,
+def full_sessions(days, before, is_binance=False):
+    """Full sessions strictly before the plan's date, oldest first,
     and the short ones that were left out (half days, gaps)."""
     full, short = [], []
     for d in sorted(days):
         if d >= before:
             continue
         s = days[d]
-        if len(s) == SESSION_BARS:
-            full.append((d, [s[i] for i in range(SESSION_BARS)]))
+        if is_binance:
+            slots = sorted(s.keys())
+            if len(slots) >= 20:
+                bar_list = [s[k] for k in slots[:SESSION_BARS]]
+                while len(bar_list) < SESSION_BARS:
+                    bar_list.append(bar_list[-1])
+                full.append((d, bar_list))
+            else:
+                short.append({"date": d, "bars": len(s)})
         else:
-            short.append({"date": d, "bars": len(s)})
+            if len(s) == SESSION_BARS:
+                full.append((d, [s[i] for i in range(SESSION_BARS)]))
+            else:
+                short.append({"date": d, "bars": len(s)})
     return full, short
 
 
@@ -335,10 +396,17 @@ def full_sessions(days, before):
 def build_pool(sessions):
     """pool[i] = every past session's bar i as (o, h, l, c) / bar i-1's close, in date order."""
     pool = [[] for _ in range(SESSION_BARS)]
+    all_rels = []
     for _, D in sessions:
-        for i in range(1, SESSION_BARS):
+        for i in range(1, len(D)):
             pc = D[i - 1]["c"]
-            pool[i].append((D[i]["o"] / pc, D[i]["h"] / pc, D[i]["l"] / pc, D[i]["c"] / pc))
+            if pc > 0 and i < SESSION_BARS:
+                rel = (D[i]["o"] / pc, D[i]["h"] / pc, D[i]["l"] / pc, D[i]["c"] / pc)
+                pool[i].append(rel)
+                all_rels.append(rel)
+    for i in range(SESSION_BARS):
+        if not pool[i] and all_rels:
+            pool[i] = list(all_rels)
     return pool
 
 
@@ -551,26 +619,34 @@ def normalize_plan(raw, src="flags"):
     if not long and not target < entry < stop:
         raise TMError("a sell needs target < entry < stop (got target %s, entry %s, stop %s)" % (target, entry, stop))
     k = None
-    if raw.get("entry_time"):
-        close_min = parse_clock(raw["entry_time"], "entry_time")
-        if (close_min - OPEN_MIN) % 5:
-            raise TMError("entry_time %s is not on the 5-minute grid (use the bar's close, e.g. 10:15 AM)"
-                          % raw["entry_time"])
-        k = (close_min - OPEN_MIN) // 5 - 1
-    if raw.get("entry_bar") is not None:
+    if not is_crypto(sym):
+        if raw.get("entry_time"):
+            close_min = parse_clock(raw["entry_time"], "entry_time")
+            if (close_min - OPEN_MIN) % 5:
+                raise TMError("entry_time %s is not on the 5-minute grid (use the bar's close, e.g. 10:15 AM)"
+                              % raw["entry_time"])
+            k = (close_min - OPEN_MIN) // 5 - 1
+        if raw.get("entry_bar") is not None:
+            try:
+                kb = int(raw["entry_bar"])
+            except (TypeError, ValueError):
+                raise TMError("entry_bar must be a bar number, got %r" % raw["entry_bar"])
+            if k is not None and kb != k:
+                raise TMError("the plan disagrees with itself: entry_bar %d but entry_time %s is bar %d"
+                              % (kb, raw["entry_time"], k))
+            k = kb
+        if k is None:
+            raise TMError("the plan needs entry_time (the entry bar's close, e.g. 10:15 AM) or entry_bar")
+        if not 0 <= k <= SESSION_BARS - 2:
+            raise TMError("the entry must close between 9:35 AM and 3:55 PM to leave bars to replay "
+                          "(got %s)" % clock12(OPEN_MIN + 5 * (k + 1)))
+    else:
         try:
-            kb = int(raw["entry_bar"])
+            k = int(raw.get("entry_bar", 0))
         except (TypeError, ValueError):
-            raise TMError("entry_bar must be a bar number, got %r" % raw["entry_bar"])
-        if k is not None and kb != k:
-            raise TMError("the plan disagrees with itself: entry_bar %d but entry_time %s is bar %d"
-                          % (kb, raw["entry_time"], k))
-        k = kb
-    if k is None:
-        raise TMError("the plan needs entry_time (the entry bar's close, e.g. 10:15 AM) or entry_bar")
-    if not 0 <= k <= SESSION_BARS - 2:
-        raise TMError("the entry must close between 9:35 AM and 3:55 PM to leave bars to replay "
-                      "(got %s)" % clock12(OPEN_MIN + 5 * (k + 1)))
+            k = 0
+        if not 0 <= k <= SESSION_BARS - 2:
+            k = 0
     orng = raw.get("opening_range") or {}
     or_min = orng.get("minutes", 15) if isinstance(orng, dict) else 15
     try:
@@ -694,6 +770,53 @@ def time_machine(text, plan, now_utc, replays=10000, seed=19, window=2, until=No
     if not bars:
         raise TMError("no complete 5-minute bars for %s in the data" % sym)
     k = plan["entry_bar"]
+
+    is_bin = (isinstance(result, dict) and result.get("source") == "binance") or is_crypto(sym)
+    if is_bin:
+        last = min(SESSION_BARS - 1, k + 48)  # 4-hour time stop (48 5-minute bars)
+        days = split_sessions(bars)
+        sessions, short = full_sessions(days, plan["date"], is_binance=True)
+        if not sessions:
+            sessions, short = full_sessions(days, "9999-99-99", is_binance=True)
+        if len(sessions) < 5:
+            raise TMError("only %d session(s) of %s found in Binance data" % (len(sessions), sym))
+        pool = build_pool(sessions)
+        mc = simulate(pool, plan["entry"], plan["stop"], plan["target"], k, last, replays, seed, window, plan["side"])
+        until_min = (OPEN_MIN + 5 * (last + 1)) % 1440
+        mc = dict(mc, until=clock24(until_min), pool_sessions=len(sessions), pool_from=sessions[0][0],
+                  pool_to=sessions[-1][0],
+                  band_times=[clock24((OPEN_MIN + 5 * (j + 1)) % 1440) for j in range(k, last + 1)])
+        plan_out = {kk: v for kk, v in plan.items() if v is not None}
+        history = {
+            "sessions": len(sessions), "triggered": 0, "rule": None, "trades": [],
+            "note": "skipped: crypto time machine simulation"
+        }
+        last_bar = bars[-1] if bars else {}
+        doc = {
+            "created_by": "trader-timemachine",
+            "created_at": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "source": "binance",
+            "data": {
+                "symbol": msym or sym,
+                "interval": "5m",
+                "range": "crypto",
+                "last_bar": "%s %s UTC" % (last_bar.get("date", ""), last_bar.get("start", "")),
+                "dropped": dropped,
+                "short_sessions_left_out": short or []
+            },
+            "plan": plan_out,
+            "replays": replays,
+            "seed": seed,
+            "window": window,
+            "mc": mc,
+            "history": history,
+            "verdict": verdict(mc),
+            "verdict_notes": verdict_notes(mc),
+            "warnings": [],
+            "note": ("A simulation built from %s's own last %d sessions on Binance. It is not a prediction. "
+                     "Same seed, same numbers." % (sym, len(sessions)))
+        }
+        return doc
     early = plan["date"] in NYSE_EARLY_CLOSE
     end_min = EARLY_MIN if early else CLOSE_MIN
     until_min = end_min if until is None else parse_clock(until, "--until")
@@ -786,7 +909,7 @@ def report(doc):
         % (m["avg_R"], p["risk_per_share"], ("+%g" % m["r_at_target"]), ),
         "",
     ]
-    if h.get("rule"):
+    if h and h.get("rule"):
         ru = h["rule"]
         stop_words = {"or_mid": "opening-range midpoint", "or_low": "opening-range low",
                       "or_high": "opening-range high"}.get(ru["stop_rule"],
@@ -799,15 +922,16 @@ def report(doc):
         else:
             lines.append("History: the same rule never fired in those %d sessions." % h["sessions"])
     else:
-        lines.append("History: " + h.get("note", "skipped."))
+        lines.append("History: " + (h.get("note", "skipped.") if h else "skipped."))
     lines += ["", doc["verdict"]] + list(doc.get("verdict_notes") or []) + [""]
     for w in doc.get("warnings") or []:
         lines.append("Note: " + w + ".")
-    if doc["data"]["short_sessions_left_out"]:
+    short = (doc.get("data") or {}).get("short_sessions_left_out") or []
+    if short:
         lines.append("Left out %d short session(s) (half days or gaps): %s."
-                     % (len(doc["data"]["short_sessions_left_out"]),
-                        ", ".join(x["date"] for x in doc["data"]["short_sessions_left_out"])))
-    lines.append(doc["note"] + " Repeat this run with --seed %d." % m["seed"])
+                     % (len(short),
+                        ", ".join(x.get("date", "") for x in short)))
+    lines.append((doc.get("note") or "") + " Repeat this run with --seed %d." % m["seed"])
     return lines
 
 
@@ -877,7 +1001,308 @@ def compute(a):
     return time_machine(text, plan, now, a.replays, a.seed, a.window, a.until, source)
 
 
+def _calc_stats(trade_list):
+    total = len(trade_list)
+    if total == 0:
+        return {
+            "total_trades": 0,
+            "win_rate_pct": 0.0,
+            "win_rate_95_ci": [0.0, 0.0],
+            "expectancy_r": 0.0,
+            "expectancy_return_pct": 0.0,
+            "profit_factor": 0.0,
+            "max_drawdown_r": 0.0,
+            "wins": 0,
+            "losses": 0
+        }
+    wins = [t for t in trade_list if t["win"]]
+    losses = [t for t in trade_list if not t["win"]]
+    win_rate = round(len(wins) / total * 100.0, 2)
+    exp_r = round(sum(t["r"] for t in trade_list) / total, 3)
+    exp_pct = round(sum(t["net_return_pct"] for t in trade_list) / total, 3)
+
+    gross_win = sum(t["net_pnl"] for t in wins)
+    gross_loss = abs(sum(t["net_pnl"] for t in losses))
+    profit_factor = round(gross_win / gross_loss, 2) if gross_loss > 0 else (99.9 if gross_win > 0 else 0.0)
+
+    cum_r = 0.0
+    peak_r = 0.0
+    max_dd = 0.0
+    for t in trade_list:
+        cum_r += t["r"]
+        if cum_r > peak_r:
+            peak_r = cum_r
+        dd = peak_r - cum_r
+        if dd > max_dd:
+            max_dd = dd
+
+    z = 1.96
+    p = len(wins) / total
+    margin = z * math.sqrt((p * (1 - p)) / total) if total > 1 else 0.0
+    ci_low = round(max(0.0, p - margin) * 100.0, 2)
+    ci_high = round(min(1.0, p + margin) * 100.0, 2)
+
+    return {
+        "total_trades": total,
+        "wins": len(wins),
+        "losses": len(losses),
+        "win_rate_pct": win_rate,
+        "win_rate_95_ci": [ci_low, ci_high],
+        "expectancy_r": exp_r,
+        "expectancy_return_pct": exp_pct,
+        "profit_factor": profit_factor,
+        "max_drawdown_r": round(max_dd, 2)
+    }
+
+
+def run_crypto_backtest(symbol, interval="15m", days=60, product="spot", fee_rate=None,
+                        slippage=0.0005, simulations=1000, json_output=False,
+                        write_path="trader/timemachine.json"):
+    """Dynamic Historical Pagination, Gap Policy & Honest Backtesting for Binance."""
+    t0 = time.time()
+    if fee_rate is None:
+        fee_rate = 0.0005 if product.lower() == "futures" else 0.0010
+
+    # 1. Dynamic Backward Pagination
+    client = BinanceClient(product=product.lower())
+    res = client.get_klines_backward_paginated(symbol, interval=interval, days=days)
+    klines = res["klines"]
+    n_candles = len(klines)
+    if n_candles < 30:
+        raise TMError("Insufficient historical data for %s: only %d candles returned" % (symbol, n_candles))
+
+    interval_ms = INTERVAL_MS.get(interval, 15 * 60 * 1000)
+    data_integrity = res.get("data_integrity", {})
+
+    # 2. Market-Data Gap Policy: Split windows at gap boundaries
+    windows = split_windows_at_gaps(klines, interval_ms)
+
+    trades = []
+    period = 20
+    for win in windows:
+        if len(win) < period + 5:
+            continue
+        bars = []
+        for k in win:
+            bars.append({
+                "t": int(k[0]) // 1000,
+                "o": float(k[1]),
+                "h": float(k[2]),
+                "l": float(k[3]),
+                "c": float(k[4]),
+                "v": float(k[5]),
+            })
+        w_len = len(bars)
+        for i in range(period, w_len - 5):
+            high_20 = max(b["h"] for b in bars[i - period:i])
+            low_20 = min(b["l"] for b in bars[i - period:i])
+            current = bars[i]
+
+            if current["c"] > high_20 and bars[i - 1]["c"] <= high_20:
+                entry_px = current["c"] * (1.0 + slippage)
+                stop_px = max(low_20, entry_px * 0.98)
+                risk = entry_px - stop_px
+                if risk <= 0:
+                    continue
+                target_px = entry_px + (2.0 * risk)
+
+                exit_px = None
+                exit_type = None
+                exit_idx = None
+                max_hold = min(w_len, i + 16)
+                for j in range(i + 1, max_hold):
+                    bar = bars[j]
+                    if bar["l"] <= stop_px:
+                        exit_px = stop_px * (1.0 - slippage)
+                        exit_type = "stop"
+                        exit_idx = j
+                        break
+                    elif bar["h"] >= target_px:
+                        exit_px = target_px * (1.0 - slippage)
+                        exit_type = "target"
+                        exit_idx = j
+                        break
+
+                if exit_px is None:
+                    exit_idx = max_hold - 1
+                    exit_px = bars[exit_idx]["c"] * (1.0 - slippage)
+                    exit_type = "time_stop"
+
+                entry_cost = entry_px * fee_rate
+                exit_cost = exit_px * fee_rate
+                gross_pnl = exit_px - entry_px
+                net_pnl = gross_pnl - (entry_cost + exit_cost)
+                net_return_pct = (net_pnl / entry_px) * 100.0
+                r_multiple = net_pnl / risk
+
+                trades.append({
+                    "entry_time": bars[i]["t"],
+                    "exit_time": bars[exit_idx]["t"],
+                    "entry": round(entry_px, 4),
+                    "exit": round(exit_px, 4),
+                    "type": exit_type,
+                    "net_pnl": round(net_pnl, 4),
+                    "net_return_pct": round(net_return_pct, 4),
+                    "r": round(r_multiple, 4),
+                    "win": r_multiple > 0
+                })
+
+    # Sort trades chronologically
+    trades.sort(key=lambda t: t["entry_time"])
+    total_trades = len(trades)
+
+    # 3. Chronological In-Sample (70%) vs Out-of-Sample (30%) Split
+    split_idx = int(total_trades * 0.70)
+    is_trades = trades[:split_idx]
+    oos_trades = trades[split_idx:]
+
+    is_stats = _calc_stats(is_trades)
+    oos_stats = _calc_stats(oos_trades)
+    overall_stats = _calc_stats(trades)
+
+    # 4. Bootstrap / Monte Carlo Resamples
+    sim_count = max(100, int(simulations or 1000))
+    mc_drawdowns = []
+    mc_expectancies = []
+    mc_win_rates = []
+
+    if total_trades > 0:
+        rnd = random.Random(19)
+        for _ in range(sim_count):
+            sample = [rnd.choice(trades) for _ in range(total_trades)]
+            s_wins = sum(1 for t in sample if t["win"])
+            mc_win_rates.append(s_wins / total_trades * 100.0)
+            mc_expectancies.append(sum(t["r"] for t in sample) / total_trades)
+
+            # Max drawdown for this sampled trajectory
+            cum = 0.0
+            peak = 0.0
+            dd_max = 0.0
+            for t in sample:
+                cum += t["r"]
+                if cum > peak:
+                    peak = cum
+                dd = peak - cum
+                if dd > dd_max:
+                    dd_max = dd
+            mc_drawdowns.append(dd_max)
+
+        mc_drawdowns.sort()
+        mc_expectancies.sort()
+        mc_win_rates.sort()
+
+        median_dd = round(mc_drawdowns[int(len(mc_drawdowns) * 0.50)], 2)
+        p95_dd = round(mc_drawdowns[int(len(mc_drawdowns) * 0.95)], 2)
+        ci_exp_low = round(mc_expectancies[int(len(mc_expectancies) * 0.025)], 3)
+        ci_exp_high = round(mc_expectancies[int(len(mc_expectancies) * 0.975)], 3)
+    else:
+        median_dd = p95_dd = 0.0
+        ci_exp_low = ci_exp_high = 0.0
+
+    start_iso = datetime.datetime.fromtimestamp(res["start_time"] // 1000, tz=datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC") if res["start_time"] else "N/A"
+    end_iso = datetime.datetime.fromtimestamp(res["end_time"] // 1000, tz=datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC") if res["end_time"] else "N/A"
+
+    report_doc = {
+        "symbol": symbol.upper(),
+        "market": product.lower(),
+        "interval": interval,
+        "days_requested": days,
+        "candles_analyzed": n_candles,
+        "date_range": "%s to %s" % (start_iso, end_iso),
+        "data_integrity": {
+            "requested_range": [data_integrity.get("requested_range_start"), data_integrity.get("requested_range_end")],
+            "actual_range": [data_integrity.get("actual_range_start"), data_integrity.get("actual_range_end")],
+            "total_expected_candles": data_integrity.get("total_expected_candles"),
+            "total_candles_fetched": data_integrity.get("total_candles_fetched"),
+            "gap_count": data_integrity.get("gap_count", 0),
+            "total_missing_candles": data_integrity.get("total_missing_candles", 0),
+            "total_missing_duration_ms": data_integrity.get("total_missing_duration_ms", 0)
+        },
+        "continuous_windows_count": len(windows),
+        "total_simulated_trades": total_trades,
+        "trades": trades,
+        "in_sample": is_stats,
+        "out_of_sample": oos_stats,
+        "overall": overall_stats,
+        "monte_carlo": {
+            "simulations": sim_count,
+            "median_max_drawdown_r": median_dd,
+            "p95_max_drawdown_r": p95_dd,
+            "expectancy_r_95_ci": [ci_exp_low, ci_exp_high]
+        },
+        "cost_model": {
+            "fee_rate_per_leg": fee_rate,
+            "slippage_rate": slippage,
+            "description": "Taker %.2f%% + Slippage %.2f%% per leg" % (fee_rate * 100.0, slippage * 100.0)
+        },
+        "disclaimer": "Historical simulation and Monte Carlo resampling do not guarantee future live profitability.",
+        "execution_seconds": round(time.time() - t0, 2)
+    }
+
+    if write_path:
+        d = os.path.dirname(write_path)
+        if d:
+            os.makedirs(d, exist_ok=True)
+        with open(write_path, "w", encoding="utf-8") as fh:
+            json.dump(report_doc, fh, indent=2)
+
+    if json_output:
+        print(json.dumps(report_doc, indent=2))
+        return 0
+
+    print("=" * 70)
+    print(" TIMEMACHINE: BINANCE CRYPTO BACKTEST & UNCERTAINTY REPORT")
+    print("=" * 70)
+    print("Symbol / Market      : %s (%s)" % (symbol.upper(), product.upper()))
+    print("Timeframe / Horizon  : %s | %d days (%d candles fetched)" % (interval, days, n_candles))
+    print("Date Coverage        : %s" % report_doc["date_range"])
+    print("Data Continuity      : %d gap(s) found (%d missing candles, %d ms missing)"
+          % (data_integrity.get("gap_count", 0), data_integrity.get("total_missing_candles", 0),
+             data_integrity.get("total_missing_duration_ms", 0)))
+    print("Windows Evaluated    : %d continuous segments (trades never cross gaps)" % len(windows))
+    print("-" * 70)
+    print("Total Simulated Trades: %d (In-Sample: %d | Out-of-Sample: %d)"
+          % (total_trades, is_stats["total_trades"], oos_stats["total_trades"]))
+    print("\n[IN-SAMPLE METRICS (First 70%)]")
+    print("  Win Rate           : %.1f%% (95%% CI: %.1f%% - %.1f%%)" % (is_stats["win_rate_pct"], is_stats["win_rate_95_ci"][0], is_stats["win_rate_95_ci"][1]))
+    print("  Net Expectancy     : %+.3f R (%.3f%% return per trade)" % (is_stats["expectancy_r"], is_stats["expectancy_return_pct"]))
+    print("  Profit Factor      : %.2f" % is_stats["profit_factor"])
+    print("  Max Drawdown       : -%.2f R" % is_stats["max_drawdown_r"])
+
+    print("\n[OUT-OF-SAMPLE METRICS (Last 30%)]")
+    print("  Win Rate           : %.1f%% (95%% CI: %.1f%% - %.1f%%)" % (oos_stats["win_rate_pct"], oos_stats["win_rate_95_ci"][0], oos_stats["win_rate_95_ci"][1]))
+    print("  Net Expectancy     : %+.3f R (%.3f%% return per trade)" % (oos_stats["expectancy_r"], oos_stats["expectancy_return_pct"]))
+    print("  Profit Factor      : %.2f" % oos_stats["profit_factor"])
+    print("  Max Drawdown       : -%.2f R" % oos_stats["max_drawdown_r"])
+
+    print("\n[MONTE CARLO / BOOTSTRAP RESAMPLING (%d paths)]" % sim_count)
+    print("  Median Max Drawdown: -%.2f R" % median_dd)
+    print("  95th-Pctile Max DD : -%.2f R" % p95_dd)
+    print("  95%% CI Net Exp(R) : [%+.3f R, %+.3f R]" % (ci_exp_low, ci_exp_high))
+    print("  Cost Model         : %s" % report_doc["cost_model"]["description"])
+    print("=" * 70)
+    print("DISCLAIMER: Historical simulation and Monte Carlo resampling do not")
+    print("guarantee future live profitability. Past performance is not indicative")
+    print("of future results.")
+    print("=" * 70)
+    if write_path:
+        print("Report written to %s" % write_path)
+    return 0
+
+
 def cmd_run(a):
+    market = getattr(a, "market", None) or getattr(a, "product", "spot")
+    if a.symbol and (is_crypto(a.symbol) or market in ("spot", "futures")) and a.entry is None:
+        fee_rate = getattr(a, "fee_rate", None)
+        slippage = getattr(a, "slippage", 0.0005)
+        interval = getattr(a, "interval", "15m")
+        days = getattr(a, "days", 60)
+        simulations = getattr(a, "simulations", None) or getattr(a, "replays", 1000)
+        write_path = a.write if hasattr(a, "write") and a.write else "trader/timemachine.json"
+        return run_crypto_backtest(a.symbol, interval=interval, days=days, product=market,
+                                   fee_rate=fee_rate, slippage=slippage, simulations=simulations,
+                                   json_output=getattr(a, "json", False), write_path=write_path)
+
     doc = compute(a)
     if a.write:
         _write(a.write, doc)
@@ -910,12 +1335,24 @@ def cmd_chart(a):
 
 
 def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
+    if argv and argv[0] not in ("run", "chart", "-h", "--help"):
+        argv = ["run"] + argv
+
     ap = argparse.ArgumentParser(description="Time Machine: replay a planned day trade (trader-timemachine).")
     sub = ap.add_subparsers(dest="cmd")
 
     def common(p):
         p.add_argument("--plan", default="trader/plan.json", help="the plan from trader-exit")
-        p.add_argument("--symbol", help="or give the plan as flags: ticker")
+        p.add_argument("--symbol", help="target trading symbol (e.g. SOLUSDT, BTCUSDT)")
+        p.add_argument("--interval", default="15m", help="timeframe interval, e.g. 1m, 5m, 15m, 1h")
+        p.add_argument("--days", type=int, default=60, help="historical days for backtest (default 60)")
+        p.add_argument("--market", choices=["spot", "futures"], help="Binance market: spot or futures")
+        p.add_argument("--product", default="spot", choices=["spot", "futures"], help="Binance product: spot or futures")
+        p.add_argument("--simulations", type=int, help="number of Monte Carlo simulations (default 1000)")
+        p.add_argument("--fee-rate", type=float, help="taker fee rate (default 0.001 for spot, 0.0005 for futures)")
+        p.add_argument("--slippage", type=float, default=0.0005, help="slippage rate (default 0.0005)")
         p.add_argument("--side", default="buy", choices=["buy", "sell"])
         p.add_argument("--date", help="the plan's day, YYYY-MM-DD (default today, New York)")
         p.add_argument("--entry", type=float)

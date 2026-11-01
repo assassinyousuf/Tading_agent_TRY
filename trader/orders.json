@@ -1,0 +1,33 @@
+{
+  "created_by": "trader-budget",
+  "created_at": "2026-10-29T07:59:22Z",
+  "status": "proposed",
+  "paper": true,
+  "note": "Proposals only. Nothing is placed until trader-risk passes each order and you say yes to it in the chat.",
+  "source": "trader/plan.json (SOLUSDT level 2026-10-29)",
+  "orders": [
+    {
+      "symbol": "SOLUSDT",
+      "side": "buy",
+      "qty": "22.19",
+      "type": "market",
+      "time_in_force": "gtc",
+      "order_class": "bracket",
+      "take_profit_limit_price": "106.42",
+      "stop_loss_stop_price": "100.27",
+      "why": "level on SOLUSDT: 22.19 units, bound by your $50 max loss per trade (22.19 x 2.05 = $49.98 at the stop)",
+      "plan": {
+        "entry": 102.32,
+        "stop": 100.27,
+        "target": 106.42,
+        "risk_per_share": 2.05,
+        "max_loss": 49.98,
+        "setup": "level",
+        "entry_time": "12:05 AM",
+        "flat_by": "04:05 UTC",
+        "fee_rate": 0.001,
+        "fee_est": 4.5
+      }
+    }
+  ]
+}

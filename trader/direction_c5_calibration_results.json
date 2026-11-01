@@ -1,0 +1,608 @@
+{
+  "metadata": {
+    "task": "Direction C.5 -- Synthetic Statistical Calibration Gate",
+    "date": "2026-10-30",
+    "total_elapsed_seconds": 228.2,
+    "generators_tested": [
+      "Gaussian i.i.d.",
+      "Student t (df=4)",
+      "Student t (df=5)",
+      "AR(1) phi=0.30",
+      "AR(1) phi=0.50",
+      "GARCH(1,1)"
+    ],
+    "safety_checks": {
+      "v5_strategy_frozen": true,
+      "historical_ledgers_unmodified": true,
+      "broker_execution_disabled": true
+    }
+  },
+  "type_1_error_calibration": {
+    "gaussian_iid": {
+      "label": "Gaussian i.i.d.",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 6.09,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 6,
+          "empirical_rejection_rate": 0.024,
+          "wilson_95_ci": [
+            0.011,
+            0.0514
+          ],
+          "calibrated": false,
+          "bias": "INFLATED"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 15,
+          "empirical_rejection_rate": 0.06,
+          "wilson_95_ci": [
+            0.0367,
+            0.0966
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 26,
+          "empirical_rejection_rate": 0.104,
+          "wilson_95_ci": [
+            0.072,
+            0.148
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    },
+    "student_t_df4": {
+      "label": "Student t (df=4, extreme kurtosis)",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 6.51,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 1,
+          "empirical_rejection_rate": 0.004,
+          "wilson_95_ci": [
+            0.0007,
+            0.0223
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 14,
+          "empirical_rejection_rate": 0.056,
+          "wilson_95_ci": [
+            0.0336,
+            0.0918
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 27,
+          "empirical_rejection_rate": 0.108,
+          "wilson_95_ci": [
+            0.0753,
+            0.1526
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    },
+    "student_t_df5": {
+      "label": "Student t (df=5, kurtosis=6.0)",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 6.8,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 3,
+          "empirical_rejection_rate": 0.012,
+          "wilson_95_ci": [
+            0.0041,
+            0.0347
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 11,
+          "empirical_rejection_rate": 0.044,
+          "wilson_95_ci": [
+            0.0247,
+            0.0771
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 23,
+          "empirical_rejection_rate": 0.092,
+          "wilson_95_ci": [
+            0.0621,
+            0.1343
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    },
+    "ar1_phi_030": {
+      "label": "AR(1) phi=0.30 (moderate autocorrelation)",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 6.9,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 6,
+          "empirical_rejection_rate": 0.024,
+          "wilson_95_ci": [
+            0.011,
+            0.0514
+          ],
+          "calibrated": false,
+          "bias": "INFLATED"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 16,
+          "empirical_rejection_rate": 0.064,
+          "wilson_95_ci": [
+            0.0398,
+            0.1014
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 29,
+          "empirical_rejection_rate": 0.116,
+          "wilson_95_ci": [
+            0.082,
+            0.1616
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    },
+    "ar1_phi_050": {
+      "label": "AR(1) phi=0.50 (high autocorrelation)",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 6.91,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 6,
+          "empirical_rejection_rate": 0.024,
+          "wilson_95_ci": [
+            0.011,
+            0.0514
+          ],
+          "calibrated": false,
+          "bias": "INFLATED"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 19,
+          "empirical_rejection_rate": 0.076,
+          "wilson_95_ci": [
+            0.0492,
+            0.1156
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 34,
+          "empirical_rejection_rate": 0.136,
+          "wilson_95_ci": [
+            0.099,
+            0.184
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    },
+    "garch_11": {
+      "label": "GARCH(1,1) (volatility clustering)",
+      "datasets": 250,
+      "n_obs": 500,
+      "block_size": 10,
+      "n_boot": 500,
+      "elapsed_seconds": 7.08,
+      "rejections": {
+        "0.01": {
+          "nominal_alpha": 0.01,
+          "rejections_count": 4,
+          "empirical_rejection_rate": 0.016,
+          "wilson_95_ci": [
+            0.0062,
+            0.0404
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.05": {
+          "nominal_alpha": 0.05,
+          "rejections_count": 13,
+          "empirical_rejection_rate": 0.052,
+          "wilson_95_ci": [
+            0.0306,
+            0.0869
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        },
+        "0.1": {
+          "nominal_alpha": 0.1,
+          "rejections_count": 23,
+          "empirical_rejection_rate": 0.092,
+          "wilson_95_ci": [
+            0.0621,
+            0.1343
+          ],
+          "calibrated": true,
+          "bias": "NOMINAL"
+        }
+      }
+    }
+  },
+  "power_and_coverage": {
+    "-0.0005": {
+      "true_daily_mu": -0.0005,
+      "annualized_excess_pct": -18.3,
+      "label": "Negative Underperformance (-18.3% ann)",
+      "datasets": 250,
+      "n_obs": 500,
+      "power_greater_05": 0.004,
+      "power_greater_95_ci": [
+        0.0007,
+        0.0223
+      ],
+      "power_less_05": 0.312,
+      "power_less_95_ci": [
+        0.2578,
+        0.3719
+      ],
+      "ci_95_coverage": 0.936,
+      "ci_coverage_95_ci": [
+        0.8986,
+        0.9602
+      ],
+      "elapsed_seconds": 13.63
+    },
+    "0.0": {
+      "true_daily_mu": 0.0,
+      "annualized_excess_pct": 0.0,
+      "label": "Exact Zero Null (+0.0% ann)",
+      "datasets": 250,
+      "n_obs": 500,
+      "power_greater_05": 0.048,
+      "power_greater_95_ci": [
+        0.0277,
+        0.082
+      ],
+      "power_less_05": 0.064,
+      "power_less_95_ci": [
+        0.0398,
+        0.1014
+      ],
+      "ci_95_coverage": 0.928,
+      "ci_coverage_95_ci": [
+        0.8891,
+        0.954
+      ],
+      "elapsed_seconds": 13.12
+    },
+    "0.0002": {
+      "true_daily_mu": 0.0002,
+      "annualized_excess_pct": 7.3,
+      "label": "Mild Positive Outperformance (+7.3% ann)",
+      "datasets": 250,
+      "n_obs": 500,
+      "power_greater_05": 0.112,
+      "power_greater_95_ci": [
+        0.0786,
+        0.1571
+      ],
+      "power_less_05": 0.016,
+      "power_less_95_ci": [
+        0.0062,
+        0.0404
+      ],
+      "ci_95_coverage": 0.956,
+      "ci_coverage_95_ci": [
+        0.9229,
+        0.9753
+      ],
+      "elapsed_seconds": 13.78
+    },
+    "0.0005": {
+      "true_daily_mu": 0.0005,
+      "annualized_excess_pct": 18.3,
+      "label": "Substantial Outperformance (+18.3% ann)",
+      "datasets": 250,
+      "n_obs": 500,
+      "power_greater_05": 0.304,
+      "power_greater_95_ci": [
+        0.2503,
+        0.3636
+      ],
+      "power_less_05": 0.0,
+      "power_less_95_ci": [
+        0.0,
+        0.0151
+      ],
+      "ci_95_coverage": 0.936,
+      "ci_coverage_95_ci": [
+        0.8986,
+        0.9602
+      ],
+      "elapsed_seconds": 13.55
+    },
+    "0.001": {
+      "true_daily_mu": 0.001,
+      "annualized_excess_pct": 36.5,
+      "label": "Strong Outperformance (+36.5% ann)",
+      "datasets": 250,
+      "n_obs": 500,
+      "power_greater_05": 0.752,
+      "power_greater_95_ci": [
+        0.6949,
+        0.8014
+      ],
+      "power_less_05": 0.0,
+      "power_less_95_ci": [
+        0.0,
+        0.0151
+      ],
+      "ci_95_coverage": 0.964,
+      "ci_coverage_95_ci": [
+        0.933,
+        0.9809
+      ],
+      "elapsed_seconds": 13.66
+    }
+  },
+  "block_length_sensitivity": {
+    "0.3": {
+      "phi": 0.3,
+      "label": "AR(1) phi=0.30",
+      "blocks": {
+        "1": {
+          "block_size": 1,
+          "rejections_count": 28,
+          "empirical_rejection_rate": 0.112,
+          "wilson_95_ci": [
+            0.0786,
+            0.1571
+          ],
+          "inflation_over_nominal": 2.24,
+          "elapsed_seconds": 37.43
+        },
+        "5": {
+          "block_size": 5,
+          "rejections_count": 18,
+          "empirical_rejection_rate": 0.072,
+          "wilson_95_ci": [
+            0.046,
+            0.1109
+          ],
+          "inflation_over_nominal": 1.44,
+          "elapsed_seconds": 10.31
+        },
+        "10": {
+          "block_size": 10,
+          "rejections_count": 16,
+          "empirical_rejection_rate": 0.064,
+          "wilson_95_ci": [
+            0.0398,
+            0.1014
+          ],
+          "inflation_over_nominal": 1.28,
+          "elapsed_seconds": 6.43
+        },
+        "20": {
+          "block_size": 20,
+          "rejections_count": 16,
+          "empirical_rejection_rate": 0.064,
+          "wilson_95_ci": [
+            0.0398,
+            0.1014
+          ],
+          "inflation_over_nominal": 1.28,
+          "elapsed_seconds": 5.05
+        }
+      }
+    },
+    "0.5": {
+      "phi": 0.5,
+      "label": "AR(1) phi=0.50",
+      "blocks": {
+        "1": {
+          "block_size": 1,
+          "rejections_count": 37,
+          "empirical_rejection_rate": 0.148,
+          "wilson_95_ci": [
+            0.1093,
+            0.1973
+          ],
+          "inflation_over_nominal": 2.96,
+          "elapsed_seconds": 38.08
+        },
+        "5": {
+          "block_size": 5,
+          "rejections_count": 19,
+          "empirical_rejection_rate": 0.076,
+          "wilson_95_ci": [
+            0.0492,
+            0.1156
+          ],
+          "inflation_over_nominal": 1.52,
+          "elapsed_seconds": 11.01
+        },
+        "10": {
+          "block_size": 10,
+          "rejections_count": 24,
+          "empirical_rejection_rate": 0.096,
+          "wilson_95_ci": [
+            0.0654,
+            0.1389
+          ],
+          "inflation_over_nominal": 1.92,
+          "elapsed_seconds": 6.85
+        },
+        "20": {
+          "block_size": 20,
+          "rejections_count": 18,
+          "empirical_rejection_rate": 0.072,
+          "wilson_95_ci": [
+            0.046,
+            0.1109
+          ],
+          "inflation_over_nominal": 1.44,
+          "elapsed_seconds": 5.0
+        }
+      }
+    }
+  },
+  "dsr_verification": {
+    "scaling_invariance": {
+      "annualized_z": -1.6372,
+      "daily_z": -1.6372,
+      "annualized_dsr": 0.0508,
+      "daily_dsr": 0.0508,
+      "verified": true
+    },
+    "non_positive_sharpe": {
+      "zero_sharpe_dsr": 0.0,
+      "zero_status": "NON_POSITIVE_OR_INSUFFICIENT_OBS",
+      "negative_sharpe_dsr": 0.0,
+      "negative_status": "NON_POSITIVE_OR_INSUFFICIENT_OBS",
+      "verified": true
+    },
+    "trials_progression": [
+      {
+        "n_trials_M": 1,
+        "expected_max_sr_annual": 0.0,
+        "z_stat": 2.0689,
+        "dsr": 0.9807
+      },
+      {
+        "n_trials_M": 5,
+        "expected_max_sr_annual": 1.1926,
+        "z_stat": 0.424,
+        "dsr": 0.6642
+      },
+      {
+        "n_trials_M": 15,
+        "expected_max_sr_annual": 1.7707,
+        "z_stat": -0.3733,
+        "dsr": 0.3544
+      },
+      {
+        "n_trials_M": 25,
+        "expected_max_sr_annual": 1.9971,
+        "z_stat": -0.6857,
+        "dsr": 0.2464
+      },
+      {
+        "n_trials_M": 67,
+        "expected_max_sr_annual": 2.3863,
+        "z_stat": -1.2225,
+        "dsr": 0.1108
+      },
+      {
+        "n_trials_M": 150,
+        "expected_max_sr_annual": 2.6701,
+        "z_stat": -1.6139,
+        "dsr": 0.0533
+      }
+    ],
+    "moments_sensitivity": [
+      {
+        "case": "normal",
+        "label": "Normal distribution",
+        "skewness": 0.0,
+        "excess_kurtosis": 0.0,
+        "se_annual": 0.725,
+        "z_stat": -0.6857,
+        "dsr": 0.2464
+      },
+      {
+        "case": "pos_skew_fat_tail",
+        "label": "Positively skewed / fat-tailed",
+        "skewness": 0.5,
+        "excess_kurtosis": 3.0,
+        "se_annual": 0.7124,
+        "z_stat": -0.6979,
+        "dsr": 0.2426
+      },
+      {
+        "case": "neg_skew_extreme_tail",
+        "label": "Negatively skewed / extreme heavy tail",
+        "skewness": -0.5,
+        "excess_kurtosis": 6.0,
+        "se_annual": 0.7423,
+        "z_stat": -0.6697,
+        "dsr": 0.2515
+      }
+    ],
+    "trial_dispersion_sensitivity": [
+      {
+        "trial_std_sigma_M": 0.3,
+        "expected_max_sr_annual": 0.5991,
+        "z_stat": 1.2425,
+        "dsr": 0.893
+      },
+      {
+        "trial_std_sigma_M": 0.5,
+        "expected_max_sr_annual": 0.9986,
+        "z_stat": 0.6916,
+        "dsr": 0.7554
+      },
+      {
+        "trial_std_sigma_M": 0.7,
+        "expected_max_sr_annual": 1.398,
+        "z_stat": 0.1407,
+        "dsr": 0.5559
+      },
+      {
+        "trial_std_sigma_M": 1.0,
+        "expected_max_sr_annual": 1.9971,
+        "z_stat": -0.6857,
+        "dsr": 0.2464
+      }
+    ]
+  }
+}

@@ -1,0 +1,6105 @@
+{
+  "title": "Strategy V3: Mean-Reversion and Liquidity Sweep Research Report",
+  "symbols": [
+    "BTCUSDT",
+    "SOLUSDT"
+  ],
+  "timeframes": [
+    "15m",
+    "1h"
+  ],
+  "frozen_baseline_orb": {
+    "strategy_id": "BINANCE_SPOT_ORB_20D_V1",
+    "version": "1.0.0",
+    "lookback_period": 20,
+    "target_r": 2.0,
+    "max_holding_bars": 16,
+    "stop_loss_pct_floor": 0.02,
+    "fee_rate": 0.001,
+    "slippage": 0.0005,
+    "max_concurrent": 1
+  },
+  "results": [
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "BASELINE_ORB_V1",
+      "strategy_name": "Frozen Baseline (ORB 20-bar Breakout)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 80,
+        "wins": 17,
+        "losses": 63,
+        "win_rate_pct": 21.25,
+        "win_rate_95_ci": [
+          13.71,
+          31.42
+        ],
+        "gross_expectancy_r": -0.126,
+        "net_expectancy_r": -0.387,
+        "gross_expectancy_pct": -0.099,
+        "net_expectancy_pct": -0.299,
+        "total_gross_pnl_pct": -7.9,
+        "total_net_pnl_pct": -23.89,
+        "profit_factor": 0.38,
+        "max_drawdown_r": 30.97,
+        "max_drawdown_pct": 23.93,
+        "total_fee_drag_r": 20.89,
+        "avg_fee_drag_r": 0.261
+      },
+      "val_metrics": {
+        "total_trades": 22,
+        "wins": 5,
+        "losses": 17,
+        "win_rate_pct": 22.73,
+        "win_rate_95_ci": [
+          10.12,
+          43.44
+        ],
+        "gross_expectancy_r": -0.284,
+        "net_expectancy_r": -0.574,
+        "gross_expectancy_pct": -0.183,
+        "net_expectancy_pct": -0.383,
+        "total_gross_pnl_pct": -4.03,
+        "total_net_pnl_pct": -8.43,
+        "profit_factor": 0.21,
+        "max_drawdown_r": 12.62,
+        "max_drawdown_pct": 8.43,
+        "total_fee_drag_r": 6.38,
+        "avg_fee_drag_r": 0.29
+      },
+      "test_metrics": {
+        "total_trades": 25,
+        "wins": 5,
+        "losses": 20,
+        "win_rate_pct": 20.0,
+        "win_rate_95_ci": [
+          8.86,
+          39.13
+        ],
+        "gross_expectancy_r": -0.25,
+        "net_expectancy_r": -0.495,
+        "gross_expectancy_pct": -0.163,
+        "net_expectancy_pct": -0.363,
+        "total_gross_pnl_pct": -4.07,
+        "total_net_pnl_pct": -9.07,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 12.38,
+        "max_drawdown_pct": 9.07,
+        "total_fee_drag_r": 6.12,
+        "avg_fee_drag_r": 0.245
+      },
+      "overall_metrics": {
+        "total_trades": 127,
+        "wins": 27,
+        "losses": 100,
+        "win_rate_pct": 21.26,
+        "win_rate_95_ci": [
+          15.04,
+          29.16
+        ],
+        "gross_expectancy_r": -0.178,
+        "net_expectancy_r": -0.441,
+        "gross_expectancy_pct": -0.126,
+        "net_expectancy_pct": -0.326,
+        "total_gross_pnl_pct": -15.96,
+        "total_net_pnl_pct": -41.34,
+        "profit_factor": 0.31,
+        "max_drawdown_r": 56.01,
+        "max_drawdown_pct": 41.38,
+        "total_fee_drag_r": 33.43,
+        "avg_fee_drag_r": 0.263
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 7,
+          "wins": 1,
+          "losses": 6,
+          "win_rate_pct": 14.29,
+          "win_rate_95_ci": [
+            2.57,
+            51.31
+          ],
+          "gross_expectancy_r": -0.106,
+          "net_expectancy_r": -0.213,
+          "gross_expectancy_pct": -0.205,
+          "net_expectancy_pct": -0.405,
+          "total_gross_pnl_pct": -1.44,
+          "total_net_pnl_pct": -2.83,
+          "profit_factor": 0.16,
+          "max_drawdown_r": 1.78,
+          "max_drawdown_pct": 3.41,
+          "total_fee_drag_r": 0.75,
+          "avg_fee_drag_r": 0.108
+        },
+        "BEAR_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "RANGE_CHOP": {
+          "total_trades": 120,
+          "wins": 26,
+          "losses": 94,
+          "win_rate_pct": 21.67,
+          "win_rate_95_ci": [
+            15.24,
+            29.85
+          ],
+          "gross_expectancy_r": -0.182,
+          "net_expectancy_r": -0.454,
+          "gross_expectancy_pct": -0.121,
+          "net_expectancy_pct": -0.321,
+          "total_gross_pnl_pct": -14.52,
+          "total_net_pnl_pct": -38.51,
+          "profit_factor": 0.32,
+          "max_drawdown_r": 54.51,
+          "max_drawdown_pct": 38.55,
+          "total_fee_drag_r": 32.67,
+          "avg_fee_drag_r": 0.272
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A1_SWEEP_15R",
+      "strategy_name": "Strategy A1: Liquidity Sweep & Reclaim (Target 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 61,
+        "wins": 17,
+        "losses": 44,
+        "win_rate_pct": 27.87,
+        "win_rate_95_ci": [
+          18.19,
+          40.17
+        ],
+        "gross_expectancy_r": -0.315,
+        "net_expectancy_r": -0.912,
+        "gross_expectancy_pct": -0.102,
+        "net_expectancy_pct": -0.302,
+        "total_gross_pnl_pct": -6.22,
+        "total_net_pnl_pct": -18.41,
+        "profit_factor": 0.2,
+        "max_drawdown_r": 56.46,
+        "max_drawdown_pct": 18.72,
+        "total_fee_drag_r": 36.44,
+        "avg_fee_drag_r": 0.597
+      },
+      "val_metrics": {
+        "total_trades": 29,
+        "wins": 3,
+        "losses": 26,
+        "win_rate_pct": 10.34,
+        "win_rate_95_ci": [
+          3.58,
+          26.39
+        ],
+        "gross_expectancy_r": -0.698,
+        "net_expectancy_r": -1.282,
+        "gross_expectancy_pct": -0.293,
+        "net_expectancy_pct": -0.493,
+        "total_gross_pnl_pct": -8.5,
+        "total_net_pnl_pct": -14.29,
+        "profit_factor": 0.02,
+        "max_drawdown_r": 37.17,
+        "max_drawdown_pct": 14.29,
+        "total_fee_drag_r": 16.92,
+        "avg_fee_drag_r": 0.584
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 5,
+        "losses": 9,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          16.34,
+          61.24
+        ],
+        "gross_expectancy_r": -0.146,
+        "net_expectancy_r": -0.791,
+        "gross_expectancy_pct": -0.056,
+        "net_expectancy_pct": -0.256,
+        "total_gross_pnl_pct": -0.78,
+        "total_net_pnl_pct": -3.58,
+        "profit_factor": 0.23,
+        "max_drawdown_r": 11.84,
+        "max_drawdown_pct": 4.12,
+        "total_fee_drag_r": 9.03,
+        "avg_fee_drag_r": 0.645
+      },
+      "overall_metrics": {
+        "total_trades": 104,
+        "wins": 25,
+        "losses": 79,
+        "win_rate_pct": 24.04,
+        "win_rate_95_ci": [
+          16.85,
+          33.08
+        ],
+        "gross_expectancy_r": -0.399,
+        "net_expectancy_r": -0.999,
+        "gross_expectancy_pct": -0.149,
+        "net_expectancy_pct": -0.349,
+        "total_gross_pnl_pct": -15.49,
+        "total_net_pnl_pct": -36.28,
+        "profit_factor": 0.14,
+        "max_drawdown_r": 104.25,
+        "max_drawdown_pct": 36.73,
+        "total_fee_drag_r": 62.39,
+        "avg_fee_drag_r": 0.6
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 4,
+          "wins": 1,
+          "losses": 3,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            4.56,
+            69.94
+          ],
+          "gross_expectancy_r": -0.215,
+          "net_expectancy_r": -0.531,
+          "gross_expectancy_pct": -0.263,
+          "net_expectancy_pct": -0.463,
+          "total_gross_pnl_pct": -1.05,
+          "total_net_pnl_pct": -1.85,
+          "profit_factor": 0.16,
+          "max_drawdown_r": 2.12,
+          "max_drawdown_pct": 1.85,
+          "total_fee_drag_r": 1.26,
+          "avg_fee_drag_r": 0.316
+        },
+        "RANGE_CHOP": {
+          "total_trades": 100,
+          "wins": 24,
+          "losses": 76,
+          "win_rate_pct": 24.0,
+          "win_rate_95_ci": [
+            16.69,
+            33.23
+          ],
+          "gross_expectancy_r": -0.406,
+          "net_expectancy_r": -1.018,
+          "gross_expectancy_pct": -0.144,
+          "net_expectancy_pct": -0.344,
+          "total_gross_pnl_pct": -14.44,
+          "total_net_pnl_pct": -34.43,
+          "profit_factor": 0.14,
+          "max_drawdown_r": 102.13,
+          "max_drawdown_pct": 34.88,
+          "total_fee_drag_r": 61.13,
+          "avg_fee_drag_r": 0.611
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A2_SWEEP_20R",
+      "strategy_name": "Strategy A2: Liquidity Sweep & Reclaim (Target 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 61,
+        "wins": 16,
+        "losses": 45,
+        "win_rate_pct": 26.23,
+        "win_rate_95_ci": [
+          16.84,
+          38.44
+        ],
+        "gross_expectancy_r": -0.273,
+        "net_expectancy_r": -0.871,
+        "gross_expectancy_pct": -0.084,
+        "net_expectancy_pct": -0.284,
+        "total_gross_pnl_pct": -5.1,
+        "total_net_pnl_pct": -17.3,
+        "profit_factor": 0.26,
+        "max_drawdown_r": 54.44,
+        "max_drawdown_pct": 17.78,
+        "total_fee_drag_r": 36.44,
+        "avg_fee_drag_r": 0.597
+      },
+      "val_metrics": {
+        "total_trades": 29,
+        "wins": 3,
+        "losses": 26,
+        "win_rate_pct": 10.34,
+        "win_rate_95_ci": [
+          3.58,
+          26.39
+        ],
+        "gross_expectancy_r": -0.683,
+        "net_expectancy_r": -1.267,
+        "gross_expectancy_pct": -0.288,
+        "net_expectancy_pct": -0.488,
+        "total_gross_pnl_pct": -8.35,
+        "total_net_pnl_pct": -14.14,
+        "profit_factor": 0.03,
+        "max_drawdown_r": 36.74,
+        "max_drawdown_pct": 14.14,
+        "total_fee_drag_r": 16.92,
+        "avg_fee_drag_r": 0.584
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 3,
+        "losses": 11,
+        "win_rate_pct": 21.43,
+        "win_rate_95_ci": [
+          7.57,
+          47.59
+        ],
+        "gross_expectancy_r": -0.36,
+        "net_expectancy_r": -1.005,
+        "gross_expectancy_pct": -0.134,
+        "net_expectancy_pct": -0.333,
+        "total_gross_pnl_pct": -1.87,
+        "total_net_pnl_pct": -4.67,
+        "profit_factor": 0.1,
+        "max_drawdown_r": 14.97,
+        "max_drawdown_pct": 4.87,
+        "total_fee_drag_r": 9.03,
+        "avg_fee_drag_r": 0.645
+      },
+      "overall_metrics": {
+        "total_trades": 104,
+        "wins": 22,
+        "losses": 82,
+        "win_rate_pct": 21.15,
+        "win_rate_95_ci": [
+          14.41,
+          29.96
+        ],
+        "gross_expectancy_r": -0.399,
+        "net_expectancy_r": -0.999,
+        "gross_expectancy_pct": -0.147,
+        "net_expectancy_pct": -0.347,
+        "total_gross_pnl_pct": -15.32,
+        "total_net_pnl_pct": -36.11,
+        "profit_factor": 0.16,
+        "max_drawdown_r": 103.92,
+        "max_drawdown_pct": 36.11,
+        "total_fee_drag_r": 62.39,
+        "avg_fee_drag_r": 0.6
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 4,
+          "wins": 1,
+          "losses": 3,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            4.56,
+            69.94
+          ],
+          "gross_expectancy_r": -0.09,
+          "net_expectancy_r": -0.406,
+          "gross_expectancy_pct": -0.215,
+          "net_expectancy_pct": -0.415,
+          "total_gross_pnl_pct": -0.86,
+          "total_net_pnl_pct": -1.66,
+          "profit_factor": 0.25,
+          "max_drawdown_r": 1.63,
+          "max_drawdown_pct": 1.66,
+          "total_fee_drag_r": 1.26,
+          "avg_fee_drag_r": 0.316
+        },
+        "RANGE_CHOP": {
+          "total_trades": 100,
+          "wins": 21,
+          "losses": 79,
+          "win_rate_pct": 21.0,
+          "win_rate_95_ci": [
+            14.17,
+            29.98
+          ],
+          "gross_expectancy_r": -0.412,
+          "net_expectancy_r": -1.023,
+          "gross_expectancy_pct": -0.145,
+          "net_expectancy_pct": -0.344,
+          "total_gross_pnl_pct": -14.46,
+          "total_net_pnl_pct": -34.45,
+          "profit_factor": 0.16,
+          "max_drawdown_r": 102.29,
+          "max_drawdown_pct": 34.45,
+          "total_fee_drag_r": 61.13,
+          "avg_fee_drag_r": 0.611
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A3_SWEEP_RANGE_HIGH",
+      "strategy_name": "Strategy A3: Liquidity Sweep & Reclaim (Target Opposing Range High)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 62,
+        "wins": 16,
+        "losses": 46,
+        "win_rate_pct": 25.81,
+        "win_rate_95_ci": [
+          16.55,
+          37.88
+        ],
+        "gross_expectancy_r": -0.336,
+        "net_expectancy_r": -0.953,
+        "gross_expectancy_pct": -0.072,
+        "net_expectancy_pct": -0.272,
+        "total_gross_pnl_pct": -4.49,
+        "total_net_pnl_pct": -16.88,
+        "profit_factor": 0.3,
+        "max_drawdown_r": 59.85,
+        "max_drawdown_pct": 17.15,
+        "total_fee_drag_r": 38.27,
+        "avg_fee_drag_r": 0.617
+      },
+      "val_metrics": {
+        "total_trades": 29,
+        "wins": 4,
+        "losses": 25,
+        "win_rate_pct": 13.79,
+        "win_rate_95_ci": [
+          5.5,
+          30.56
+        ],
+        "gross_expectancy_r": -0.6,
+        "net_expectancy_r": -1.184,
+        "gross_expectancy_pct": -0.254,
+        "net_expectancy_pct": -0.454,
+        "total_gross_pnl_pct": -7.36,
+        "total_net_pnl_pct": -13.16,
+        "profit_factor": 0.06,
+        "max_drawdown_r": 34.33,
+        "max_drawdown_pct": 13.16,
+        "total_fee_drag_r": 16.93,
+        "avg_fee_drag_r": 0.584
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 3,
+        "losses": 11,
+        "win_rate_pct": 21.43,
+        "win_rate_95_ci": [
+          7.57,
+          47.59
+        ],
+        "gross_expectancy_r": -0.381,
+        "net_expectancy_r": -1.026,
+        "gross_expectancy_pct": -0.138,
+        "net_expectancy_pct": -0.338,
+        "total_gross_pnl_pct": -1.94,
+        "total_net_pnl_pct": -4.73,
+        "profit_factor": 0.09,
+        "max_drawdown_r": 14.97,
+        "max_drawdown_pct": 4.87,
+        "total_fee_drag_r": 9.03,
+        "avg_fee_drag_r": 0.645
+      },
+      "overall_metrics": {
+        "total_trades": 105,
+        "wins": 23,
+        "losses": 82,
+        "win_rate_pct": 21.9,
+        "win_rate_95_ci": [
+          15.06,
+          30.73
+        ],
+        "gross_expectancy_r": -0.415,
+        "net_expectancy_r": -1.027,
+        "gross_expectancy_pct": -0.131,
+        "net_expectancy_pct": -0.331,
+        "total_gross_pnl_pct": -13.79,
+        "total_net_pnl_pct": -34.78,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 107.81,
+        "max_drawdown_pct": 34.78,
+        "total_fee_drag_r": 64.22,
+        "avg_fee_drag_r": 0.612
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 4,
+          "wins": 1,
+          "losses": 3,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            4.56,
+            69.94
+          ],
+          "gross_expectancy_r": 0.099,
+          "net_expectancy_r": -0.218,
+          "gross_expectancy_pct": -0.142,
+          "net_expectancy_pct": -0.342,
+          "total_gross_pnl_pct": -0.57,
+          "total_net_pnl_pct": -1.37,
+          "profit_factor": 0.38,
+          "max_drawdown_r": 1.56,
+          "max_drawdown_pct": 1.37,
+          "total_fee_drag_r": 1.27,
+          "avg_fee_drag_r": 0.316
+        },
+        "RANGE_CHOP": {
+          "total_trades": 101,
+          "wins": 22,
+          "losses": 79,
+          "win_rate_pct": 21.78,
+          "win_rate_95_ci": [
+            14.85,
+            30.78
+          ],
+          "gross_expectancy_r": -0.436,
+          "net_expectancy_r": -1.059,
+          "gross_expectancy_pct": -0.131,
+          "net_expectancy_pct": -0.331,
+          "total_gross_pnl_pct": -13.22,
+          "total_net_pnl_pct": -33.41,
+          "profit_factor": 0.18,
+          "max_drawdown_r": 106.94,
+          "max_drawdown_pct": 33.41,
+          "total_fee_drag_r": 62.95,
+          "avg_fee_drag_r": 0.623
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B1_RANGE_MIDPOINT",
+      "strategy_name": "Strategy B1: Range Mean-Reversion (Target Range Midpoint)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 52,
+        "wins": 19,
+        "losses": 33,
+        "win_rate_pct": 36.54,
+        "win_rate_95_ci": [
+          24.8,
+          50.13
+        ],
+        "gross_expectancy_r": -0.204,
+        "net_expectancy_r": -0.848,
+        "gross_expectancy_pct": -0.045,
+        "net_expectancy_pct": -0.245,
+        "total_gross_pnl_pct": -2.36,
+        "total_net_pnl_pct": -12.76,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 44.08,
+        "max_drawdown_pct": 13.52,
+        "total_fee_drag_r": 33.47,
+        "avg_fee_drag_r": 0.644
+      },
+      "val_metrics": {
+        "total_trades": 22,
+        "wins": 6,
+        "losses": 16,
+        "win_rate_pct": 27.27,
+        "win_rate_95_ci": [
+          13.15,
+          48.15
+        ],
+        "gross_expectancy_r": -0.287,
+        "net_expectancy_r": -0.87,
+        "gross_expectancy_pct": -0.093,
+        "net_expectancy_pct": -0.293,
+        "total_gross_pnl_pct": -2.05,
+        "total_net_pnl_pct": -6.45,
+        "profit_factor": 0.22,
+        "max_drawdown_r": 19.14,
+        "max_drawdown_pct": 6.45,
+        "total_fee_drag_r": 12.83,
+        "avg_fee_drag_r": 0.583
+      },
+      "test_metrics": {
+        "total_trades": 22,
+        "wins": 6,
+        "losses": 16,
+        "win_rate_pct": 27.27,
+        "win_rate_95_ci": [
+          13.15,
+          48.15
+        ],
+        "gross_expectancy_r": -0.339,
+        "net_expectancy_r": -0.891,
+        "gross_expectancy_pct": -0.132,
+        "net_expectancy_pct": -0.332,
+        "total_gross_pnl_pct": -2.91,
+        "total_net_pnl_pct": -7.31,
+        "profit_factor": 0.17,
+        "max_drawdown_r": 20.62,
+        "max_drawdown_pct": 8.2,
+        "total_fee_drag_r": 12.16,
+        "avg_fee_drag_r": 0.553
+      },
+      "overall_metrics": {
+        "total_trades": 98,
+        "wins": 32,
+        "losses": 66,
+        "win_rate_pct": 32.65,
+        "win_rate_95_ci": [
+          24.18,
+          42.44
+        ],
+        "gross_expectancy_r": -0.251,
+        "net_expectancy_r": -0.864,
+        "gross_expectancy_pct": -0.071,
+        "net_expectancy_pct": -0.271,
+        "total_gross_pnl_pct": -6.96,
+        "total_net_pnl_pct": -26.55,
+        "profit_factor": 0.2,
+        "max_drawdown_r": 85.68,
+        "max_drawdown_pct": 27.45,
+        "total_fee_drag_r": 60.09,
+        "avg_fee_drag_r": 0.613
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "RANGE_CHOP": {
+          "total_trades": 98,
+          "wins": 32,
+          "losses": 66,
+          "win_rate_pct": 32.65,
+          "win_rate_95_ci": [
+            24.18,
+            42.44
+          ],
+          "gross_expectancy_r": -0.251,
+          "net_expectancy_r": -0.864,
+          "gross_expectancy_pct": -0.071,
+          "net_expectancy_pct": -0.271,
+          "total_gross_pnl_pct": -6.96,
+          "total_net_pnl_pct": -26.55,
+          "profit_factor": 0.2,
+          "max_drawdown_r": 85.68,
+          "max_drawdown_pct": 27.45,
+          "total_fee_drag_r": 60.09,
+          "avg_fee_drag_r": 0.613
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B2_RANGE_15R",
+      "strategy_name": "Strategy B2: Range Mean-Reversion (Target Fixed 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 51,
+        "wins": 19,
+        "losses": 32,
+        "win_rate_pct": 37.25,
+        "win_rate_95_ci": [
+          25.32,
+          50.97
+        ],
+        "gross_expectancy_r": -0.094,
+        "net_expectancy_r": -0.737,
+        "gross_expectancy_pct": -0.001,
+        "net_expectancy_pct": -0.201,
+        "total_gross_pnl_pct": -0.04,
+        "total_net_pnl_pct": -10.24,
+        "profit_factor": 0.35,
+        "max_drawdown_r": 37.61,
+        "max_drawdown_pct": 11.31,
+        "total_fee_drag_r": 32.8,
+        "avg_fee_drag_r": 0.643
+      },
+      "val_metrics": {
+        "total_trades": 22,
+        "wins": 4,
+        "losses": 18,
+        "win_rate_pct": 18.18,
+        "win_rate_95_ci": [
+          7.31,
+          38.52
+        ],
+        "gross_expectancy_r": -0.333,
+        "net_expectancy_r": -0.916,
+        "gross_expectancy_pct": -0.131,
+        "net_expectancy_pct": -0.331,
+        "total_gross_pnl_pct": -2.87,
+        "total_net_pnl_pct": -7.27,
+        "profit_factor": 0.2,
+        "max_drawdown_r": 20.15,
+        "max_drawdown_pct": 7.27,
+        "total_fee_drag_r": 12.83,
+        "avg_fee_drag_r": 0.583
+      },
+      "test_metrics": {
+        "total_trades": 22,
+        "wins": 6,
+        "losses": 16,
+        "win_rate_pct": 27.27,
+        "win_rate_95_ci": [
+          13.15,
+          48.15
+        ],
+        "gross_expectancy_r": -0.382,
+        "net_expectancy_r": -0.934,
+        "gross_expectancy_pct": -0.147,
+        "net_expectancy_pct": -0.346,
+        "total_gross_pnl_pct": -3.22,
+        "total_net_pnl_pct": -7.62,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 22.42,
+        "max_drawdown_pct": 8.67,
+        "total_fee_drag_r": 12.16,
+        "avg_fee_drag_r": 0.553
+      },
+      "overall_metrics": {
+        "total_trades": 97,
+        "wins": 30,
+        "losses": 67,
+        "win_rate_pct": 30.93,
+        "win_rate_95_ci": [
+          22.6,
+          40.7
+        ],
+        "gross_expectancy_r": -0.215,
+        "net_expectancy_r": -0.828,
+        "gross_expectancy_pct": -0.06,
+        "net_expectancy_pct": -0.26,
+        "total_gross_pnl_pct": -5.85,
+        "total_net_pnl_pct": -25.25,
+        "profit_factor": 0.27,
+        "max_drawdown_r": 82.15,
+        "max_drawdown_pct": 26.3,
+        "total_fee_drag_r": 59.41,
+        "avg_fee_drag_r": 0.612
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "RANGE_CHOP": {
+          "total_trades": 97,
+          "wins": 30,
+          "losses": 67,
+          "win_rate_pct": 30.93,
+          "win_rate_95_ci": [
+            22.6,
+            40.7
+          ],
+          "gross_expectancy_r": -0.215,
+          "net_expectancy_r": -0.828,
+          "gross_expectancy_pct": -0.06,
+          "net_expectancy_pct": -0.26,
+          "total_gross_pnl_pct": -5.85,
+          "total_net_pnl_pct": -25.25,
+          "profit_factor": 0.27,
+          "max_drawdown_r": 82.15,
+          "max_drawdown_pct": 26.3,
+          "total_fee_drag_r": 59.41,
+          "avg_fee_drag_r": 0.612
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B3_RANGE_20R",
+      "strategy_name": "Strategy B3: Range Mean-Reversion (Target Fixed 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": 8.87,
+        "bnh_val_pct": -4.74,
+        "bnh_test_pct": -0.5,
+        "bnh_overall_pct": 3.19
+      },
+      "train_metrics": {
+        "total_trades": 51,
+        "wins": 15,
+        "losses": 36,
+        "win_rate_pct": 29.41,
+        "win_rate_95_ci": [
+          18.71,
+          43.0
+        ],
+        "gross_expectancy_r": -0.198,
+        "net_expectancy_r": -0.841,
+        "gross_expectancy_pct": -0.036,
+        "net_expectancy_pct": -0.236,
+        "total_gross_pnl_pct": -1.84,
+        "total_net_pnl_pct": -12.03,
+        "profit_factor": 0.32,
+        "max_drawdown_r": 42.89,
+        "max_drawdown_pct": 13.1,
+        "total_fee_drag_r": 32.79,
+        "avg_fee_drag_r": 0.643
+      },
+      "val_metrics": {
+        "total_trades": 22,
+        "wins": 3,
+        "losses": 19,
+        "win_rate_pct": 13.64,
+        "win_rate_95_ci": [
+          4.75,
+          33.33
+        ],
+        "gross_expectancy_r": -0.341,
+        "net_expectancy_r": -0.924,
+        "gross_expectancy_pct": -0.145,
+        "net_expectancy_pct": -0.345,
+        "total_gross_pnl_pct": -3.19,
+        "total_net_pnl_pct": -7.59,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 20.33,
+        "max_drawdown_pct": 7.59,
+        "total_fee_drag_r": 12.83,
+        "avg_fee_drag_r": 0.583
+      },
+      "test_metrics": {
+        "total_trades": 22,
+        "wins": 6,
+        "losses": 16,
+        "win_rate_pct": 27.27,
+        "win_rate_95_ci": [
+          13.15,
+          48.15
+        ],
+        "gross_expectancy_r": -0.268,
+        "net_expectancy_r": -0.821,
+        "gross_expectancy_pct": -0.102,
+        "net_expectancy_pct": -0.302,
+        "total_gross_pnl_pct": -2.25,
+        "total_net_pnl_pct": -6.64,
+        "profit_factor": 0.29,
+        "max_drawdown_r": 20.92,
+        "max_drawdown_pct": 8.21,
+        "total_fee_drag_r": 12.16,
+        "avg_fee_drag_r": 0.553
+      },
+      "overall_metrics": {
+        "total_trades": 97,
+        "wins": 25,
+        "losses": 72,
+        "win_rate_pct": 25.77,
+        "win_rate_95_ci": [
+          18.11,
+          35.28
+        ],
+        "gross_expectancy_r": -0.246,
+        "net_expectancy_r": -0.858,
+        "gross_expectancy_pct": -0.072,
+        "net_expectancy_pct": -0.272,
+        "total_gross_pnl_pct": -6.99,
+        "total_net_pnl_pct": -26.38,
+        "profit_factor": 0.28,
+        "max_drawdown_r": 86.11,
+        "max_drawdown_pct": 27.94,
+        "total_fee_drag_r": 59.41,
+        "avg_fee_drag_r": 0.612
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "RANGE_CHOP": {
+          "total_trades": 97,
+          "wins": 25,
+          "losses": 72,
+          "win_rate_pct": 25.77,
+          "win_rate_95_ci": [
+            18.11,
+            35.28
+          ],
+          "gross_expectancy_r": -0.246,
+          "net_expectancy_r": -0.858,
+          "gross_expectancy_pct": -0.072,
+          "net_expectancy_pct": -0.272,
+          "total_gross_pnl_pct": -6.99,
+          "total_net_pnl_pct": -26.38,
+          "profit_factor": 0.28,
+          "max_drawdown_r": 86.11,
+          "max_drawdown_pct": 27.94,
+          "total_fee_drag_r": 59.41,
+          "avg_fee_drag_r": 0.612
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "BASELINE_ORB_V1",
+      "strategy_name": "Frozen Baseline (ORB 20-bar Breakout)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 52,
+        "wins": 13,
+        "losses": 39,
+        "win_rate_pct": 25.0,
+        "win_rate_95_ci": [
+          15.23,
+          38.21
+        ],
+        "gross_expectancy_r": -0.188,
+        "net_expectancy_r": -0.325,
+        "gross_expectancy_pct": -0.323,
+        "net_expectancy_pct": -0.522,
+        "total_gross_pnl_pct": -16.79,
+        "total_net_pnl_pct": -27.17,
+        "profit_factor": 0.23,
+        "max_drawdown_r": 17.76,
+        "max_drawdown_pct": 27.83,
+        "total_fee_drag_r": 7.15,
+        "avg_fee_drag_r": 0.137
+      },
+      "val_metrics": {
+        "total_trades": 25,
+        "wins": 14,
+        "losses": 11,
+        "win_rate_pct": 56.0,
+        "win_rate_95_ci": [
+          37.07,
+          73.33
+        ],
+        "gross_expectancy_r": 0.409,
+        "net_expectancy_r": 0.291,
+        "gross_expectancy_pct": 0.788,
+        "net_expectancy_pct": 0.587,
+        "total_gross_pnl_pct": 19.71,
+        "total_net_pnl_pct": 14.69,
+        "profit_factor": 1.78,
+        "max_drawdown_r": 3.91,
+        "max_drawdown_pct": 6.54,
+        "total_fee_drag_r": 2.95,
+        "avg_fee_drag_r": 0.118
+      },
+      "test_metrics": {
+        "total_trades": 18,
+        "wins": 3,
+        "losses": 15,
+        "win_rate_pct": 16.67,
+        "win_rate_95_ci": [
+          5.84,
+          39.22
+        ],
+        "gross_expectancy_r": -0.168,
+        "net_expectancy_r": -0.313,
+        "gross_expectancy_pct": -0.388,
+        "net_expectancy_pct": -0.588,
+        "total_gross_pnl_pct": -6.99,
+        "total_net_pnl_pct": -10.58,
+        "profit_factor": 0.23,
+        "max_drawdown_r": 6.52,
+        "max_drawdown_pct": 10.88,
+        "total_fee_drag_r": 2.62,
+        "avg_fee_drag_r": 0.146
+      },
+      "overall_metrics": {
+        "total_trades": 96,
+        "wins": 30,
+        "losses": 66,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          22.85,
+          41.09
+        ],
+        "gross_expectancy_r": -0.033,
+        "net_expectancy_r": -0.168,
+        "gross_expectancy_pct": -0.049,
+        "net_expectancy_pct": -0.249,
+        "total_gross_pnl_pct": -4.75,
+        "total_net_pnl_pct": -23.94,
+        "profit_factor": 0.64,
+        "max_drawdown_r": 17.76,
+        "max_drawdown_pct": 28.05,
+        "total_fee_drag_r": 12.9,
+        "avg_fee_drag_r": 0.134
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 22,
+          "wins": 8,
+          "losses": 14,
+          "win_rate_pct": 36.36,
+          "win_rate_95_ci": [
+            19.73,
+            57.05
+          ],
+          "gross_expectancy_r": -0.037,
+          "net_expectancy_r": -0.141,
+          "gross_expectancy_pct": -0.033,
+          "net_expectancy_pct": -0.233,
+          "total_gross_pnl_pct": -0.72,
+          "total_net_pnl_pct": -5.12,
+          "profit_factor": 0.73,
+          "max_drawdown_r": 5.01,
+          "max_drawdown_pct": 9.14,
+          "total_fee_drag_r": 2.28,
+          "avg_fee_drag_r": 0.104
+        },
+        "BEAR_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "RANGE_CHOP": {
+          "total_trades": 73,
+          "wins": 22,
+          "losses": 51,
+          "win_rate_pct": 30.14,
+          "win_rate_95_ci": [
+            20.82,
+            41.44
+          ],
+          "gross_expectancy_r": -0.03,
+          "net_expectancy_r": -0.173,
+          "gross_expectancy_pct": -0.053,
+          "net_expectancy_pct": -0.253,
+          "total_gross_pnl_pct": -3.86,
+          "total_net_pnl_pct": -18.45,
+          "profit_factor": 0.61,
+          "max_drawdown_r": 12.74,
+          "max_drawdown_pct": 18.96,
+          "total_fee_drag_r": 10.44,
+          "avg_fee_drag_r": 0.143
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A1_SWEEP_15R",
+      "strategy_name": "Strategy A1: Liquidity Sweep & Reclaim (Target 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 40,
+        "wins": 19,
+        "losses": 21,
+        "win_rate_pct": 47.5,
+        "win_rate_95_ci": [
+          32.94,
+          62.5
+        ],
+        "gross_expectancy_r": 0.051,
+        "net_expectancy_r": -0.259,
+        "gross_expectancy_pct": 0.088,
+        "net_expectancy_pct": -0.112,
+        "total_gross_pnl_pct": 3.51,
+        "total_net_pnl_pct": -4.49,
+        "profit_factor": 0.74,
+        "max_drawdown_r": 16.25,
+        "max_drawdown_pct": 11.97,
+        "total_fee_drag_r": 12.43,
+        "avg_fee_drag_r": 0.311
+      },
+      "val_metrics": {
+        "total_trades": 21,
+        "wins": 6,
+        "losses": 15,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          13.81,
+          49.96
+        ],
+        "gross_expectancy_r": -0.31,
+        "net_expectancy_r": -0.562,
+        "gross_expectancy_pct": -0.372,
+        "net_expectancy_pct": -0.572,
+        "total_gross_pnl_pct": -7.81,
+        "total_net_pnl_pct": -12.01,
+        "profit_factor": 0.22,
+        "max_drawdown_r": 13.11,
+        "max_drawdown_pct": 13.06,
+        "total_fee_drag_r": 5.31,
+        "avg_fee_drag_r": 0.253
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 7,
+        "losses": 13,
+        "win_rate_pct": 35.0,
+        "win_rate_95_ci": [
+          18.12,
+          56.71
+        ],
+        "gross_expectancy_r": -0.153,
+        "net_expectancy_r": -0.435,
+        "gross_expectancy_pct": -0.231,
+        "net_expectancy_pct": -0.431,
+        "total_gross_pnl_pct": -4.62,
+        "total_net_pnl_pct": -8.61,
+        "profit_factor": 0.38,
+        "max_drawdown_r": 13.78,
+        "max_drawdown_pct": 11.76,
+        "total_fee_drag_r": 5.64,
+        "avg_fee_drag_r": 0.282
+      },
+      "overall_metrics": {
+        "total_trades": 81,
+        "wins": 32,
+        "losses": 49,
+        "win_rate_pct": 39.51,
+        "win_rate_95_ci": [
+          29.57,
+          50.39
+        ],
+        "gross_expectancy_r": -0.093,
+        "net_expectancy_r": -0.381,
+        "gross_expectancy_pct": -0.11,
+        "net_expectancy_pct": -0.31,
+        "total_gross_pnl_pct": -8.92,
+        "total_net_pnl_pct": -25.11,
+        "profit_factor": 0.46,
+        "max_drawdown_r": 34.33,
+        "max_drawdown_pct": 28.08,
+        "total_fee_drag_r": 23.38,
+        "avg_fee_drag_r": 0.289
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            9.45,
+            90.55
+          ],
+          "gross_expectancy_r": 0.175,
+          "net_expectancy_r": -0.122,
+          "gross_expectancy_pct": 0.174,
+          "net_expectancy_pct": -0.026,
+          "total_gross_pnl_pct": 0.35,
+          "total_net_pnl_pct": -0.05,
+          "profit_factor": 0.99,
+          "max_drawdown_r": 1.39,
+          "max_drawdown_pct": 0.88,
+          "total_fee_drag_r": 0.6,
+          "avg_fee_drag_r": 0.298
+        },
+        "BEAR_TREND": {
+          "total_trades": 27,
+          "wins": 10,
+          "losses": 17,
+          "win_rate_pct": 37.04,
+          "win_rate_95_ci": [
+            21.53,
+            55.77
+          ],
+          "gross_expectancy_r": -0.239,
+          "net_expectancy_r": -0.488,
+          "gross_expectancy_pct": -0.148,
+          "net_expectancy_pct": -0.347,
+          "total_gross_pnl_pct": -3.99,
+          "total_net_pnl_pct": -9.38,
+          "profit_factor": 0.42,
+          "max_drawdown_r": 13.74,
+          "max_drawdown_pct": 9.92,
+          "total_fee_drag_r": 6.73,
+          "avg_fee_drag_r": 0.249
+        },
+        "RANGE_CHOP": {
+          "total_trades": 51,
+          "wins": 20,
+          "losses": 31,
+          "win_rate_pct": 39.22,
+          "win_rate_95_ci": [
+            27.03,
+            52.91
+          ],
+          "gross_expectancy_r": -0.056,
+          "net_expectancy_r": -0.368,
+          "gross_expectancy_pct": -0.141,
+          "net_expectancy_pct": -0.341,
+          "total_gross_pnl_pct": -7.18,
+          "total_net_pnl_pct": -17.37,
+          "profit_factor": 0.42,
+          "max_drawdown_r": 20.91,
+          "max_drawdown_pct": 18.65,
+          "total_fee_drag_r": 15.9,
+          "avg_fee_drag_r": 0.312
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A2_SWEEP_20R",
+      "strategy_name": "Strategy A2: Liquidity Sweep & Reclaim (Target 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 40,
+        "wins": 18,
+        "losses": 22,
+        "win_rate_pct": 45.0,
+        "win_rate_95_ci": [
+          30.71,
+          60.17
+        ],
+        "gross_expectancy_r": 0.016,
+        "net_expectancy_r": -0.295,
+        "gross_expectancy_pct": 0.025,
+        "net_expectancy_pct": -0.175,
+        "total_gross_pnl_pct": 0.99,
+        "total_net_pnl_pct": -7.01,
+        "profit_factor": 0.62,
+        "max_drawdown_r": 20.71,
+        "max_drawdown_pct": 15.74,
+        "total_fee_drag_r": 12.43,
+        "avg_fee_drag_r": 0.311
+      },
+      "val_metrics": {
+        "total_trades": 21,
+        "wins": 5,
+        "losses": 16,
+        "win_rate_pct": 23.81,
+        "win_rate_95_ci": [
+          10.63,
+          45.09
+        ],
+        "gross_expectancy_r": -0.357,
+        "net_expectancy_r": -0.61,
+        "gross_expectancy_pct": -0.402,
+        "net_expectancy_pct": -0.602,
+        "total_gross_pnl_pct": -8.44,
+        "total_net_pnl_pct": -12.63,
+        "profit_factor": 0.23,
+        "max_drawdown_r": 14.61,
+        "max_drawdown_pct": 14.05,
+        "total_fee_drag_r": 5.31,
+        "avg_fee_drag_r": 0.253
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 5,
+        "losses": 15,
+        "win_rate_pct": 25.0,
+        "win_rate_95_ci": [
+          11.19,
+          46.87
+        ],
+        "gross_expectancy_r": -0.353,
+        "net_expectancy_r": -0.635,
+        "gross_expectancy_pct": -0.351,
+        "net_expectancy_pct": -0.55,
+        "total_gross_pnl_pct": -7.01,
+        "total_net_pnl_pct": -11.0,
+        "profit_factor": 0.29,
+        "max_drawdown_r": 16.6,
+        "max_drawdown_pct": 13.31,
+        "total_fee_drag_r": 5.64,
+        "avg_fee_drag_r": 0.282
+      },
+      "overall_metrics": {
+        "total_trades": 81,
+        "wins": 28,
+        "losses": 53,
+        "win_rate_pct": 34.57,
+        "win_rate_95_ci": [
+          25.12,
+          45.41
+        ],
+        "gross_expectancy_r": -0.172,
+        "net_expectancy_r": -0.461,
+        "gross_expectancy_pct": -0.179,
+        "net_expectancy_pct": -0.378,
+        "total_gross_pnl_pct": -14.46,
+        "total_net_pnl_pct": -30.65,
+        "profit_factor": 0.39,
+        "max_drawdown_r": 38.79,
+        "max_drawdown_pct": 32.39,
+        "total_fee_drag_r": 23.37,
+        "avg_fee_drag_r": 0.289
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            9.45,
+            90.55
+          ],
+          "gross_expectancy_r": 0.425,
+          "net_expectancy_r": 0.127,
+          "gross_expectancy_pct": 0.354,
+          "net_expectancy_pct": 0.153,
+          "total_gross_pnl_pct": 0.71,
+          "total_net_pnl_pct": 0.31,
+          "profit_factor": 1.43,
+          "max_drawdown_r": 1.39,
+          "max_drawdown_pct": 0.88,
+          "total_fee_drag_r": 0.6,
+          "avg_fee_drag_r": 0.298
+        },
+        "BEAR_TREND": {
+          "total_trades": 27,
+          "wins": 9,
+          "losses": 18,
+          "win_rate_pct": 33.33,
+          "win_rate_95_ci": [
+            18.64,
+            52.18
+          ],
+          "gross_expectancy_r": -0.332,
+          "net_expectancy_r": -0.581,
+          "gross_expectancy_pct": -0.228,
+          "net_expectancy_pct": -0.427,
+          "total_gross_pnl_pct": -6.14,
+          "total_net_pnl_pct": -11.54,
+          "profit_factor": 0.34,
+          "max_drawdown_r": 16.24,
+          "max_drawdown_pct": 11.99,
+          "total_fee_drag_r": 6.72,
+          "avg_fee_drag_r": 0.249
+        },
+        "RANGE_CHOP": {
+          "total_trades": 51,
+          "wins": 17,
+          "losses": 34,
+          "win_rate_pct": 33.33,
+          "win_rate_95_ci": [
+            21.97,
+            47.03
+          ],
+          "gross_expectancy_r": -0.144,
+          "net_expectancy_r": -0.456,
+          "gross_expectancy_pct": -0.215,
+          "net_expectancy_pct": -0.415,
+          "total_gross_pnl_pct": -10.97,
+          "total_net_pnl_pct": -21.16,
+          "profit_factor": 0.34,
+          "max_drawdown_r": 23.37,
+          "max_drawdown_pct": 21.16,
+          "total_fee_drag_r": 15.9,
+          "avg_fee_drag_r": 0.312
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A3_SWEEP_RANGE_HIGH",
+      "strategy_name": "Strategy A3: Liquidity Sweep & Reclaim (Target Opposing Range High)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 40,
+        "wins": 16,
+        "losses": 24,
+        "win_rate_pct": 40.0,
+        "win_rate_95_ci": [
+          26.35,
+          55.4
+        ],
+        "gross_expectancy_r": 0.05,
+        "net_expectancy_r": -0.261,
+        "gross_expectancy_pct": 0.077,
+        "net_expectancy_pct": -0.124,
+        "total_gross_pnl_pct": 3.06,
+        "total_net_pnl_pct": -4.94,
+        "profit_factor": 0.7,
+        "max_drawdown_r": 19.79,
+        "max_drawdown_pct": 14.88,
+        "total_fee_drag_r": 12.43,
+        "avg_fee_drag_r": 0.311
+      },
+      "val_metrics": {
+        "total_trades": 21,
+        "wins": 6,
+        "losses": 15,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          13.81,
+          49.96
+        ],
+        "gross_expectancy_r": -0.394,
+        "net_expectancy_r": -0.646,
+        "gross_expectancy_pct": -0.422,
+        "net_expectancy_pct": -0.622,
+        "total_gross_pnl_pct": -8.87,
+        "total_net_pnl_pct": -13.06,
+        "profit_factor": 0.15,
+        "max_drawdown_r": 14.59,
+        "max_drawdown_pct": 13.91,
+        "total_fee_drag_r": 5.31,
+        "avg_fee_drag_r": 0.253
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 5,
+        "losses": 15,
+        "win_rate_pct": 25.0,
+        "win_rate_95_ci": [
+          11.19,
+          46.87
+        ],
+        "gross_expectancy_r": -0.372,
+        "net_expectancy_r": -0.654,
+        "gross_expectancy_pct": -0.348,
+        "net_expectancy_pct": -0.547,
+        "total_gross_pnl_pct": -6.95,
+        "total_net_pnl_pct": -10.95,
+        "profit_factor": 0.29,
+        "max_drawdown_r": 16.19,
+        "max_drawdown_pct": 12.72,
+        "total_fee_drag_r": 5.64,
+        "avg_fee_drag_r": 0.282
+      },
+      "overall_metrics": {
+        "total_trades": 81,
+        "wins": 27,
+        "losses": 54,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          24.03,
+          44.15
+        ],
+        "gross_expectancy_r": -0.17,
+        "net_expectancy_r": -0.458,
+        "gross_expectancy_pct": -0.158,
+        "net_expectancy_pct": -0.357,
+        "total_gross_pnl_pct": -12.76,
+        "total_net_pnl_pct": -28.95,
+        "profit_factor": 0.41,
+        "max_drawdown_r": 39.05,
+        "max_drawdown_pct": 30.81,
+        "total_fee_drag_r": 23.37,
+        "avg_fee_drag_r": 0.289
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            9.45,
+            90.55
+          ],
+          "gross_expectancy_r": 0.031,
+          "net_expectancy_r": -0.267,
+          "gross_expectancy_pct": 0.07,
+          "net_expectancy_pct": -0.13,
+          "total_gross_pnl_pct": 0.14,
+          "total_net_pnl_pct": -0.26,
+          "profit_factor": 0.74,
+          "max_drawdown_r": 1.39,
+          "max_drawdown_pct": 0.88,
+          "total_fee_drag_r": 0.6,
+          "avg_fee_drag_r": 0.298
+        },
+        "BEAR_TREND": {
+          "total_trades": 27,
+          "wins": 9,
+          "losses": 18,
+          "win_rate_pct": 33.33,
+          "win_rate_95_ci": [
+            18.64,
+            52.18
+          ],
+          "gross_expectancy_r": -0.185,
+          "net_expectancy_r": -0.434,
+          "gross_expectancy_pct": -0.104,
+          "net_expectancy_pct": -0.304,
+          "total_gross_pnl_pct": -2.81,
+          "total_net_pnl_pct": -8.21,
+          "profit_factor": 0.48,
+          "max_drawdown_r": 12.29,
+          "max_drawdown_pct": 9.21,
+          "total_fee_drag_r": 6.73,
+          "avg_fee_drag_r": 0.249
+        },
+        "RANGE_CHOP": {
+          "total_trades": 51,
+          "wins": 16,
+          "losses": 35,
+          "win_rate_pct": 31.37,
+          "win_rate_95_ci": [
+            20.33,
+            45.03
+          ],
+          "gross_expectancy_r": -0.203,
+          "net_expectancy_r": -0.515,
+          "gross_expectancy_pct": -0.238,
+          "net_expectancy_pct": -0.438,
+          "total_gross_pnl_pct": -12.14,
+          "total_net_pnl_pct": -22.33,
+          "profit_factor": 0.3,
+          "max_drawdown_r": 26.78,
+          "max_drawdown_pct": 22.34,
+          "total_fee_drag_r": 15.89,
+          "avg_fee_drag_r": 0.312
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B1_RANGE_MIDPOINT",
+      "strategy_name": "Strategy B1: Range Mean-Reversion (Target Range Midpoint)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 47,
+        "wins": 16,
+        "losses": 31,
+        "win_rate_pct": 34.04,
+        "win_rate_95_ci": [
+          22.17,
+          48.33
+        ],
+        "gross_expectancy_r": -0.209,
+        "net_expectancy_r": -0.483,
+        "gross_expectancy_pct": -0.059,
+        "net_expectancy_pct": -0.259,
+        "total_gross_pnl_pct": -2.77,
+        "total_net_pnl_pct": -12.17,
+        "profit_factor": 0.5,
+        "max_drawdown_r": 23.15,
+        "max_drawdown_pct": 12.39,
+        "total_fee_drag_r": 12.87,
+        "avg_fee_drag_r": 0.274
+      },
+      "val_metrics": {
+        "total_trades": 11,
+        "wins": 3,
+        "losses": 8,
+        "win_rate_pct": 27.27,
+        "win_rate_95_ci": [
+          9.75,
+          56.56
+        ],
+        "gross_expectancy_r": -0.423,
+        "net_expectancy_r": -0.689,
+        "gross_expectancy_pct": -0.273,
+        "net_expectancy_pct": -0.472,
+        "total_gross_pnl_pct": -3.0,
+        "total_net_pnl_pct": -5.2,
+        "profit_factor": 0.28,
+        "max_drawdown_r": 8.42,
+        "max_drawdown_pct": 6.56,
+        "total_fee_drag_r": 2.93,
+        "avg_fee_drag_r": 0.267
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 3,
+        "losses": 11,
+        "win_rate_pct": 21.43,
+        "win_rate_95_ci": [
+          7.57,
+          47.59
+        ],
+        "gross_expectancy_r": -0.405,
+        "net_expectancy_r": -0.686,
+        "gross_expectancy_pct": -0.254,
+        "net_expectancy_pct": -0.454,
+        "total_gross_pnl_pct": -3.55,
+        "total_net_pnl_pct": -6.35,
+        "profit_factor": 0.19,
+        "max_drawdown_r": 11.01,
+        "max_drawdown_pct": 7.42,
+        "total_fee_drag_r": 3.93,
+        "avg_fee_drag_r": 0.281
+      },
+      "overall_metrics": {
+        "total_trades": 72,
+        "wins": 22,
+        "losses": 50,
+        "win_rate_pct": 30.56,
+        "win_rate_95_ci": [
+          21.13,
+          41.95
+        ],
+        "gross_expectancy_r": -0.28,
+        "net_expectancy_r": -0.554,
+        "gross_expectancy_pct": -0.13,
+        "net_expectancy_pct": -0.329,
+        "total_gross_pnl_pct": -9.33,
+        "total_net_pnl_pct": -23.72,
+        "profit_factor": 0.39,
+        "max_drawdown_r": 41.28,
+        "max_drawdown_pct": 24.79,
+        "total_fee_drag_r": 19.74,
+        "avg_fee_drag_r": 0.274
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 17,
+          "wins": 5,
+          "losses": 12,
+          "win_rate_pct": 29.41,
+          "win_rate_95_ci": [
+            13.28,
+            53.13
+          ],
+          "gross_expectancy_r": -0.334,
+          "net_expectancy_r": -0.562,
+          "gross_expectancy_pct": -0.112,
+          "net_expectancy_pct": -0.312,
+          "total_gross_pnl_pct": -1.9,
+          "total_net_pnl_pct": -5.3,
+          "profit_factor": 0.39,
+          "max_drawdown_r": 9.56,
+          "max_drawdown_pct": 5.3,
+          "total_fee_drag_r": 3.88,
+          "avg_fee_drag_r": 0.228
+        },
+        "RANGE_CHOP": {
+          "total_trades": 55,
+          "wins": 17,
+          "losses": 38,
+          "win_rate_pct": 30.91,
+          "win_rate_95_ci": [
+            20.28,
+            44.03
+          ],
+          "gross_expectancy_r": -0.263,
+          "net_expectancy_r": -0.551,
+          "gross_expectancy_pct": -0.135,
+          "net_expectancy_pct": -0.335,
+          "total_gross_pnl_pct": -7.43,
+          "total_net_pnl_pct": -18.42,
+          "profit_factor": 0.39,
+          "max_drawdown_r": 31.72,
+          "max_drawdown_pct": 19.49,
+          "total_fee_drag_r": 15.85,
+          "avg_fee_drag_r": 0.288
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B2_RANGE_15R",
+      "strategy_name": "Strategy B2: Range Mean-Reversion (Target Fixed 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 47,
+        "wins": 17,
+        "losses": 30,
+        "win_rate_pct": 36.17,
+        "win_rate_95_ci": [
+          23.97,
+          50.46
+        ],
+        "gross_expectancy_r": -0.122,
+        "net_expectancy_r": -0.396,
+        "gross_expectancy_pct": 0.001,
+        "net_expectancy_pct": -0.199,
+        "total_gross_pnl_pct": 0.04,
+        "total_net_pnl_pct": -9.36,
+        "profit_factor": 0.61,
+        "max_drawdown_r": 20.61,
+        "max_drawdown_pct": 10.29,
+        "total_fee_drag_r": 12.88,
+        "avg_fee_drag_r": 0.274
+      },
+      "val_metrics": {
+        "total_trades": 11,
+        "wins": 2,
+        "losses": 9,
+        "win_rate_pct": 18.18,
+        "win_rate_95_ci": [
+          5.14,
+          47.7
+        ],
+        "gross_expectancy_r": -0.565,
+        "net_expectancy_r": -0.831,
+        "gross_expectancy_pct": -0.408,
+        "net_expectancy_pct": -0.607,
+        "total_gross_pnl_pct": -4.48,
+        "total_net_pnl_pct": -6.68,
+        "profit_factor": 0.2,
+        "max_drawdown_r": 9.92,
+        "max_drawdown_pct": 7.94,
+        "total_fee_drag_r": 2.93,
+        "avg_fee_drag_r": 0.266
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 3,
+        "losses": 11,
+        "win_rate_pct": 21.43,
+        "win_rate_95_ci": [
+          7.57,
+          47.59
+        ],
+        "gross_expectancy_r": -0.347,
+        "net_expectancy_r": -0.628,
+        "gross_expectancy_pct": -0.209,
+        "net_expectancy_pct": -0.409,
+        "total_gross_pnl_pct": -2.93,
+        "total_net_pnl_pct": -5.72,
+        "profit_factor": 0.27,
+        "max_drawdown_r": 11.12,
+        "max_drawdown_pct": 7.5,
+        "total_fee_drag_r": 3.93,
+        "avg_fee_drag_r": 0.281
+      },
+      "overall_metrics": {
+        "total_trades": 72,
+        "wins": 22,
+        "losses": 50,
+        "win_rate_pct": 30.56,
+        "win_rate_95_ci": [
+          21.13,
+          41.95
+        ],
+        "gross_expectancy_r": -0.233,
+        "net_expectancy_r": -0.507,
+        "gross_expectancy_pct": -0.102,
+        "net_expectancy_pct": -0.302,
+        "total_gross_pnl_pct": -7.37,
+        "total_net_pnl_pct": -21.76,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 39.83,
+        "max_drawdown_pct": 24.01,
+        "total_fee_drag_r": 19.74,
+        "avg_fee_drag_r": 0.274
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 17,
+          "wins": 5,
+          "losses": 12,
+          "win_rate_pct": 29.41,
+          "win_rate_95_ci": [
+            13.28,
+            53.13
+          ],
+          "gross_expectancy_r": -0.29,
+          "net_expectancy_r": -0.519,
+          "gross_expectancy_pct": -0.093,
+          "net_expectancy_pct": -0.293,
+          "total_gross_pnl_pct": -1.58,
+          "total_net_pnl_pct": -4.98,
+          "profit_factor": 0.42,
+          "max_drawdown_r": 8.82,
+          "max_drawdown_pct": 4.98,
+          "total_fee_drag_r": 3.89,
+          "avg_fee_drag_r": 0.229
+        },
+        "RANGE_CHOP": {
+          "total_trades": 55,
+          "wins": 17,
+          "losses": 38,
+          "win_rate_pct": 30.91,
+          "win_rate_95_ci": [
+            20.28,
+            44.03
+          ],
+          "gross_expectancy_r": -0.215,
+          "net_expectancy_r": -0.504,
+          "gross_expectancy_pct": -0.105,
+          "net_expectancy_pct": -0.305,
+          "total_gross_pnl_pct": -5.79,
+          "total_net_pnl_pct": -16.79,
+          "profit_factor": 0.46,
+          "max_drawdown_r": 31.34,
+          "max_drawdown_pct": 19.48,
+          "total_fee_drag_r": 15.85,
+          "avg_fee_drag_r": 0.288
+        }
+      }
+    },
+    {
+      "symbol": "BTCUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B3_RANGE_20R",
+      "strategy_name": "Strategy B3: Range Mean-Reversion (Target Fixed 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": -17.55,
+        "bnh_val_pct": 30.63,
+        "bnh_test_pct": -3.97,
+        "bnh_overall_pct": 3.43
+      },
+      "train_metrics": {
+        "total_trades": 47,
+        "wins": 15,
+        "losses": 32,
+        "win_rate_pct": 31.91,
+        "win_rate_95_ci": [
+          20.4,
+          46.17
+        ],
+        "gross_expectancy_r": -0.17,
+        "net_expectancy_r": -0.444,
+        "gross_expectancy_pct": -0.041,
+        "net_expectancy_pct": -0.241,
+        "total_gross_pnl_pct": -1.92,
+        "total_net_pnl_pct": -11.32,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 22.89,
+        "max_drawdown_pct": 12.1,
+        "total_fee_drag_r": 12.88,
+        "avg_fee_drag_r": 0.274
+      },
+      "val_metrics": {
+        "total_trades": 11,
+        "wins": 1,
+        "losses": 10,
+        "win_rate_pct": 9.09,
+        "win_rate_95_ci": [
+          1.62,
+          37.74
+        ],
+        "gross_expectancy_r": -0.792,
+        "net_expectancy_r": -1.058,
+        "gross_expectancy_pct": -0.514,
+        "net_expectancy_pct": -0.713,
+        "total_gross_pnl_pct": -5.65,
+        "total_net_pnl_pct": -7.84,
+        "profit_factor": 0.13,
+        "max_drawdown_r": 12.42,
+        "max_drawdown_pct": 9.1,
+        "total_fee_drag_r": 2.93,
+        "avg_fee_drag_r": 0.266
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 3,
+        "losses": 11,
+        "win_rate_pct": 21.43,
+        "win_rate_95_ci": [
+          7.57,
+          47.59
+        ],
+        "gross_expectancy_r": -0.275,
+        "net_expectancy_r": -0.556,
+        "gross_expectancy_pct": -0.155,
+        "net_expectancy_pct": -0.355,
+        "total_gross_pnl_pct": -2.17,
+        "total_net_pnl_pct": -4.97,
+        "profit_factor": 0.36,
+        "max_drawdown_r": 11.12,
+        "max_drawdown_pct": 7.5,
+        "total_fee_drag_r": 3.93,
+        "avg_fee_drag_r": 0.281
+      },
+      "overall_metrics": {
+        "total_trades": 72,
+        "wins": 19,
+        "losses": 53,
+        "win_rate_pct": 26.39,
+        "win_rate_95_ci": [
+          17.59,
+          37.58
+        ],
+        "gross_expectancy_r": -0.285,
+        "net_expectancy_r": -0.559,
+        "gross_expectancy_pct": -0.135,
+        "net_expectancy_pct": -0.335,
+        "total_gross_pnl_pct": -9.74,
+        "total_net_pnl_pct": -24.13,
+        "profit_factor": 0.43,
+        "max_drawdown_r": 43.61,
+        "max_drawdown_pct": 26.66,
+        "total_fee_drag_r": 19.74,
+        "avg_fee_drag_r": 0.274
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 17,
+          "wins": 4,
+          "losses": 13,
+          "win_rate_pct": 23.53,
+          "win_rate_95_ci": [
+            9.56,
+            47.26
+          ],
+          "gross_expectancy_r": -0.446,
+          "net_expectancy_r": -0.675,
+          "gross_expectancy_pct": -0.249,
+          "net_expectancy_pct": -0.449,
+          "total_gross_pnl_pct": -4.23,
+          "total_net_pnl_pct": -7.63,
+          "profit_factor": 0.27,
+          "max_drawdown_r": 11.47,
+          "max_drawdown_pct": 7.63,
+          "total_fee_drag_r": 3.88,
+          "avg_fee_drag_r": 0.228
+        },
+        "RANGE_CHOP": {
+          "total_trades": 55,
+          "wins": 15,
+          "losses": 40,
+          "win_rate_pct": 27.27,
+          "win_rate_95_ci": [
+            17.28,
+            40.23
+          ],
+          "gross_expectancy_r": -0.236,
+          "net_expectancy_r": -0.524,
+          "gross_expectancy_pct": -0.1,
+          "net_expectancy_pct": -0.3,
+          "total_gross_pnl_pct": -5.51,
+          "total_net_pnl_pct": -16.5,
+          "profit_factor": 0.48,
+          "max_drawdown_r": 32.14,
+          "max_drawdown_pct": 19.03,
+          "total_fee_drag_r": 15.85,
+          "avg_fee_drag_r": 0.288
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "BASELINE_ORB_V1",
+      "strategy_name": "Frozen Baseline (ORB 20-bar Breakout)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 77,
+        "wins": 22,
+        "losses": 55,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          19.69,
+          39.49
+        ],
+        "gross_expectancy_r": -0.084,
+        "net_expectancy_r": -0.231,
+        "gross_expectancy_pct": -0.139,
+        "net_expectancy_pct": -0.338,
+        "total_gross_pnl_pct": -10.67,
+        "total_net_pnl_pct": -26.06,
+        "profit_factor": 0.51,
+        "max_drawdown_r": 17.92,
+        "max_drawdown_pct": 26.23,
+        "total_fee_drag_r": 11.33,
+        "avg_fee_drag_r": 0.147
+      },
+      "val_metrics": {
+        "total_trades": 19,
+        "wins": 6,
+        "losses": 13,
+        "win_rate_pct": 31.58,
+        "win_rate_95_ci": [
+          15.36,
+          53.99
+        ],
+        "gross_expectancy_r": -0.172,
+        "net_expectancy_r": -0.32,
+        "gross_expectancy_pct": -0.181,
+        "net_expectancy_pct": -0.381,
+        "total_gross_pnl_pct": -3.44,
+        "total_net_pnl_pct": -7.24,
+        "profit_factor": 0.34,
+        "max_drawdown_r": 6.74,
+        "max_drawdown_pct": 8.68,
+        "total_fee_drag_r": 2.8,
+        "avg_fee_drag_r": 0.148
+      },
+      "test_metrics": {
+        "total_trades": 21,
+        "wins": 5,
+        "losses": 16,
+        "win_rate_pct": 23.81,
+        "win_rate_95_ci": [
+          10.63,
+          45.09
+        ],
+        "gross_expectancy_r": -0.235,
+        "net_expectancy_r": -0.376,
+        "gross_expectancy_pct": -0.292,
+        "net_expectancy_pct": -0.492,
+        "total_gross_pnl_pct": -6.14,
+        "total_net_pnl_pct": -10.33,
+        "profit_factor": 0.27,
+        "max_drawdown_r": 8.13,
+        "max_drawdown_pct": 11.02,
+        "total_fee_drag_r": 2.96,
+        "avg_fee_drag_r": 0.141
+      },
+      "overall_metrics": {
+        "total_trades": 117,
+        "wins": 33,
+        "losses": 84,
+        "win_rate_pct": 28.21,
+        "win_rate_95_ci": [
+          20.84,
+          36.95
+        ],
+        "gross_expectancy_r": -0.126,
+        "net_expectancy_r": -0.272,
+        "gross_expectancy_pct": -0.173,
+        "net_expectancy_pct": -0.373,
+        "total_gross_pnl_pct": -20.25,
+        "total_net_pnl_pct": -43.63,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 31.89,
+        "max_drawdown_pct": 43.8,
+        "total_fee_drag_r": 17.09,
+        "avg_fee_drag_r": 0.146
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 14,
+          "wins": 6,
+          "losses": 8,
+          "win_rate_pct": 42.86,
+          "win_rate_95_ci": [
+            21.38,
+            67.41
+          ],
+          "gross_expectancy_r": 0.062,
+          "net_expectancy_r": -0.043,
+          "gross_expectancy_pct": 0.032,
+          "net_expectancy_pct": -0.168,
+          "total_gross_pnl_pct": 0.45,
+          "total_net_pnl_pct": -2.35,
+          "profit_factor": 0.7,
+          "max_drawdown_r": 2.4,
+          "max_drawdown_pct": 4.8,
+          "total_fee_drag_r": 1.48,
+          "avg_fee_drag_r": 0.106
+        },
+        "BEAR_TREND": {
+          "total_trades": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            9.45,
+            90.55
+          ],
+          "gross_expectancy_r": -0.02,
+          "net_expectancy_r": -0.126,
+          "gross_expectancy_pct": -0.064,
+          "net_expectancy_pct": -0.263,
+          "total_gross_pnl_pct": -0.13,
+          "total_net_pnl_pct": -0.53,
+          "profit_factor": 0.24,
+          "max_drawdown_r": 0.35,
+          "max_drawdown_pct": 0.7,
+          "total_fee_drag_r": 0.21,
+          "avg_fee_drag_r": 0.106
+        },
+        "RANGE_CHOP": {
+          "total_trades": 101,
+          "wins": 26,
+          "losses": 75,
+          "win_rate_pct": 25.74,
+          "win_rate_95_ci": [
+            18.22,
+            35.05
+          ],
+          "gross_expectancy_r": -0.154,
+          "net_expectancy_r": -0.306,
+          "gross_expectancy_pct": -0.204,
+          "net_expectancy_pct": -0.403,
+          "total_gross_pnl_pct": -20.57,
+          "total_net_pnl_pct": -40.75,
+          "profit_factor": 0.42,
+          "max_drawdown_r": 30.93,
+          "max_drawdown_pct": 40.75,
+          "total_fee_drag_r": 15.4,
+          "avg_fee_drag_r": 0.152
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A1_SWEEP_15R",
+      "strategy_name": "Strategy A1: Liquidity Sweep & Reclaim (Target 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 70,
+        "wins": 31,
+        "losses": 39,
+        "win_rate_pct": 44.29,
+        "win_rate_95_ci": [
+          33.25,
+          55.92
+        ],
+        "gross_expectancy_r": -0.008,
+        "net_expectancy_r": -0.376,
+        "gross_expectancy_pct": 0.053,
+        "net_expectancy_pct": -0.148,
+        "total_gross_pnl_pct": 3.68,
+        "total_net_pnl_pct": -10.33,
+        "profit_factor": 0.66,
+        "max_drawdown_r": 32.05,
+        "max_drawdown_pct": 14.93,
+        "total_fee_drag_r": 25.81,
+        "avg_fee_drag_r": 0.369
+      },
+      "val_metrics": {
+        "total_trades": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate_pct": 43.75,
+        "win_rate_95_ci": [
+          23.1,
+          66.82
+        ],
+        "gross_expectancy_r": 0.044,
+        "net_expectancy_r": -0.396,
+        "gross_expectancy_pct": 0.063,
+        "net_expectancy_pct": -0.137,
+        "total_gross_pnl_pct": 1.01,
+        "total_net_pnl_pct": -2.19,
+        "profit_factor": 0.62,
+        "max_drawdown_r": 10.8,
+        "max_drawdown_pct": 5.87,
+        "total_fee_drag_r": 7.03,
+        "avg_fee_drag_r": 0.44
+      },
+      "test_metrics": {
+        "total_trades": 24,
+        "wins": 6,
+        "losses": 18,
+        "win_rate_pct": 25.0,
+        "win_rate_95_ci": [
+          12.0,
+          44.9
+        ],
+        "gross_expectancy_r": -0.525,
+        "net_expectancy_r": -0.959,
+        "gross_expectancy_pct": -0.23,
+        "net_expectancy_pct": -0.429,
+        "total_gross_pnl_pct": -5.51,
+        "total_net_pnl_pct": -10.3,
+        "profit_factor": 0.14,
+        "max_drawdown_r": 23.32,
+        "max_drawdown_pct": 10.52,
+        "total_fee_drag_r": 10.42,
+        "avg_fee_drag_r": 0.434
+      },
+      "overall_metrics": {
+        "total_trades": 111,
+        "wins": 44,
+        "losses": 67,
+        "win_rate_pct": 39.64,
+        "win_rate_95_ci": [
+          31.03,
+          48.94
+        ],
+        "gross_expectancy_r": -0.122,
+        "net_expectancy_r": -0.516,
+        "gross_expectancy_pct": -0.012,
+        "net_expectancy_pct": -0.212,
+        "total_gross_pnl_pct": -1.31,
+        "total_net_pnl_pct": -23.51,
+        "profit_factor": 0.52,
+        "max_drawdown_r": 57.58,
+        "max_drawdown_pct": 23.72,
+        "total_fee_drag_r": 43.72,
+        "avg_fee_drag_r": 0.394
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 4,
+          "wins": 3,
+          "losses": 1,
+          "win_rate_pct": 75.0,
+          "win_rate_95_ci": [
+            30.06,
+            95.44
+          ],
+          "gross_expectancy_r": 0.557,
+          "net_expectancy_r": 0.3,
+          "gross_expectancy_pct": 0.711,
+          "net_expectancy_pct": 0.51,
+          "total_gross_pnl_pct": 2.84,
+          "total_net_pnl_pct": 2.04,
+          "profit_factor": 4.06,
+          "max_drawdown_r": 1.47,
+          "max_drawdown_pct": 0.78,
+          "total_fee_drag_r": 1.03,
+          "avg_fee_drag_r": 0.257
+        },
+        "BEAR_TREND": {
+          "total_trades": 14,
+          "wins": 7,
+          "losses": 7,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            26.8,
+            73.2
+          ],
+          "gross_expectancy_r": -0.037,
+          "net_expectancy_r": -0.358,
+          "gross_expectancy_pct": 0.065,
+          "net_expectancy_pct": -0.135,
+          "total_gross_pnl_pct": 0.91,
+          "total_net_pnl_pct": -1.89,
+          "profit_factor": 0.65,
+          "max_drawdown_r": 7.69,
+          "max_drawdown_pct": 4.35,
+          "total_fee_drag_r": 4.49,
+          "avg_fee_drag_r": 0.321
+        },
+        "RANGE_CHOP": {
+          "total_trades": 93,
+          "wins": 34,
+          "losses": 59,
+          "win_rate_pct": 36.56,
+          "win_rate_95_ci": [
+            27.49,
+            46.7
+          ],
+          "gross_expectancy_r": -0.164,
+          "net_expectancy_r": -0.575,
+          "gross_expectancy_pct": -0.054,
+          "net_expectancy_pct": -0.254,
+          "total_gross_pnl_pct": -5.06,
+          "total_net_pnl_pct": -23.65,
+          "profit_factor": 0.44,
+          "max_drawdown_r": 53.77,
+          "max_drawdown_pct": 23.87,
+          "total_fee_drag_r": 38.2,
+          "avg_fee_drag_r": 0.411
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A2_SWEEP_20R",
+      "strategy_name": "Strategy A2: Liquidity Sweep & Reclaim (Target 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 70,
+        "wins": 28,
+        "losses": 42,
+        "win_rate_pct": 40.0,
+        "win_rate_95_ci": [
+          29.33,
+          51.71
+        ],
+        "gross_expectancy_r": -0.047,
+        "net_expectancy_r": -0.415,
+        "gross_expectancy_pct": 0.019,
+        "net_expectancy_pct": -0.181,
+        "total_gross_pnl_pct": 1.3,
+        "total_net_pnl_pct": -12.7,
+        "profit_factor": 0.6,
+        "max_drawdown_r": 34.32,
+        "max_drawdown_pct": 15.66,
+        "total_fee_drag_r": 25.81,
+        "avg_fee_drag_r": 0.369
+      },
+      "val_metrics": {
+        "total_trades": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate_pct": 43.75,
+        "win_rate_95_ci": [
+          23.1,
+          66.82
+        ],
+        "gross_expectancy_r": 0.179,
+        "net_expectancy_r": -0.26,
+        "gross_expectancy_pct": 0.151,
+        "net_expectancy_pct": -0.05,
+        "total_gross_pnl_pct": 2.41,
+        "total_net_pnl_pct": -0.79,
+        "profit_factor": 0.83,
+        "max_drawdown_r": 10.3,
+        "max_drawdown_pct": 5.43,
+        "total_fee_drag_r": 7.04,
+        "avg_fee_drag_r": 0.44
+      },
+      "test_metrics": {
+        "total_trades": 24,
+        "wins": 5,
+        "losses": 19,
+        "win_rate_pct": 20.83,
+        "win_rate_95_ci": [
+          9.24,
+          40.47
+        ],
+        "gross_expectancy_r": -0.634,
+        "net_expectancy_r": -1.068,
+        "gross_expectancy_pct": -0.274,
+        "net_expectancy_pct": -0.474,
+        "total_gross_pnl_pct": -6.57,
+        "total_net_pnl_pct": -11.36,
+        "profit_factor": 0.1,
+        "max_drawdown_r": 25.93,
+        "max_drawdown_pct": 11.58,
+        "total_fee_drag_r": 10.41,
+        "avg_fee_drag_r": 0.434
+      },
+      "overall_metrics": {
+        "total_trades": 111,
+        "wins": 40,
+        "losses": 71,
+        "win_rate_pct": 36.04,
+        "win_rate_95_ci": [
+          27.71,
+          45.3
+        ],
+        "gross_expectancy_r": -0.151,
+        "net_expectancy_r": -0.544,
+        "gross_expectancy_pct": -0.03,
+        "net_expectancy_pct": -0.23,
+        "total_gross_pnl_pct": -3.35,
+        "total_net_pnl_pct": -25.55,
+        "profit_factor": 0.51,
+        "max_drawdown_r": 60.74,
+        "max_drawdown_pct": 25.76,
+        "total_fee_drag_r": 43.72,
+        "avg_fee_drag_r": 0.394
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 4,
+          "wins": 3,
+          "losses": 1,
+          "win_rate_pct": 75.0,
+          "win_rate_95_ci": [
+            30.06,
+            95.44
+          ],
+          "gross_expectancy_r": 0.541,
+          "net_expectancy_r": 0.284,
+          "gross_expectancy_pct": 0.631,
+          "net_expectancy_pct": 0.431,
+          "total_gross_pnl_pct": 2.53,
+          "total_net_pnl_pct": 1.72,
+          "profit_factor": 3.58,
+          "max_drawdown_r": 1.47,
+          "max_drawdown_pct": 0.78,
+          "total_fee_drag_r": 1.03,
+          "avg_fee_drag_r": 0.257
+        },
+        "BEAR_TREND": {
+          "total_trades": 14,
+          "wins": 7,
+          "losses": 7,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            26.8,
+            73.2
+          ],
+          "gross_expectancy_r": 0.027,
+          "net_expectancy_r": -0.294,
+          "gross_expectancy_pct": 0.105,
+          "net_expectancy_pct": -0.095,
+          "total_gross_pnl_pct": 1.47,
+          "total_net_pnl_pct": -1.33,
+          "profit_factor": 0.75,
+          "max_drawdown_r": 6.92,
+          "max_drawdown_pct": 3.99,
+          "total_fee_drag_r": 4.49,
+          "avg_fee_drag_r": 0.321
+        },
+        "RANGE_CHOP": {
+          "total_trades": 93,
+          "wins": 30,
+          "losses": 63,
+          "win_rate_pct": 32.26,
+          "win_rate_95_ci": [
+            23.62,
+            42.3
+          ],
+          "gross_expectancy_r": -0.207,
+          "net_expectancy_r": -0.618,
+          "gross_expectancy_pct": -0.079,
+          "net_expectancy_pct": -0.279,
+          "total_gross_pnl_pct": -7.35,
+          "total_net_pnl_pct": -25.94,
+          "profit_factor": 0.42,
+          "max_drawdown_r": 57.76,
+          "max_drawdown_pct": 26.16,
+          "total_fee_drag_r": 38.2,
+          "avg_fee_drag_r": 0.411
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_A3_SWEEP_RANGE_HIGH",
+      "strategy_name": "Strategy A3: Liquidity Sweep & Reclaim (Target Opposing Range High)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 70,
+        "wins": 27,
+        "losses": 43,
+        "win_rate_pct": 38.57,
+        "win_rate_95_ci": [
+          28.05,
+          50.28
+        ],
+        "gross_expectancy_r": -0.087,
+        "net_expectancy_r": -0.455,
+        "gross_expectancy_pct": 0.029,
+        "net_expectancy_pct": -0.171,
+        "total_gross_pnl_pct": 2.04,
+        "total_net_pnl_pct": -11.96,
+        "profit_factor": 0.63,
+        "max_drawdown_r": 34.77,
+        "max_drawdown_pct": 13.6,
+        "total_fee_drag_r": 25.8,
+        "avg_fee_drag_r": 0.369
+      },
+      "val_metrics": {
+        "total_trades": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate_pct": 43.75,
+        "win_rate_95_ci": [
+          23.1,
+          66.82
+        ],
+        "gross_expectancy_r": 0.248,
+        "net_expectancy_r": -0.192,
+        "gross_expectancy_pct": 0.077,
+        "net_expectancy_pct": -0.123,
+        "total_gross_pnl_pct": 1.23,
+        "total_net_pnl_pct": -1.97,
+        "profit_factor": 0.66,
+        "max_drawdown_r": 11.16,
+        "max_drawdown_pct": 5.26,
+        "total_fee_drag_r": 7.04,
+        "avg_fee_drag_r": 0.44
+      },
+      "test_metrics": {
+        "total_trades": 24,
+        "wins": 5,
+        "losses": 19,
+        "win_rate_pct": 20.83,
+        "win_rate_95_ci": [
+          9.24,
+          40.47
+        ],
+        "gross_expectancy_r": -0.615,
+        "net_expectancy_r": -1.049,
+        "gross_expectancy_pct": -0.26,
+        "net_expectancy_pct": -0.459,
+        "total_gross_pnl_pct": -6.23,
+        "total_net_pnl_pct": -11.03,
+        "profit_factor": 0.13,
+        "max_drawdown_r": 25.97,
+        "max_drawdown_pct": 11.6,
+        "total_fee_drag_r": 10.41,
+        "avg_fee_drag_r": 0.434
+      },
+      "overall_metrics": {
+        "total_trades": 111,
+        "wins": 39,
+        "losses": 72,
+        "win_rate_pct": 35.14,
+        "win_rate_95_ci": [
+          26.89,
+          44.38
+        ],
+        "gross_expectancy_r": -0.162,
+        "net_expectancy_r": -0.556,
+        "gross_expectancy_pct": -0.031,
+        "net_expectancy_pct": -0.231,
+        "total_gross_pnl_pct": -3.45,
+        "total_net_pnl_pct": -25.65,
+        "profit_factor": 0.5,
+        "max_drawdown_r": 62.48,
+        "max_drawdown_pct": 26.22,
+        "total_fee_drag_r": 43.71,
+        "avg_fee_drag_r": 0.394
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 4,
+          "wins": 3,
+          "losses": 1,
+          "win_rate_pct": 75.0,
+          "win_rate_95_ci": [
+            30.06,
+            95.44
+          ],
+          "gross_expectancy_r": 0.528,
+          "net_expectancy_r": 0.271,
+          "gross_expectancy_pct": 0.621,
+          "net_expectancy_pct": 0.42,
+          "total_gross_pnl_pct": 2.48,
+          "total_net_pnl_pct": 1.68,
+          "profit_factor": 3.52,
+          "max_drawdown_r": 1.47,
+          "max_drawdown_pct": 0.78,
+          "total_fee_drag_r": 1.03,
+          "avg_fee_drag_r": 0.257
+        },
+        "BEAR_TREND": {
+          "total_trades": 14,
+          "wins": 7,
+          "losses": 7,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            26.8,
+            73.2
+          ],
+          "gross_expectancy_r": -0.016,
+          "net_expectancy_r": -0.336,
+          "gross_expectancy_pct": 0.077,
+          "net_expectancy_pct": -0.123,
+          "total_gross_pnl_pct": 1.08,
+          "total_net_pnl_pct": -1.72,
+          "profit_factor": 0.68,
+          "max_drawdown_r": 7.3,
+          "max_drawdown_pct": 4.17,
+          "total_fee_drag_r": 4.49,
+          "avg_fee_drag_r": 0.321
+        },
+        "RANGE_CHOP": {
+          "total_trades": 93,
+          "wins": 29,
+          "losses": 64,
+          "win_rate_pct": 31.18,
+          "win_rate_95_ci": [
+            22.67,
+            41.19
+          ],
+          "gross_expectancy_r": -0.214,
+          "net_expectancy_r": -0.624,
+          "gross_expectancy_pct": -0.075,
+          "net_expectancy_pct": -0.275,
+          "total_gross_pnl_pct": -7.02,
+          "total_net_pnl_pct": -25.61,
+          "profit_factor": 0.43,
+          "max_drawdown_r": 58.86,
+          "max_drawdown_pct": 26.18,
+          "total_fee_drag_r": 38.2,
+          "avg_fee_drag_r": 0.411
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B1_RANGE_MIDPOINT",
+      "strategy_name": "Strategy B1: Range Mean-Reversion (Target Range Midpoint)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 51,
+        "wins": 24,
+        "losses": 27,
+        "win_rate_pct": 47.06,
+        "win_rate_95_ci": [
+          34.05,
+          60.48
+        ],
+        "gross_expectancy_r": -0.034,
+        "net_expectancy_r": -0.367,
+        "gross_expectancy_pct": 0.058,
+        "net_expectancy_pct": -0.142,
+        "total_gross_pnl_pct": 2.97,
+        "total_net_pnl_pct": -7.23,
+        "profit_factor": 0.6,
+        "max_drawdown_r": 19.25,
+        "max_drawdown_pct": 7.46,
+        "total_fee_drag_r": 16.99,
+        "avg_fee_drag_r": 0.333
+      },
+      "val_metrics": {
+        "total_trades": 28,
+        "wins": 11,
+        "losses": 17,
+        "win_rate_pct": 39.29,
+        "win_rate_95_ci": [
+          23.57,
+          57.59
+        ],
+        "gross_expectancy_r": -0.09,
+        "net_expectancy_r": -0.484,
+        "gross_expectancy_pct": -0.04,
+        "net_expectancy_pct": -0.24,
+        "total_gross_pnl_pct": -1.13,
+        "total_net_pnl_pct": -6.73,
+        "profit_factor": 0.4,
+        "max_drawdown_r": 13.56,
+        "max_drawdown_pct": 6.73,
+        "total_fee_drag_r": 11.04,
+        "avg_fee_drag_r": 0.394
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 5,
+        "losses": 15,
+        "win_rate_pct": 25.0,
+        "win_rate_95_ci": [
+          11.19,
+          46.87
+        ],
+        "gross_expectancy_r": -0.462,
+        "net_expectancy_r": -0.887,
+        "gross_expectancy_pct": -0.249,
+        "net_expectancy_pct": -0.449,
+        "total_gross_pnl_pct": -4.98,
+        "total_net_pnl_pct": -8.97,
+        "profit_factor": 0.2,
+        "max_drawdown_r": 18.56,
+        "max_drawdown_pct": 9.4,
+        "total_fee_drag_r": 8.51,
+        "avg_fee_drag_r": 0.425
+      },
+      "overall_metrics": {
+        "total_trades": 101,
+        "wins": 40,
+        "losses": 61,
+        "win_rate_pct": 39.6,
+        "win_rate_95_ci": [
+          30.62,
+          49.35
+        ],
+        "gross_expectancy_r": -0.155,
+        "net_expectancy_r": -0.524,
+        "gross_expectancy_pct": -0.043,
+        "net_expectancy_pct": -0.243,
+        "total_gross_pnl_pct": -4.34,
+        "total_net_pnl_pct": -24.54,
+        "profit_factor": 0.42,
+        "max_drawdown_r": 53.6,
+        "max_drawdown_pct": 25.0,
+        "total_fee_drag_r": 37.26,
+        "avg_fee_drag_r": 0.369
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 9,
+          "wins": 5,
+          "losses": 4,
+          "win_rate_pct": 55.56,
+          "win_rate_95_ci": [
+            26.67,
+            81.12
+          ],
+          "gross_expectancy_r": 0.245,
+          "net_expectancy_r": 0.014,
+          "gross_expectancy_pct": 0.075,
+          "net_expectancy_pct": -0.125,
+          "total_gross_pnl_pct": 0.67,
+          "total_net_pnl_pct": -1.13,
+          "profit_factor": 0.71,
+          "max_drawdown_r": 1.96,
+          "max_drawdown_pct": 2.68,
+          "total_fee_drag_r": 2.08,
+          "avg_fee_drag_r": 0.231
+        },
+        "RANGE_CHOP": {
+          "total_trades": 92,
+          "wins": 35,
+          "losses": 57,
+          "win_rate_pct": 38.04,
+          "win_rate_95_ci": [
+            28.79,
+            48.25
+          ],
+          "gross_expectancy_r": -0.194,
+          "net_expectancy_r": -0.577,
+          "gross_expectancy_pct": -0.055,
+          "net_expectancy_pct": -0.254,
+          "total_gross_pnl_pct": -5.02,
+          "total_net_pnl_pct": -23.41,
+          "profit_factor": 0.4,
+          "max_drawdown_r": 53.72,
+          "max_drawdown_pct": 23.87,
+          "total_fee_drag_r": 35.18,
+          "avg_fee_drag_r": 0.382
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B2_RANGE_15R",
+      "strategy_name": "Strategy B2: Range Mean-Reversion (Target Fixed 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 52,
+        "wins": 23,
+        "losses": 29,
+        "win_rate_pct": 44.23,
+        "win_rate_95_ci": [
+          31.6,
+          57.66
+        ],
+        "gross_expectancy_r": 0.04,
+        "net_expectancy_r": -0.293,
+        "gross_expectancy_pct": 0.107,
+        "net_expectancy_pct": -0.093,
+        "total_gross_pnl_pct": 5.55,
+        "total_net_pnl_pct": -4.85,
+        "profit_factor": 0.72,
+        "max_drawdown_r": 17.11,
+        "max_drawdown_pct": 7.06,
+        "total_fee_drag_r": 17.35,
+        "avg_fee_drag_r": 0.334
+      },
+      "val_metrics": {
+        "total_trades": 28,
+        "wins": 10,
+        "losses": 18,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          20.71,
+          54.17
+        ],
+        "gross_expectancy_r": -0.066,
+        "net_expectancy_r": -0.46,
+        "gross_expectancy_pct": -0.049,
+        "net_expectancy_pct": -0.249,
+        "total_gross_pnl_pct": -1.36,
+        "total_net_pnl_pct": -6.96,
+        "profit_factor": 0.39,
+        "max_drawdown_r": 12.88,
+        "max_drawdown_pct": 6.96,
+        "total_fee_drag_r": 11.04,
+        "avg_fee_drag_r": 0.394
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 3,
+        "losses": 17,
+        "win_rate_pct": 15.0,
+        "win_rate_95_ci": [
+          5.24,
+          36.04
+        ],
+        "gross_expectancy_r": -0.618,
+        "net_expectancy_r": -1.043,
+        "gross_expectancy_pct": -0.362,
+        "net_expectancy_pct": -0.561,
+        "total_gross_pnl_pct": -7.23,
+        "total_net_pnl_pct": -11.23,
+        "profit_factor": 0.1,
+        "max_drawdown_r": 21.99,
+        "max_drawdown_pct": 11.99,
+        "total_fee_drag_r": 8.5,
+        "avg_fee_drag_r": 0.425
+      },
+      "overall_metrics": {
+        "total_trades": 102,
+        "wins": 36,
+        "losses": 66,
+        "win_rate_pct": 35.29,
+        "win_rate_95_ci": [
+          26.71,
+          44.95
+        ],
+        "gross_expectancy_r": -0.14,
+        "net_expectancy_r": -0.509,
+        "gross_expectancy_pct": -0.042,
+        "net_expectancy_pct": -0.242,
+        "total_gross_pnl_pct": -4.26,
+        "total_net_pnl_pct": -24.65,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 54.92,
+        "max_drawdown_pct": 27.62,
+        "total_fee_drag_r": 37.62,
+        "avg_fee_drag_r": 0.369
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 9,
+          "wins": 4,
+          "losses": 5,
+          "win_rate_pct": 44.44,
+          "win_rate_95_ci": [
+            18.88,
+            73.33
+          ],
+          "gross_expectancy_r": 0.225,
+          "net_expectancy_r": -0.007,
+          "gross_expectancy_pct": 0.068,
+          "net_expectancy_pct": -0.132,
+          "total_gross_pnl_pct": 0.61,
+          "total_net_pnl_pct": -1.19,
+          "profit_factor": 0.7,
+          "max_drawdown_r": 1.96,
+          "max_drawdown_pct": 2.71,
+          "total_fee_drag_r": 2.08,
+          "avg_fee_drag_r": 0.231
+        },
+        "RANGE_CHOP": {
+          "total_trades": 93,
+          "wins": 32,
+          "losses": 61,
+          "win_rate_pct": 34.41,
+          "win_rate_95_ci": [
+            25.55,
+            44.51
+          ],
+          "gross_expectancy_r": -0.176,
+          "net_expectancy_r": -0.558,
+          "gross_expectancy_pct": -0.052,
+          "net_expectancy_pct": -0.252,
+          "total_gross_pnl_pct": -4.87,
+          "total_net_pnl_pct": -23.46,
+          "profit_factor": 0.43,
+          "max_drawdown_r": 54.76,
+          "max_drawdown_pct": 26.34,
+          "total_fee_drag_r": 35.54,
+          "avg_fee_drag_r": 0.382
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "15m",
+      "strategy_id": "STRAT_B3_RANGE_20R",
+      "strategy_name": "Strategy B3: Range Mean-Reversion (Target Fixed 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": 12.61,
+        "bnh_val_pct": -12.69,
+        "bnh_test_pct": -2.44,
+        "bnh_overall_pct": -4.09
+      },
+      "train_metrics": {
+        "total_trades": 52,
+        "wins": 20,
+        "losses": 32,
+        "win_rate_pct": 38.46,
+        "win_rate_95_ci": [
+          26.47,
+          52.04
+        ],
+        "gross_expectancy_r": -0.058,
+        "net_expectancy_r": -0.391,
+        "gross_expectancy_pct": 0.025,
+        "net_expectancy_pct": -0.175,
+        "total_gross_pnl_pct": 1.31,
+        "total_net_pnl_pct": -9.1,
+        "profit_factor": 0.55,
+        "max_drawdown_r": 21.8,
+        "max_drawdown_pct": 9.79,
+        "total_fee_drag_r": 17.34,
+        "avg_fee_drag_r": 0.334
+      },
+      "val_metrics": {
+        "total_trades": 27,
+        "wins": 8,
+        "losses": 19,
+        "win_rate_pct": 29.63,
+        "win_rate_95_ci": [
+          15.85,
+          48.48
+        ],
+        "gross_expectancy_r": -0.141,
+        "net_expectancy_r": -0.531,
+        "gross_expectancy_pct": -0.093,
+        "net_expectancy_pct": -0.292,
+        "total_gross_pnl_pct": -2.5,
+        "total_net_pnl_pct": -7.9,
+        "profit_factor": 0.36,
+        "max_drawdown_r": 14.33,
+        "max_drawdown_pct": 8.56,
+        "total_fee_drag_r": 10.52,
+        "avg_fee_drag_r": 0.39
+      },
+      "test_metrics": {
+        "total_trades": 20,
+        "wins": 3,
+        "losses": 17,
+        "win_rate_pct": 15.0,
+        "win_rate_95_ci": [
+          5.24,
+          36.04
+        ],
+        "gross_expectancy_r": -0.542,
+        "net_expectancy_r": -0.967,
+        "gross_expectancy_pct": -0.328,
+        "net_expectancy_pct": -0.528,
+        "total_gross_pnl_pct": -6.56,
+        "total_net_pnl_pct": -10.55,
+        "profit_factor": 0.15,
+        "max_drawdown_r": 20.98,
+        "max_drawdown_pct": 11.65,
+        "total_fee_drag_r": 8.51,
+        "avg_fee_drag_r": 0.425
+      },
+      "overall_metrics": {
+        "total_trades": 101,
+        "wins": 31,
+        "losses": 70,
+        "win_rate_pct": 30.69,
+        "win_rate_95_ci": [
+          22.54,
+          40.26
+        ],
+        "gross_expectancy_r": -0.197,
+        "net_expectancy_r": -0.564,
+        "gross_expectancy_pct": -0.089,
+        "net_expectancy_pct": -0.289,
+        "total_gross_pnl_pct": -8.96,
+        "total_net_pnl_pct": -29.15,
+        "profit_factor": 0.39,
+        "max_drawdown_r": 60.04,
+        "max_drawdown_pct": 30.95,
+        "total_fee_drag_r": 37.1,
+        "avg_fee_drag_r": 0.367
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 9,
+          "wins": 3,
+          "losses": 6,
+          "win_rate_pct": 33.33,
+          "win_rate_95_ci": [
+            12.06,
+            64.58
+          ],
+          "gross_expectancy_r": 0.004,
+          "net_expectancy_r": -0.227,
+          "gross_expectancy_pct": -0.079,
+          "net_expectancy_pct": -0.279,
+          "total_gross_pnl_pct": -0.71,
+          "total_net_pnl_pct": -2.51,
+          "profit_factor": 0.44,
+          "max_drawdown_r": 2.14,
+          "max_drawdown_pct": 2.6,
+          "total_fee_drag_r": 2.08,
+          "avg_fee_drag_r": 0.231
+        },
+        "RANGE_CHOP": {
+          "total_trades": 92,
+          "wins": 28,
+          "losses": 64,
+          "win_rate_pct": 30.43,
+          "win_rate_95_ci": [
+            21.97,
+            40.46
+          ],
+          "gross_expectancy_r": -0.216,
+          "net_expectancy_r": -0.597,
+          "gross_expectancy_pct": -0.09,
+          "net_expectancy_pct": -0.29,
+          "total_gross_pnl_pct": -8.25,
+          "total_net_pnl_pct": -26.64,
+          "profit_factor": 0.38,
+          "max_drawdown_r": 57.99,
+          "max_drawdown_pct": 28.44,
+          "total_fee_drag_r": 35.02,
+          "avg_fee_drag_r": 0.381
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "BASELINE_ORB_V1",
+      "strategy_name": "Frozen Baseline (ORB 20-bar Breakout)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 49,
+        "wins": 22,
+        "losses": 27,
+        "win_rate_pct": 44.9,
+        "win_rate_95_ci": [
+          31.85,
+          58.68
+        ],
+        "gross_expectancy_r": -0.02,
+        "net_expectancy_r": -0.123,
+        "gross_expectancy_pct": -0.055,
+        "net_expectancy_pct": -0.255,
+        "total_gross_pnl_pct": -2.7,
+        "total_net_pnl_pct": -12.49,
+        "profit_factor": 0.7,
+        "max_drawdown_r": 8.49,
+        "max_drawdown_pct": 16.54,
+        "total_fee_drag_r": 5.06,
+        "avg_fee_drag_r": 0.103
+      },
+      "val_metrics": {
+        "total_trades": 26,
+        "wins": 17,
+        "losses": 9,
+        "win_rate_pct": 65.38,
+        "win_rate_95_ci": [
+          46.22,
+          80.59
+        ],
+        "gross_expectancy_r": 0.891,
+        "net_expectancy_r": 0.79,
+        "gross_expectancy_pct": 1.795,
+        "net_expectancy_pct": 1.593,
+        "total_gross_pnl_pct": 46.67,
+        "total_net_pnl_pct": 41.42,
+        "profit_factor": 3.58,
+        "max_drawdown_r": 1.33,
+        "max_drawdown_pct": 2.65,
+        "total_fee_drag_r": 2.64,
+        "avg_fee_drag_r": 0.102
+      },
+      "test_metrics": {
+        "total_trades": 18,
+        "wins": 4,
+        "losses": 14,
+        "win_rate_pct": 22.22,
+        "win_rate_95_ci": [
+          9.0,
+          45.21
+        ],
+        "gross_expectancy_r": -0.486,
+        "net_expectancy_r": -0.586,
+        "gross_expectancy_pct": -0.969,
+        "net_expectancy_pct": -1.168,
+        "total_gross_pnl_pct": -17.44,
+        "total_net_pnl_pct": -21.02,
+        "profit_factor": 0.15,
+        "max_drawdown_r": 11.73,
+        "max_drawdown_pct": 23.36,
+        "total_fee_drag_r": 1.8,
+        "avg_fee_drag_r": 0.1
+      },
+      "overall_metrics": {
+        "total_trades": 94,
+        "wins": 44,
+        "losses": 50,
+        "win_rate_pct": 46.81,
+        "win_rate_95_ci": [
+          37.05,
+          56.82
+        ],
+        "gross_expectancy_r": 0.149,
+        "net_expectancy_r": 0.046,
+        "gross_expectancy_pct": 0.291,
+        "net_expectancy_pct": 0.091,
+        "total_gross_pnl_pct": 27.35,
+        "total_net_pnl_pct": 8.52,
+        "profit_factor": 1.08,
+        "max_drawdown_r": 11.73,
+        "max_drawdown_pct": 23.36,
+        "total_fee_drag_r": 9.64,
+        "avg_fee_drag_r": 0.103
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 43,
+          "wins": 24,
+          "losses": 19,
+          "win_rate_pct": 55.81,
+          "win_rate_95_ci": [
+            41.11,
+            69.57
+          ],
+          "gross_expectancy_r": 0.377,
+          "net_expectancy_r": 0.276,
+          "gross_expectancy_pct": 0.751,
+          "net_expectancy_pct": 0.55,
+          "total_gross_pnl_pct": 32.29,
+          "total_net_pnl_pct": 23.65,
+          "profit_factor": 1.7,
+          "max_drawdown_r": 3.31,
+          "max_drawdown_pct": 6.63,
+          "total_fee_drag_r": 4.34,
+          "avg_fee_drag_r": 0.101
+        },
+        "BEAR_TREND": {
+          "total_trades": 2,
+          "wins": 1,
+          "losses": 1,
+          "win_rate_pct": 50.0,
+          "win_rate_95_ci": [
+            9.45,
+            90.55
+          ],
+          "gross_expectancy_r": 0.11,
+          "net_expectancy_r": 0.01,
+          "gross_expectancy_pct": 0.219,
+          "net_expectancy_pct": 0.019,
+          "total_gross_pnl_pct": 0.44,
+          "total_net_pnl_pct": 0.04,
+          "profit_factor": 0.7,
+          "max_drawdown_r": 1.13,
+          "max_drawdown_pct": 2.25,
+          "total_fee_drag_r": 0.2,
+          "avg_fee_drag_r": 0.1
+        },
+        "RANGE_CHOP": {
+          "total_trades": 48,
+          "wins": 19,
+          "losses": 29,
+          "win_rate_pct": 39.58,
+          "win_rate_95_ci": [
+            27.02,
+            53.69
+          ],
+          "gross_expectancy_r": -0.029,
+          "net_expectancy_r": -0.133,
+          "gross_expectancy_pct": -0.069,
+          "net_expectancy_pct": -0.269,
+          "total_gross_pnl_pct": -3.32,
+          "total_net_pnl_pct": -12.92,
+          "profit_factor": 0.68,
+          "max_drawdown_r": 10.15,
+          "max_drawdown_pct": 19.67,
+          "total_fee_drag_r": 5.0,
+          "avg_fee_drag_r": 0.104
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A1_SWEEP_15R",
+      "strategy_name": "Strategy A1: Liquidity Sweep & Reclaim (Target 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 55,
+        "wins": 22,
+        "losses": 33,
+        "win_rate_pct": 40.0,
+        "win_rate_95_ci": [
+          28.12,
+          53.19
+        ],
+        "gross_expectancy_r": -0.094,
+        "net_expectancy_r": -0.318,
+        "gross_expectancy_pct": -0.058,
+        "net_expectancy_pct": -0.258,
+        "total_gross_pnl_pct": -3.19,
+        "total_net_pnl_pct": -14.18,
+        "profit_factor": 0.6,
+        "max_drawdown_r": 20.25,
+        "max_drawdown_pct": 17.58,
+        "total_fee_drag_r": 12.33,
+        "avg_fee_drag_r": 0.224
+      },
+      "val_metrics": {
+        "total_trades": 17,
+        "wins": 4,
+        "losses": 13,
+        "win_rate_pct": 23.53,
+        "win_rate_95_ci": [
+          9.56,
+          47.26
+        ],
+        "gross_expectancy_r": -0.35,
+        "net_expectancy_r": -0.504,
+        "gross_expectancy_pct": -0.708,
+        "net_expectancy_pct": -0.907,
+        "total_gross_pnl_pct": -12.03,
+        "total_net_pnl_pct": -15.42,
+        "profit_factor": 0.24,
+        "max_drawdown_r": 9.28,
+        "max_drawdown_pct": 15.42,
+        "total_fee_drag_r": 2.61,
+        "avg_fee_drag_r": 0.154
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 5,
+        "losses": 9,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          16.34,
+          61.24
+        ],
+        "gross_expectancy_r": -0.26,
+        "net_expectancy_r": -0.439,
+        "gross_expectancy_pct": -0.369,
+        "net_expectancy_pct": -0.569,
+        "total_gross_pnl_pct": -5.17,
+        "total_net_pnl_pct": -7.97,
+        "profit_factor": 0.4,
+        "max_drawdown_r": 9.38,
+        "max_drawdown_pct": 10.85,
+        "total_fee_drag_r": 2.5,
+        "avg_fee_drag_r": 0.178
+      },
+      "overall_metrics": {
+        "total_trades": 88,
+        "wins": 33,
+        "losses": 55,
+        "win_rate_pct": 37.5,
+        "win_rate_95_ci": [
+          28.11,
+          47.94
+        ],
+        "gross_expectancy_r": -0.136,
+        "net_expectancy_r": -0.341,
+        "gross_expectancy_pct": -0.206,
+        "net_expectancy_pct": -0.405,
+        "total_gross_pnl_pct": -18.1,
+        "total_net_pnl_pct": -35.68,
+        "profit_factor": 0.47,
+        "max_drawdown_r": 33.62,
+        "max_drawdown_pct": 40.31,
+        "total_fee_drag_r": 18.08,
+        "avg_fee_drag_r": 0.205
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 8,
+          "wins": 2,
+          "losses": 6,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            7.15,
+            59.07
+          ],
+          "gross_expectancy_r": -0.309,
+          "net_expectancy_r": -0.458,
+          "gross_expectancy_pct": -0.791,
+          "net_expectancy_pct": -0.991,
+          "total_gross_pnl_pct": -6.33,
+          "total_net_pnl_pct": -7.92,
+          "profit_factor": 0.22,
+          "max_drawdown_r": 6.25,
+          "max_drawdown_pct": 11.26,
+          "total_fee_drag_r": 1.19,
+          "avg_fee_drag_r": 0.149
+        },
+        "BEAR_TREND": {
+          "total_trades": 33,
+          "wins": 13,
+          "losses": 20,
+          "win_rate_pct": 39.39,
+          "win_rate_95_ci": [
+            24.68,
+            56.32
+          ],
+          "gross_expectancy_r": -0.069,
+          "net_expectancy_r": -0.246,
+          "gross_expectancy_pct": -0.115,
+          "net_expectancy_pct": -0.315,
+          "total_gross_pnl_pct": -3.8,
+          "total_net_pnl_pct": -10.4,
+          "profit_factor": 0.57,
+          "max_drawdown_r": 10.26,
+          "max_drawdown_pct": 13.12,
+          "total_fee_drag_r": 5.84,
+          "avg_fee_drag_r": 0.177
+        },
+        "RANGE_CHOP": {
+          "total_trades": 46,
+          "wins": 17,
+          "losses": 29,
+          "win_rate_pct": 36.96,
+          "win_rate_95_ci": [
+            24.52,
+            51.4
+          ],
+          "gross_expectancy_r": -0.164,
+          "net_expectancy_r": -0.401,
+          "gross_expectancy_pct": -0.183,
+          "net_expectancy_pct": -0.383,
+          "total_gross_pnl_pct": -8.43,
+          "total_net_pnl_pct": -17.62,
+          "profit_factor": 0.48,
+          "max_drawdown_r": 20.94,
+          "max_drawdown_pct": 20.49,
+          "total_fee_drag_r": 10.9,
+          "avg_fee_drag_r": 0.237
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A2_SWEEP_20R",
+      "strategy_name": "Strategy A2: Liquidity Sweep & Reclaim (Target 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 55,
+        "wins": 21,
+        "losses": 34,
+        "win_rate_pct": 38.18,
+        "win_rate_95_ci": [
+          26.52,
+          51.39
+        ],
+        "gross_expectancy_r": -0.054,
+        "net_expectancy_r": -0.279,
+        "gross_expectancy_pct": -0.007,
+        "net_expectancy_pct": -0.207,
+        "total_gross_pnl_pct": -0.39,
+        "total_net_pnl_pct": -11.39,
+        "profit_factor": 0.68,
+        "max_drawdown_r": 17.63,
+        "max_drawdown_pct": 14.52,
+        "total_fee_drag_r": 12.36,
+        "avg_fee_drag_r": 0.225
+      },
+      "val_metrics": {
+        "total_trades": 17,
+        "wins": 4,
+        "losses": 13,
+        "win_rate_pct": 23.53,
+        "win_rate_95_ci": [
+          9.56,
+          47.26
+        ],
+        "gross_expectancy_r": -0.262,
+        "net_expectancy_r": -0.416,
+        "gross_expectancy_pct": -0.613,
+        "net_expectancy_pct": -0.812,
+        "total_gross_pnl_pct": -10.42,
+        "total_net_pnl_pct": -13.81,
+        "profit_factor": 0.31,
+        "max_drawdown_r": 8.28,
+        "max_drawdown_pct": 14.12,
+        "total_fee_drag_r": 2.61,
+        "avg_fee_drag_r": 0.154
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 4,
+        "losses": 10,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          11.72,
+          54.65
+        ],
+        "gross_expectancy_r": -0.403,
+        "net_expectancy_r": -0.581,
+        "gross_expectancy_pct": -0.478,
+        "net_expectancy_pct": -0.677,
+        "total_gross_pnl_pct": -6.69,
+        "total_net_pnl_pct": -9.48,
+        "profit_factor": 0.34,
+        "max_drawdown_r": 10.75,
+        "max_drawdown_pct": 12.3,
+        "total_fee_drag_r": 2.5,
+        "avg_fee_drag_r": 0.178
+      },
+      "overall_metrics": {
+        "total_trades": 88,
+        "wins": 31,
+        "losses": 57,
+        "win_rate_pct": 35.23,
+        "win_rate_95_ci": [
+          26.06,
+          45.63
+        ],
+        "gross_expectancy_r": -0.105,
+        "net_expectancy_r": -0.311,
+        "gross_expectancy_pct": -0.164,
+        "net_expectancy_pct": -0.364,
+        "total_gross_pnl_pct": -14.41,
+        "total_net_pnl_pct": -32.0,
+        "profit_factor": 0.52,
+        "max_drawdown_r": 30.5,
+        "max_drawdown_pct": 36.24,
+        "total_fee_drag_r": 18.11,
+        "avg_fee_drag_r": 0.206
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 8,
+          "wins": 2,
+          "losses": 6,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            7.15,
+            59.07
+          ],
+          "gross_expectancy_r": -0.23,
+          "net_expectancy_r": -0.379,
+          "gross_expectancy_pct": -0.701,
+          "net_expectancy_pct": -0.9,
+          "total_gross_pnl_pct": -5.61,
+          "total_net_pnl_pct": -7.2,
+          "profit_factor": 0.27,
+          "max_drawdown_r": 6.25,
+          "max_drawdown_pct": 11.26,
+          "total_fee_drag_r": 1.19,
+          "avg_fee_drag_r": 0.149
+        },
+        "BEAR_TREND": {
+          "total_trades": 33,
+          "wins": 12,
+          "losses": 21,
+          "win_rate_pct": 36.36,
+          "win_rate_95_ci": [
+            22.19,
+            53.38
+          ],
+          "gross_expectancy_r": -0.066,
+          "net_expectancy_r": -0.242,
+          "gross_expectancy_pct": -0.089,
+          "net_expectancy_pct": -0.289,
+          "total_gross_pnl_pct": -2.95,
+          "total_net_pnl_pct": -9.54,
+          "profit_factor": 0.62,
+          "max_drawdown_r": 10.15,
+          "max_drawdown_pct": 12.02,
+          "total_fee_drag_r": 5.8,
+          "avg_fee_drag_r": 0.176
+        },
+        "RANGE_CHOP": {
+          "total_trades": 46,
+          "wins": 16,
+          "losses": 30,
+          "win_rate_pct": 34.78,
+          "win_rate_95_ci": [
+            22.68,
+            49.23
+          ],
+          "gross_expectancy_r": -0.121,
+          "net_expectancy_r": -0.359,
+          "gross_expectancy_pct": -0.137,
+          "net_expectancy_pct": -0.337,
+          "total_gross_pnl_pct": -6.32,
+          "total_net_pnl_pct": -15.52,
+          "profit_factor": 0.54,
+          "max_drawdown_r": 18.5,
+          "max_drawdown_pct": 18.24,
+          "total_fee_drag_r": 10.97,
+          "avg_fee_drag_r": 0.239
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_A3_SWEEP_RANGE_HIGH",
+      "strategy_name": "Strategy A3: Liquidity Sweep & Reclaim (Target Opposing Range High)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 54,
+        "wins": 17,
+        "losses": 37,
+        "win_rate_pct": 31.48,
+        "win_rate_95_ci": [
+          20.68,
+          44.74
+        ],
+        "gross_expectancy_r": -0.27,
+        "net_expectancy_r": -0.495,
+        "gross_expectancy_pct": -0.223,
+        "net_expectancy_pct": -0.423,
+        "total_gross_pnl_pct": -12.03,
+        "total_net_pnl_pct": -22.82,
+        "profit_factor": 0.43,
+        "max_drawdown_r": 28.21,
+        "max_drawdown_pct": 25.67,
+        "total_fee_drag_r": 12.14,
+        "avg_fee_drag_r": 0.225
+      },
+      "val_metrics": {
+        "total_trades": 17,
+        "wins": 4,
+        "losses": 13,
+        "win_rate_pct": 23.53,
+        "win_rate_95_ci": [
+          9.56,
+          47.26
+        ],
+        "gross_expectancy_r": -0.331,
+        "net_expectancy_r": -0.484,
+        "gross_expectancy_pct": -0.695,
+        "net_expectancy_pct": -0.895,
+        "total_gross_pnl_pct": -11.82,
+        "total_net_pnl_pct": -15.21,
+        "profit_factor": 0.25,
+        "max_drawdown_r": 9.31,
+        "max_drawdown_pct": 15.21,
+        "total_fee_drag_r": 2.61,
+        "avg_fee_drag_r": 0.154
+      },
+      "test_metrics": {
+        "total_trades": 14,
+        "wins": 4,
+        "losses": 10,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          11.72,
+          54.65
+        ],
+        "gross_expectancy_r": -0.412,
+        "net_expectancy_r": -0.591,
+        "gross_expectancy_pct": -0.486,
+        "net_expectancy_pct": -0.686,
+        "total_gross_pnl_pct": -6.81,
+        "total_net_pnl_pct": -9.6,
+        "profit_factor": 0.33,
+        "max_drawdown_r": 10.75,
+        "max_drawdown_pct": 12.3,
+        "total_fee_drag_r": 2.5,
+        "avg_fee_drag_r": 0.178
+      },
+      "overall_metrics": {
+        "total_trades": 87,
+        "wins": 27,
+        "losses": 60,
+        "win_rate_pct": 31.03,
+        "win_rate_95_ci": [
+          22.29,
+          41.38
+        ],
+        "gross_expectancy_r": -0.249,
+        "net_expectancy_r": -0.455,
+        "gross_expectancy_pct": -0.308,
+        "net_expectancy_pct": -0.508,
+        "total_gross_pnl_pct": -26.83,
+        "total_net_pnl_pct": -44.2,
+        "profit_factor": 0.4,
+        "max_drawdown_r": 41.91,
+        "max_drawdown_pct": 47.47,
+        "total_fee_drag_r": 17.89,
+        "avg_fee_drag_r": 0.206
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 8,
+          "wins": 2,
+          "losses": 6,
+          "win_rate_pct": 25.0,
+          "win_rate_95_ci": [
+            7.15,
+            59.07
+          ],
+          "gross_expectancy_r": -0.218,
+          "net_expectancy_r": -0.367,
+          "gross_expectancy_pct": -0.704,
+          "net_expectancy_pct": -0.904,
+          "total_gross_pnl_pct": -5.63,
+          "total_net_pnl_pct": -7.23,
+          "profit_factor": 0.27,
+          "max_drawdown_r": 6.25,
+          "max_drawdown_pct": 11.26,
+          "total_fee_drag_r": 1.19,
+          "avg_fee_drag_r": 0.149
+        },
+        "BEAR_TREND": {
+          "total_trades": 33,
+          "wins": 10,
+          "losses": 23,
+          "win_rate_pct": 30.3,
+          "win_rate_95_ci": [
+            17.38,
+            47.34
+          ],
+          "gross_expectancy_r": -0.25,
+          "net_expectancy_r": -0.426,
+          "gross_expectancy_pct": -0.311,
+          "net_expectancy_pct": -0.511,
+          "total_gross_pnl_pct": -10.27,
+          "total_net_pnl_pct": -16.86,
+          "profit_factor": 0.45,
+          "max_drawdown_r": 16.0,
+          "max_drawdown_pct": 19.34,
+          "total_fee_drag_r": 5.79,
+          "avg_fee_drag_r": 0.176
+        },
+        "RANGE_CHOP": {
+          "total_trades": 45,
+          "wins": 14,
+          "losses": 31,
+          "win_rate_pct": 31.11,
+          "win_rate_95_ci": [
+            19.53,
+            45.66
+          ],
+          "gross_expectancy_r": -0.266,
+          "net_expectancy_r": -0.506,
+          "gross_expectancy_pct": -0.253,
+          "net_expectancy_pct": -0.453,
+          "total_gross_pnl_pct": -11.39,
+          "total_net_pnl_pct": -20.37,
+          "profit_factor": 0.41,
+          "max_drawdown_r": 24.04,
+          "max_drawdown_pct": 22.13,
+          "total_fee_drag_r": 10.76,
+          "avg_fee_drag_r": 0.239
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B1_RANGE_MIDPOINT",
+      "strategy_name": "Strategy B1: Range Mean-Reversion (Target Range Midpoint)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 45,
+        "wins": 20,
+        "losses": 25,
+        "win_rate_pct": 44.44,
+        "win_rate_95_ci": [
+          30.94,
+          58.82
+        ],
+        "gross_expectancy_r": -0.014,
+        "net_expectancy_r": -0.182,
+        "gross_expectancy_pct": 0.034,
+        "net_expectancy_pct": -0.166,
+        "total_gross_pnl_pct": 1.55,
+        "total_net_pnl_pct": -7.46,
+        "profit_factor": 0.74,
+        "max_drawdown_r": 11.28,
+        "max_drawdown_pct": 11.09,
+        "total_fee_drag_r": 7.58,
+        "avg_fee_drag_r": 0.168
+      },
+      "val_metrics": {
+        "total_trades": 9,
+        "wins": 3,
+        "losses": 6,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          12.06,
+          64.58
+        ],
+        "gross_expectancy_r": -0.231,
+        "net_expectancy_r": -0.405,
+        "gross_expectancy_pct": -0.319,
+        "net_expectancy_pct": -0.518,
+        "total_gross_pnl_pct": -2.87,
+        "total_net_pnl_pct": -4.67,
+        "profit_factor": 0.38,
+        "max_drawdown_r": 5.11,
+        "max_drawdown_pct": 6.42,
+        "total_fee_drag_r": 1.57,
+        "avg_fee_drag_r": 0.175
+      },
+      "test_metrics": {
+        "total_trades": 16,
+        "wins": 5,
+        "losses": 11,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          14.16,
+          55.6
+        ],
+        "gross_expectancy_r": -0.333,
+        "net_expectancy_r": -0.508,
+        "gross_expectancy_pct": -0.501,
+        "net_expectancy_pct": -0.701,
+        "total_gross_pnl_pct": -8.02,
+        "total_net_pnl_pct": -11.22,
+        "profit_factor": 0.31,
+        "max_drawdown_r": 8.96,
+        "max_drawdown_pct": 12.45,
+        "total_fee_drag_r": 2.8,
+        "avg_fee_drag_r": 0.175
+      },
+      "overall_metrics": {
+        "total_trades": 70,
+        "wins": 28,
+        "losses": 42,
+        "win_rate_pct": 40.0,
+        "win_rate_95_ci": [
+          29.33,
+          51.71
+        ],
+        "gross_expectancy_r": -0.115,
+        "net_expectancy_r": -0.286,
+        "gross_expectancy_pct": -0.134,
+        "net_expectancy_pct": -0.333,
+        "total_gross_pnl_pct": -9.35,
+        "total_net_pnl_pct": -23.34,
+        "profit_factor": 0.53,
+        "max_drawdown_r": 21.85,
+        "max_drawdown_pct": 26.11,
+        "total_fee_drag_r": 11.96,
+        "avg_fee_drag_r": 0.171
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 30,
+          "wins": 9,
+          "losses": 21,
+          "win_rate_pct": 30.0,
+          "win_rate_95_ci": [
+            16.66,
+            47.88
+          ],
+          "gross_expectancy_r": -0.347,
+          "net_expectancy_r": -0.503,
+          "gross_expectancy_pct": -0.482,
+          "net_expectancy_pct": -0.682,
+          "total_gross_pnl_pct": -14.47,
+          "total_net_pnl_pct": -20.45,
+          "profit_factor": 0.31,
+          "max_drawdown_r": 15.08,
+          "max_drawdown_pct": 20.45,
+          "total_fee_drag_r": 4.68,
+          "avg_fee_drag_r": 0.156
+        },
+        "RANGE_CHOP": {
+          "total_trades": 40,
+          "wins": 19,
+          "losses": 21,
+          "win_rate_pct": 47.5,
+          "win_rate_95_ci": [
+            32.94,
+            62.5
+          ],
+          "gross_expectancy_r": 0.059,
+          "net_expectancy_r": -0.123,
+          "gross_expectancy_pct": 0.128,
+          "net_expectancy_pct": -0.072,
+          "total_gross_pnl_pct": 5.12,
+          "total_net_pnl_pct": -2.88,
+          "profit_factor": 0.85,
+          "max_drawdown_r": 7.65,
+          "max_drawdown_pct": 7.64,
+          "total_fee_drag_r": 7.28,
+          "avg_fee_drag_r": 0.182
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B2_RANGE_15R",
+      "strategy_name": "Strategy B2: Range Mean-Reversion (Target Fixed 1.5R)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 45,
+        "wins": 19,
+        "losses": 26,
+        "win_rate_pct": 42.22,
+        "win_rate_95_ci": [
+          28.97,
+          56.7
+        ],
+        "gross_expectancy_r": 0.092,
+        "net_expectancy_r": -0.077,
+        "gross_expectancy_pct": 0.193,
+        "net_expectancy_pct": -0.008,
+        "total_gross_pnl_pct": 8.67,
+        "total_net_pnl_pct": -0.34,
+        "profit_factor": 0.96,
+        "max_drawdown_r": 10.03,
+        "max_drawdown_pct": 11.74,
+        "total_fee_drag_r": 7.59,
+        "avg_fee_drag_r": 0.169
+      },
+      "val_metrics": {
+        "total_trades": 9,
+        "wins": 3,
+        "losses": 6,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          12.06,
+          64.58
+        ],
+        "gross_expectancy_r": -0.114,
+        "net_expectancy_r": -0.289,
+        "gross_expectancy_pct": -0.171,
+        "net_expectancy_pct": -0.371,
+        "total_gross_pnl_pct": -1.54,
+        "total_net_pnl_pct": -3.33,
+        "profit_factor": 0.54,
+        "max_drawdown_r": 5.11,
+        "max_drawdown_pct": 6.4,
+        "total_fee_drag_r": 1.57,
+        "avg_fee_drag_r": 0.175
+      },
+      "test_metrics": {
+        "total_trades": 16,
+        "wins": 5,
+        "losses": 11,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          14.16,
+          55.6
+        ],
+        "gross_expectancy_r": -0.245,
+        "net_expectancy_r": -0.42,
+        "gross_expectancy_pct": -0.406,
+        "net_expectancy_pct": -0.605,
+        "total_gross_pnl_pct": -6.49,
+        "total_net_pnl_pct": -9.69,
+        "profit_factor": 0.41,
+        "max_drawdown_r": 8.05,
+        "max_drawdown_pct": 11.67,
+        "total_fee_drag_r": 2.8,
+        "avg_fee_drag_r": 0.175
+      },
+      "overall_metrics": {
+        "total_trades": 70,
+        "wins": 27,
+        "losses": 43,
+        "win_rate_pct": 38.57,
+        "win_rate_95_ci": [
+          28.05,
+          50.28
+        ],
+        "gross_expectancy_r": -0.012,
+        "net_expectancy_r": -0.183,
+        "gross_expectancy_pct": 0.009,
+        "net_expectancy_pct": -0.191,
+        "total_gross_pnl_pct": 0.64,
+        "total_net_pnl_pct": -13.36,
+        "profit_factor": 0.7,
+        "max_drawdown_r": 17.46,
+        "max_drawdown_pct": 23.35,
+        "total_fee_drag_r": 11.96,
+        "avg_fee_drag_r": 0.171
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 30,
+          "wins": 9,
+          "losses": 21,
+          "win_rate_pct": 30.0,
+          "win_rate_95_ci": [
+            16.66,
+            47.88
+          ],
+          "gross_expectancy_r": -0.274,
+          "net_expectancy_r": -0.43,
+          "gross_expectancy_pct": -0.358,
+          "net_expectancy_pct": -0.557,
+          "total_gross_pnl_pct": -10.73,
+          "total_net_pnl_pct": -16.72,
+          "profit_factor": 0.4,
+          "max_drawdown_r": 13.62,
+          "max_drawdown_pct": 19.9,
+          "total_fee_drag_r": 4.68,
+          "avg_fee_drag_r": 0.156
+        },
+        "RANGE_CHOP": {
+          "total_trades": 40,
+          "wins": 18,
+          "losses": 22,
+          "win_rate_pct": 45.0,
+          "win_rate_95_ci": [
+            30.71,
+            60.17
+          ],
+          "gross_expectancy_r": 0.185,
+          "net_expectancy_r": 0.003,
+          "gross_expectancy_pct": 0.284,
+          "net_expectancy_pct": 0.084,
+          "total_gross_pnl_pct": 11.37,
+          "total_net_pnl_pct": 3.36,
+          "profit_factor": 1.14,
+          "max_drawdown_r": 7.46,
+          "max_drawdown_pct": 7.04,
+          "total_fee_drag_r": 7.28,
+          "avg_fee_drag_r": 0.182
+        }
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "timeframe": "1h",
+      "strategy_id": "STRAT_B3_RANGE_20R",
+      "strategy_name": "Strategy B3: Range Mean-Reversion (Target Fixed 2.0R)",
+      "benchmarks": {
+        "bnh_train_pct": -8.61,
+        "bnh_val_pct": 49.93,
+        "bnh_test_pct": -11.6,
+        "bnh_overall_pct": 21.12
+      },
+      "train_metrics": {
+        "total_trades": 45,
+        "wins": 16,
+        "losses": 29,
+        "win_rate_pct": 35.56,
+        "win_rate_95_ci": [
+          23.22,
+          50.16
+        ],
+        "gross_expectancy_r": 0.042,
+        "net_expectancy_r": -0.127,
+        "gross_expectancy_pct": 0.158,
+        "net_expectancy_pct": -0.042,
+        "total_gross_pnl_pct": 7.12,
+        "total_net_pnl_pct": -1.88,
+        "profit_factor": 0.9,
+        "max_drawdown_r": 9.22,
+        "max_drawdown_pct": 11.11,
+        "total_fee_drag_r": 7.58,
+        "avg_fee_drag_r": 0.169
+      },
+      "val_metrics": {
+        "total_trades": 9,
+        "wins": 3,
+        "losses": 6,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          12.06,
+          64.58
+        ],
+        "gross_expectancy_r": 0.052,
+        "net_expectancy_r": -0.123,
+        "gross_expectancy_pct": 0.022,
+        "net_expectancy_pct": -0.178,
+        "total_gross_pnl_pct": 0.19,
+        "total_net_pnl_pct": -1.61,
+        "profit_factor": 0.74,
+        "max_drawdown_r": 5.11,
+        "max_drawdown_pct": 6.4,
+        "total_fee_drag_r": 1.58,
+        "avg_fee_drag_r": 0.175
+      },
+      "test_metrics": {
+        "total_trades": 16,
+        "wins": 5,
+        "losses": 11,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          14.16,
+          55.6
+        ],
+        "gross_expectancy_r": -0.119,
+        "net_expectancy_r": -0.294,
+        "gross_expectancy_pct": -0.272,
+        "net_expectancy_pct": -0.472,
+        "total_gross_pnl_pct": -4.36,
+        "total_net_pnl_pct": -7.55,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 7.56,
+        "max_drawdown_pct": 10.28,
+        "total_fee_drag_r": 2.81,
+        "avg_fee_drag_r": 0.175
+      },
+      "overall_metrics": {
+        "total_trades": 70,
+        "wins": 24,
+        "losses": 46,
+        "win_rate_pct": 34.29,
+        "win_rate_95_ci": [
+          24.25,
+          45.96
+        ],
+        "gross_expectancy_r": 0.006,
+        "net_expectancy_r": -0.165,
+        "gross_expectancy_pct": 0.042,
+        "net_expectancy_pct": -0.158,
+        "total_gross_pnl_pct": 2.96,
+        "total_net_pnl_pct": -11.04,
+        "profit_factor": 0.76,
+        "max_drawdown_r": 14.17,
+        "max_drawdown_pct": 19.48,
+        "total_fee_drag_r": 11.96,
+        "avg_fee_drag_r": 0.171
+      },
+      "regimes": {
+        "BULL_TREND": {
+          "total_trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate_pct": 0.0,
+          "win_rate_95_ci": [
+            0.0,
+            0.0
+          ],
+          "gross_expectancy_r": 0.0,
+          "net_expectancy_r": 0.0,
+          "gross_expectancy_pct": 0.0,
+          "net_expectancy_pct": 0.0,
+          "total_gross_pnl_pct": 0.0,
+          "total_net_pnl_pct": 0.0,
+          "profit_factor": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_drawdown_pct": 0.0,
+          "total_fee_drag_r": 0.0,
+          "avg_fee_drag_r": 0.0
+        },
+        "BEAR_TREND": {
+          "total_trades": 30,
+          "wins": 9,
+          "losses": 21,
+          "win_rate_pct": 30.0,
+          "win_rate_95_ci": [
+            16.66,
+            47.88
+          ],
+          "gross_expectancy_r": -0.174,
+          "net_expectancy_r": -0.33,
+          "gross_expectancy_pct": -0.233,
+          "net_expectancy_pct": -0.433,
+          "total_gross_pnl_pct": -7.0,
+          "total_net_pnl_pct": -12.99,
+          "profit_factor": 0.49,
+          "max_drawdown_r": 12.62,
+          "max_drawdown_pct": 19.12,
+          "total_fee_drag_r": 4.68,
+          "avg_fee_drag_r": 0.156
+        },
+        "RANGE_CHOP": {
+          "total_trades": 40,
+          "wins": 15,
+          "losses": 25,
+          "win_rate_pct": 37.5,
+          "win_rate_95_ci": [
+            24.22,
+            52.97
+          ],
+          "gross_expectancy_r": 0.141,
+          "net_expectancy_r": -0.041,
+          "gross_expectancy_pct": 0.249,
+          "net_expectancy_pct": 0.049,
+          "total_gross_pnl_pct": 9.96,
+          "total_net_pnl_pct": 1.95,
+          "profit_factor": 1.11,
+          "max_drawdown_r": 7.39,
+          "max_drawdown_pct": 6.69,
+          "total_fee_drag_r": 7.28,
+          "avg_fee_drag_r": 0.182
+        }
+      }
+    }
+  ],
+  "sensitivity": [
+    {
+      "symbol": "BTCUSDT",
+      "cost_sensitivity_a": [
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "trades": 81,
+          "win_rate": 34.57,
+          "net_exp_r": -0.338,
+          "pf": 0.5,
+          "net_ret_pct": -22.09
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.05,
+          "trades": 81,
+          "win_rate": 34.57,
+          "net_exp_r": -0.389,
+          "pf": 0.44,
+          "net_ret_pct": -26.6
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.1,
+          "trades": 81,
+          "win_rate": 33.33,
+          "net_exp_r": -0.487,
+          "pf": 0.36,
+          "net_ret_pct": -34.51
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.02,
+          "trades": 81,
+          "win_rate": 34.57,
+          "net_exp_r": -0.414,
+          "pf": 0.44,
+          "net_ret_pct": -26.14
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "trades": 81,
+          "win_rate": 34.57,
+          "net_exp_r": -0.461,
+          "pf": 0.39,
+          "net_ret_pct": -30.65
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.1,
+          "trades": 81,
+          "win_rate": 32.1,
+          "net_exp_r": -0.553,
+          "pf": 0.32,
+          "net_ret_pct": -38.55
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.02,
+          "trades": 81,
+          "win_rate": 33.33,
+          "net_exp_r": -0.568,
+          "pf": 0.36,
+          "net_ret_pct": -34.23
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.05,
+          "trades": 81,
+          "win_rate": 32.1,
+          "net_exp_r": -0.605,
+          "pf": 0.31,
+          "net_ret_pct": -38.74
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "trades": 81,
+          "win_rate": 32.1,
+          "net_exp_r": -0.685,
+          "pf": 0.25,
+          "net_ret_pct": -46.64
+        }
+      ],
+      "param_sensitivity_a": [
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 104,
+          "win_rate": 37.5,
+          "net_exp_r": -0.458,
+          "pf": 0.42,
+          "max_dd_r": 51.13,
+          "net_ret_pct": -36.68
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 104,
+          "win_rate": 34.62,
+          "net_exp_r": -0.453,
+          "pf": 0.42,
+          "max_dd_r": 52.18,
+          "net_ret_pct": -38.25
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 104,
+          "win_rate": 29.81,
+          "net_exp_r": -0.593,
+          "pf": 0.34,
+          "max_dd_r": 63.28,
+          "net_ret_pct": -44.39
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 87,
+          "win_rate": 35.63,
+          "net_exp_r": -0.513,
+          "pf": 0.44,
+          "max_dd_r": 48.16,
+          "net_ret_pct": -27.41
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 87,
+          "win_rate": 33.33,
+          "net_exp_r": -0.514,
+          "pf": 0.43,
+          "max_dd_r": 49.76,
+          "net_ret_pct": -29.12
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 87,
+          "win_rate": 29.89,
+          "net_exp_r": -0.616,
+          "pf": 0.36,
+          "max_dd_r": 55.17,
+          "net_ret_pct": -32.91
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 63,
+          "win_rate": 33.33,
+          "net_exp_r": -0.585,
+          "pf": 0.39,
+          "max_dd_r": 37.95,
+          "net_ret_pct": -22.88
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 63,
+          "win_rate": 31.75,
+          "net_exp_r": -0.589,
+          "pf": 0.36,
+          "max_dd_r": 38.71,
+          "net_ret_pct": -24.92
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 63,
+          "win_rate": 26.98,
+          "net_exp_r": -0.735,
+          "pf": 0.29,
+          "max_dd_r": 46.31,
+          "net_ret_pct": -28.27
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 99,
+          "win_rate": 39.39,
+          "net_exp_r": -0.357,
+          "pf": 0.44,
+          "max_dd_r": 39.09,
+          "net_ret_pct": -36.3
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 99,
+          "win_rate": 34.34,
+          "net_exp_r": -0.433,
+          "pf": 0.38,
+          "max_dd_r": 44.34,
+          "net_ret_pct": -42.15
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 99,
+          "win_rate": 32.32,
+          "net_exp_r": -0.466,
+          "pf": 0.37,
+          "max_dd_r": 48.05,
+          "net_ret_pct": -42.35
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 81,
+          "win_rate": 39.51,
+          "net_exp_r": -0.381,
+          "pf": 0.46,
+          "max_dd_r": 34.33,
+          "net_ret_pct": -25.11
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 81,
+          "win_rate": 34.57,
+          "net_exp_r": -0.461,
+          "pf": 0.39,
+          "max_dd_r": 38.79,
+          "net_ret_pct": -30.65
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 81,
+          "win_rate": 33.33,
+          "net_exp_r": -0.458,
+          "pf": 0.41,
+          "max_dd_r": 39.05,
+          "net_ret_pct": -28.95
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 61,
+          "win_rate": 37.7,
+          "net_exp_r": -0.444,
+          "pf": 0.42,
+          "max_dd_r": 29.22,
+          "net_ret_pct": -21.62
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 61,
+          "win_rate": 32.79,
+          "net_exp_r": -0.522,
+          "pf": 0.35,
+          "max_dd_r": 32.0,
+          "net_ret_pct": -25.93
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 61,
+          "win_rate": 31.15,
+          "net_exp_r": -0.536,
+          "pf": 0.37,
+          "max_dd_r": 33.22,
+          "net_ret_pct": -24.79
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 95,
+          "win_rate": 37.89,
+          "net_exp_r": -0.345,
+          "pf": 0.42,
+          "max_dd_r": 36.41,
+          "net_ret_pct": -36.42
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 95,
+          "win_rate": 35.79,
+          "net_exp_r": -0.348,
+          "pf": 0.4,
+          "max_dd_r": 34.36,
+          "net_ret_pct": -38.28
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 94,
+          "win_rate": 35.11,
+          "net_exp_r": -0.397,
+          "pf": 0.38,
+          "max_dd_r": 38.7,
+          "net_ret_pct": -38.94
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 79,
+          "win_rate": 39.24,
+          "net_exp_r": -0.352,
+          "pf": 0.45,
+          "max_dd_r": 31.44,
+          "net_ret_pct": -27.6
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 79,
+          "win_rate": 36.71,
+          "net_exp_r": -0.368,
+          "pf": 0.41,
+          "max_dd_r": 30.39,
+          "net_ret_pct": -30.2
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 79,
+          "win_rate": 36.71,
+          "net_exp_r": -0.367,
+          "pf": 0.43,
+          "max_dd_r": 30.36,
+          "net_ret_pct": -27.89
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 60,
+          "win_rate": 38.33,
+          "net_exp_r": -0.409,
+          "pf": 0.41,
+          "max_dd_r": 26.83,
+          "net_ret_pct": -22.9
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 60,
+          "win_rate": 36.67,
+          "net_exp_r": -0.406,
+          "pf": 0.39,
+          "max_dd_r": 24.5,
+          "net_ret_pct": -24.39
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 60,
+          "win_rate": 35.0,
+          "net_exp_r": -0.444,
+          "pf": 0.4,
+          "max_dd_r": 26.81,
+          "net_ret_pct": -23.6
+        }
+      ],
+      "cost_sensitivity_b": [
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "trades": 72,
+          "win_rate": 36.11,
+          "net_exp_r": -0.392,
+          "pf": 0.54,
+          "net_ret_pct": -14.6
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.05,
+          "trades": 72,
+          "win_rate": 33.33,
+          "net_exp_r": -0.485,
+          "pf": 0.44,
+          "net_ret_pct": -20.12
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.1,
+          "trades": 72,
+          "win_rate": 30.56,
+          "net_exp_r": -0.551,
+          "pf": 0.36,
+          "net_ret_pct": -26.35
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.02,
+          "trades": 72,
+          "win_rate": 36.11,
+          "net_exp_r": -0.465,
+          "pf": 0.47,
+          "net_ret_pct": -18.2
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "trades": 72,
+          "win_rate": 30.56,
+          "net_exp_r": -0.554,
+          "pf": 0.39,
+          "net_ret_pct": -23.72
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.1,
+          "trades": 72,
+          "win_rate": 29.17,
+          "net_exp_r": -0.614,
+          "pf": 0.32,
+          "net_ret_pct": -29.95
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.02,
+          "trades": 72,
+          "win_rate": 33.33,
+          "net_exp_r": -0.61,
+          "pf": 0.36,
+          "net_ret_pct": -25.39
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.05,
+          "trades": 72,
+          "win_rate": 30.56,
+          "net_exp_r": -0.691,
+          "pf": 0.3,
+          "net_ret_pct": -30.91
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "trades": 72,
+          "win_rate": 29.17,
+          "net_exp_r": -0.74,
+          "pf": 0.25,
+          "net_ret_pct": -37.14
+        }
+      ],
+      "param_sensitivity_b": [
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 30,
+          "win_rate": 20.0,
+          "net_exp_r": -0.764,
+          "pf": 0.16,
+          "max_dd_r": 22.92,
+          "net_ret_pct": -16.59
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 30,
+          "win_rate": 20.0,
+          "net_exp_r": -0.74,
+          "pf": 0.14,
+          "max_dd_r": 23.52,
+          "net_ret_pct": -17.17
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 30,
+          "win_rate": 13.33,
+          "net_exp_r": -0.889,
+          "pf": 0.09,
+          "max_dd_r": 26.68,
+          "net_ret_pct": -19.43
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 35,
+          "win_rate": 20.0,
+          "net_exp_r": -0.751,
+          "pf": 0.16,
+          "max_dd_r": 26.28,
+          "net_ret_pct": -19.0
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 35,
+          "win_rate": 22.86,
+          "net_exp_r": -0.719,
+          "pf": 0.15,
+          "max_dd_r": 26.49,
+          "net_ret_pct": -19.54
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 35,
+          "win_rate": 17.14,
+          "net_exp_r": -0.833,
+          "pf": 0.11,
+          "max_dd_r": 29.16,
+          "net_ret_pct": -21.69
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 40,
+          "win_rate": 22.5,
+          "net_exp_r": -0.709,
+          "pf": 0.18,
+          "max_dd_r": 28.34,
+          "net_ret_pct": -20.3
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 39,
+          "win_rate": 23.08,
+          "net_exp_r": -0.703,
+          "pf": 0.15,
+          "max_dd_r": 28.72,
+          "net_ret_pct": -21.11
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 39,
+          "win_rate": 17.95,
+          "net_exp_r": -0.792,
+          "pf": 0.12,
+          "max_dd_r": 30.89,
+          "net_ret_pct": -23.02
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 64,
+          "win_rate": 28.12,
+          "net_exp_r": -0.602,
+          "pf": 0.37,
+          "max_dd_r": 39.2,
+          "net_ret_pct": -22.78
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 64,
+          "win_rate": 28.12,
+          "net_exp_r": -0.542,
+          "pf": 0.43,
+          "max_dd_r": 36.84,
+          "net_ret_pct": -20.01
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 64,
+          "win_rate": 23.44,
+          "net_exp_r": -0.624,
+          "pf": 0.39,
+          "max_dd_r": 41.62,
+          "net_ret_pct": -23.16
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 72,
+          "win_rate": 30.56,
+          "net_exp_r": -0.554,
+          "pf": 0.39,
+          "max_dd_r": 41.28,
+          "net_ret_pct": -23.72
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 72,
+          "win_rate": 30.56,
+          "net_exp_r": -0.507,
+          "pf": 0.45,
+          "max_dd_r": 39.83,
+          "net_ret_pct": -21.76
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 72,
+          "win_rate": 26.39,
+          "net_exp_r": -0.559,
+          "pf": 0.43,
+          "max_dd_r": 43.61,
+          "net_ret_pct": -24.13
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 81,
+          "win_rate": 29.63,
+          "net_exp_r": -0.56,
+          "pf": 0.37,
+          "max_dd_r": 46.77,
+          "net_ret_pct": -28.83
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 80,
+          "win_rate": 28.75,
+          "net_exp_r": -0.537,
+          "pf": 0.4,
+          "max_dd_r": 46.26,
+          "net_ret_pct": -27.62
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 80,
+          "win_rate": 25.0,
+          "net_exp_r": -0.584,
+          "pf": 0.39,
+          "max_dd_r": 50.04,
+          "net_ret_pct": -29.98
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 84,
+          "win_rate": 28.57,
+          "net_exp_r": -0.599,
+          "pf": 0.33,
+          "max_dd_r": 51.25,
+          "net_ret_pct": -33.53
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 84,
+          "win_rate": 28.57,
+          "net_exp_r": -0.54,
+          "pf": 0.4,
+          "max_dd_r": 48.23,
+          "net_ret_pct": -29.8
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 83,
+          "win_rate": 24.1,
+          "net_exp_r": -0.612,
+          "pf": 0.36,
+          "max_dd_r": 51.97,
+          "net_ret_pct": -33.51
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 96,
+          "win_rate": 31.25,
+          "net_exp_r": -0.549,
+          "pf": 0.35,
+          "max_dd_r": 54.19,
+          "net_ret_pct": -35.71
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 96,
+          "win_rate": 31.25,
+          "net_exp_r": -0.502,
+          "pf": 0.41,
+          "max_dd_r": 52.08,
+          "net_ret_pct": -32.86
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 95,
+          "win_rate": 27.37,
+          "net_exp_r": -0.549,
+          "pf": 0.38,
+          "max_dd_r": 54.82,
+          "net_ret_pct": -35.88
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 105,
+          "win_rate": 31.43,
+          "net_exp_r": -0.554,
+          "pf": 0.34,
+          "max_dd_r": 59.59,
+          "net_ret_pct": -40.34
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 104,
+          "win_rate": 30.77,
+          "net_exp_r": -0.524,
+          "pf": 0.38,
+          "max_dd_r": 58.43,
+          "net_ret_pct": -38.23
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 103,
+          "win_rate": 27.18,
+          "net_exp_r": -0.568,
+          "pf": 0.36,
+          "max_dd_r": 61.17,
+          "net_ret_pct": -41.25
+        }
+      ]
+    },
+    {
+      "symbol": "SOLUSDT",
+      "cost_sensitivity_a": [
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "trades": 88,
+          "win_rate": 37.5,
+          "net_exp_r": -0.228,
+          "pf": 0.6,
+          "net_ret_pct": -24.02
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.05,
+          "trades": 88,
+          "win_rate": 35.23,
+          "net_exp_r": -0.259,
+          "pf": 0.57,
+          "net_ret_pct": -27.6
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.1,
+          "trades": 87,
+          "win_rate": 34.48,
+          "net_exp_r": -0.337,
+          "pf": 0.5,
+          "net_ret_pct": -34.77
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.02,
+          "trades": 88,
+          "win_rate": 35.23,
+          "net_exp_r": -0.281,
+          "pf": 0.55,
+          "net_ret_pct": -28.42
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "trades": 88,
+          "win_rate": 35.23,
+          "net_exp_r": -0.311,
+          "pf": 0.52,
+          "net_ret_pct": -32.0
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.1,
+          "trades": 87,
+          "win_rate": 32.18,
+          "net_exp_r": -0.386,
+          "pf": 0.47,
+          "net_ret_pct": -39.12
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.02,
+          "trades": 88,
+          "win_rate": 35.23,
+          "net_exp_r": -0.388,
+          "pf": 0.47,
+          "net_ret_pct": -37.21
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.05,
+          "trades": 88,
+          "win_rate": 34.09,
+          "net_exp_r": -0.413,
+          "pf": 0.45,
+          "net_ret_pct": -40.79
+        },
+        {
+          "strategy": "STRAT_A2_SWEEP_20R",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "trades": 87,
+          "win_rate": 29.89,
+          "net_exp_r": -0.483,
+          "pf": 0.4,
+          "net_ret_pct": -47.81
+        }
+      ],
+      "param_sensitivity_a": [
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 121,
+          "win_rate": 33.06,
+          "net_exp_r": -0.486,
+          "pf": 0.37,
+          "max_dd_r": 62.37,
+          "net_ret_pct": -61.95
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 120,
+          "win_rate": 30.83,
+          "net_exp_r": -0.452,
+          "pf": 0.42,
+          "max_dd_r": 57.71,
+          "net_ret_pct": -56.96
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 120,
+          "win_rate": 26.67,
+          "net_exp_r": -0.558,
+          "pf": 0.41,
+          "max_dd_r": 69.66,
+          "net_ret_pct": -62.48
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 92,
+          "win_rate": 34.78,
+          "net_exp_r": -0.443,
+          "pf": 0.38,
+          "max_dd_r": 44.35,
+          "net_ret_pct": -42.33
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 92,
+          "win_rate": 33.7,
+          "net_exp_r": -0.374,
+          "pf": 0.46,
+          "max_dd_r": 38.24,
+          "net_ret_pct": -36.94
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 92,
+          "win_rate": 28.26,
+          "net_exp_r": -0.502,
+          "pf": 0.38,
+          "max_dd_r": 48.84,
+          "net_ret_pct": -46.18
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 71,
+          "win_rate": 32.39,
+          "net_exp_r": -0.477,
+          "pf": 0.38,
+          "max_dd_r": 37.26,
+          "net_ret_pct": -34.91
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 70,
+          "win_rate": 30.0,
+          "net_exp_r": -0.474,
+          "pf": 0.39,
+          "max_dd_r": 36.36,
+          "net_ret_pct": -34.57
+        },
+        {
+          "buffer_atr": 0.3,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 70,
+          "win_rate": 24.29,
+          "net_exp_r": -0.62,
+          "pf": 0.31,
+          "max_dd_r": 45.88,
+          "net_ret_pct": -43.2
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 114,
+          "win_rate": 34.21,
+          "net_exp_r": -0.41,
+          "pf": 0.42,
+          "max_dd_r": 50.37,
+          "net_ret_pct": -57.6
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 114,
+          "win_rate": 31.58,
+          "net_exp_r": -0.396,
+          "pf": 0.47,
+          "max_dd_r": 48.15,
+          "net_ret_pct": -53.33
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 113,
+          "win_rate": 28.32,
+          "net_exp_r": -0.506,
+          "pf": 0.38,
+          "max_dd_r": 59.57,
+          "net_ret_pct": -65.45
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 88,
+          "win_rate": 37.5,
+          "net_exp_r": -0.341,
+          "pf": 0.47,
+          "max_dd_r": 33.62,
+          "net_ret_pct": -35.68
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 88,
+          "win_rate": 35.23,
+          "net_exp_r": -0.311,
+          "pf": 0.52,
+          "max_dd_r": 30.5,
+          "net_ret_pct": -32.0
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 87,
+          "win_rate": 31.03,
+          "net_exp_r": -0.455,
+          "pf": 0.4,
+          "max_dd_r": 41.91,
+          "net_ret_pct": -44.2
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 69,
+          "win_rate": 33.33,
+          "net_exp_r": -0.439,
+          "pf": 0.41,
+          "max_dd_r": 33.67,
+          "net_ret_pct": -34.15
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 68,
+          "win_rate": 30.88,
+          "net_exp_r": -0.417,
+          "pf": 0.45,
+          "max_dd_r": 31.61,
+          "net_ret_pct": -32.73
+        },
+        {
+          "buffer_atr": 0.5,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 68,
+          "win_rate": 25.0,
+          "net_exp_r": -0.608,
+          "pf": 0.3,
+          "max_dd_r": 43.5,
+          "net_ret_pct": -45.67
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "1.5r",
+          "trades": 110,
+          "win_rate": 33.64,
+          "net_exp_r": -0.392,
+          "pf": 0.42,
+          "max_dd_r": 45.54,
+          "net_ret_pct": -64.36
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "2.0r",
+          "trades": 109,
+          "win_rate": 31.19,
+          "net_exp_r": -0.412,
+          "pf": 0.43,
+          "max_dd_r": 46.36,
+          "net_ret_pct": -65.58
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.3,
+          "target_type": "range_high",
+          "trades": 109,
+          "win_rate": 30.28,
+          "net_exp_r": -0.47,
+          "pf": 0.36,
+          "max_dd_r": 53.28,
+          "net_ret_pct": -74.14
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "1.5r",
+          "trades": 86,
+          "win_rate": 38.37,
+          "net_exp_r": -0.291,
+          "pf": 0.51,
+          "max_dd_r": 27.38,
+          "net_ret_pct": -36.4
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "2.0r",
+          "trades": 85,
+          "win_rate": 36.47,
+          "net_exp_r": -0.311,
+          "pf": 0.51,
+          "max_dd_r": 27.91,
+          "net_ret_pct": -38.23
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.4,
+          "target_type": "range_high",
+          "trades": 85,
+          "win_rate": 34.12,
+          "net_exp_r": -0.398,
+          "pf": 0.42,
+          "max_dd_r": 35.81,
+          "net_ret_pct": -47.36
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "1.5r",
+          "trades": 67,
+          "win_rate": 35.82,
+          "net_exp_r": -0.328,
+          "pf": 0.47,
+          "max_dd_r": 24.23,
+          "net_ret_pct": -32.21
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "2.0r",
+          "trades": 67,
+          "win_rate": 32.84,
+          "net_exp_r": -0.39,
+          "pf": 0.43,
+          "max_dd_r": 27.49,
+          "net_ret_pct": -37.72
+        },
+        {
+          "buffer_atr": 0.8,
+          "min_wick": 0.5,
+          "target_type": "range_high",
+          "trades": 67,
+          "win_rate": 29.85,
+          "net_exp_r": -0.479,
+          "pf": 0.35,
+          "max_dd_r": 33.91,
+          "net_ret_pct": -44.53
+        }
+      ],
+      "cost_sensitivity_b": [
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.02,
+          "trades": 70,
+          "win_rate": 42.86,
+          "net_exp_r": -0.179,
+          "pf": 0.64,
+          "net_ret_pct": -15.17
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.05,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.243,
+          "pf": 0.57,
+          "net_ret_pct": -19.84
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.075,
+          "slippage_pct": 0.1,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.294,
+          "pf": 0.52,
+          "net_ret_pct": -25.03
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.02,
+          "trades": 70,
+          "win_rate": 41.43,
+          "net_exp_r": -0.223,
+          "pf": 0.59,
+          "net_ret_pct": -18.67
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.05,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.286,
+          "pf": 0.53,
+          "net_ret_pct": -23.34
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.1,
+          "slippage_pct": 0.1,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.335,
+          "pf": 0.48,
+          "net_ret_pct": -28.53
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.02,
+          "trades": 70,
+          "win_rate": 41.43,
+          "net_exp_r": -0.311,
+          "pf": 0.5,
+          "net_ret_pct": -25.67
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.05,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.371,
+          "pf": 0.45,
+          "net_ret_pct": -30.33
+        },
+        {
+          "strategy": "STRAT_B1_RANGE_MIDPOINT",
+          "fee_pct": 0.15,
+          "slippage_pct": 0.1,
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.416,
+          "pf": 0.4,
+          "net_ret_pct": -35.52
+        }
+      ],
+      "param_sensitivity_b": [
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 31,
+          "win_rate": 35.48,
+          "net_exp_r": -0.405,
+          "pf": 0.44,
+          "max_dd_r": 12.55,
+          "net_ret_pct": -14.91
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 31,
+          "win_rate": 35.48,
+          "net_exp_r": -0.276,
+          "pf": 0.61,
+          "max_dd_r": 9.88,
+          "net_ret_pct": -10.22
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 31,
+          "win_rate": 29.03,
+          "net_exp_r": -0.294,
+          "pf": 0.69,
+          "max_dd_r": 9.84,
+          "net_ret_pct": -9.37
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 37,
+          "win_rate": 35.14,
+          "net_exp_r": -0.41,
+          "pf": 0.45,
+          "max_dd_r": 15.93,
+          "net_ret_pct": -17.38
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 37,
+          "win_rate": 35.14,
+          "net_exp_r": -0.287,
+          "pf": 0.63,
+          "max_dd_r": 11.74,
+          "net_ret_pct": -11.73
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 37,
+          "win_rate": 29.73,
+          "net_exp_r": -0.288,
+          "pf": 0.72,
+          "max_dd_r": 12.29,
+          "net_ret_pct": -9.94
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 40,
+          "win_rate": 37.5,
+          "net_exp_r": -0.389,
+          "pf": 0.45,
+          "max_dd_r": 16.33,
+          "net_ret_pct": -18.28
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 40,
+          "win_rate": 35.0,
+          "net_exp_r": -0.313,
+          "pf": 0.62,
+          "max_dd_r": 13.65,
+          "net_ret_pct": -13.08
+        },
+        {
+          "max_adx": 20.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 40,
+          "win_rate": 27.5,
+          "net_exp_r": -0.377,
+          "pf": 0.67,
+          "max_dd_r": 16.69,
+          "net_ret_pct": -12.65
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 58,
+          "win_rate": 41.38,
+          "net_exp_r": -0.247,
+          "pf": 0.56,
+          "max_dd_r": 15.63,
+          "net_ret_pct": -17.03
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 58,
+          "win_rate": 39.66,
+          "net_exp_r": -0.15,
+          "pf": 0.73,
+          "max_dd_r": 13.46,
+          "net_ret_pct": -9.09
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 58,
+          "win_rate": 34.48,
+          "net_exp_r": -0.132,
+          "pf": 0.79,
+          "max_dd_r": 11.71,
+          "net_ret_pct": -7.1
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 70,
+          "win_rate": 40.0,
+          "net_exp_r": -0.286,
+          "pf": 0.53,
+          "max_dd_r": 21.85,
+          "net_ret_pct": -23.34
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 70,
+          "win_rate": 38.57,
+          "net_exp_r": -0.183,
+          "pf": 0.7,
+          "max_dd_r": 17.46,
+          "net_ret_pct": -13.36
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 70,
+          "win_rate": 34.29,
+          "net_exp_r": -0.165,
+          "pf": 0.76,
+          "max_dd_r": 14.17,
+          "net_ret_pct": -11.04
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 77,
+          "win_rate": 42.86,
+          "net_exp_r": -0.25,
+          "pf": 0.56,
+          "max_dd_r": 22.57,
+          "net_ret_pct": -23.4
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 76,
+          "win_rate": 39.47,
+          "net_exp_r": -0.189,
+          "pf": 0.7,
+          "max_dd_r": 19.69,
+          "net_ret_pct": -15.04
+        },
+        {
+          "max_adx": 25.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 76,
+          "win_rate": 34.21,
+          "net_exp_r": -0.205,
+          "pf": 0.74,
+          "max_dd_r": 18.9,
+          "net_ret_pct": -14.07
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "midpoint",
+          "trades": 75,
+          "win_rate": 44.0,
+          "net_exp_r": -0.22,
+          "pf": 0.64,
+          "max_dd_r": 18.3,
+          "net_ret_pct": -18.18
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "1.5r",
+          "trades": 73,
+          "win_rate": 39.73,
+          "net_exp_r": -0.168,
+          "pf": 0.74,
+          "max_dd_r": 15.43,
+          "net_ret_pct": -12.59
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.15,
+          "target_type": "2.0r",
+          "trades": 73,
+          "win_rate": 35.62,
+          "net_exp_r": -0.127,
+          "pf": 0.83,
+          "max_dd_r": 11.16,
+          "net_ret_pct": -7.93
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "midpoint",
+          "trades": 88,
+          "win_rate": 43.18,
+          "net_exp_r": -0.247,
+          "pf": 0.62,
+          "max_dd_r": 24.09,
+          "net_ret_pct": -23.74
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "1.5r",
+          "trades": 86,
+          "win_rate": 39.53,
+          "net_exp_r": -0.185,
+          "pf": 0.73,
+          "max_dd_r": 18.94,
+          "net_ret_pct": -16.12
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.2,
+          "target_type": "2.0r",
+          "trades": 86,
+          "win_rate": 36.05,
+          "net_exp_r": -0.147,
+          "pf": 0.82,
+          "max_dd_r": 13.75,
+          "net_ret_pct": -11.12
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "midpoint",
+          "trades": 100,
+          "win_rate": 44.0,
+          "net_exp_r": -0.245,
+          "pf": 0.62,
+          "max_dd_r": 26.94,
+          "net_ret_pct": -27.68
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "1.5r",
+          "trades": 98,
+          "win_rate": 39.8,
+          "net_exp_r": -0.199,
+          "pf": 0.72,
+          "max_dd_r": 22.26,
+          "net_ret_pct": -19.86
+        },
+        {
+          "max_adx": 30.0,
+          "entry_zone": 0.25,
+          "target_type": "2.0r",
+          "trades": 98,
+          "win_rate": 35.71,
+          "net_exp_r": -0.197,
+          "pf": 0.77,
+          "max_dd_r": 19.76,
+          "net_ret_pct": -16.97
+        }
+      ]
+    }
+  ],
+  "generated_at": "2026-10-29T15:34:04.192151+00:00"
+}

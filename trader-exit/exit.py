@@ -50,16 +50,33 @@ import urllib.error
 import urllib.request
 from decimal import Decimal, InvalidOperation, ROUND_FLOOR, ROUND_HALF_UP
 
-UA = "Mozilla/5.0 (compatible; day-trader-skill/2.0; +https://github.com/Jakeschincariol/day-trader-skill)"
+try:
+    from binance_client import BinanceClient, parse_exchange_filters, quantize_price
+except ImportError:
+    _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _root not in sys.path:
+        sys.path.insert(0, _root)
+    try:
+        from binance_client import BinanceClient, parse_exchange_filters, quantize_price
+    except ImportError:
+        BinanceClient = None
+        parse_exchange_filters = None
+        quantize_price = None
+BINANCE_HOST = "https://api.binance.com"
 BACKOFF = 5.0
 HOSTS = ("query2", "query1")
 INTERVALS = {"1m": 60, "5m": 300}
-DEFAULTS = {"flat_by": "15:55", "min_reward_risk": 1.0}
+DEFAULTS = {"flat_by": "15:55", "min_reward_risk": 1.0, "time_stop_hours": 4}
 ATR_BARS = 14
 MIN_RISK_PCT = Decimal("0.05")     # risk under 0.05% of the price is inside the spread's noise
 CENT = Decimal("0.01")
 EPOCH = datetime.datetime(1970, 1, 1)
 NOTE = "A stop is a plan, not a guarantee: a gap or a fast market can fill past it."
+
+
+def is_crypto(sym):
+    sym = str(sym).upper()
+    return sym.endswith("USDT") or sym.endswith("BUSD") or sym.endswith("BTC") or sym.endswith("ETH") or "/" in sym
 
 NYSE_HOLIDAYS = {
     "2026-01-01": "New Year's Day",
@@ -268,16 +285,21 @@ def r_label(r):
 
 
 def compute(entry, stop_rule, stop_param, target_rule, target_param, or_high=None, or_low=None,
-            atr=None, atr_bars=None):
-    """The stop, the target and the risk, in exact cents. Raises PlanError with the reason."""
-    e = cents(entry)
+            atr=None, atr_bars=None, tick_size=None):
+    """The stop, the target and the risk, quantized with Decimal. Raises PlanError with the reason."""
+    ts = Decimal(str(tick_size)) if tick_size is not None and quantize_price else CENT
+    if tick_size is not None and quantize_price:
+        e = quantize_price(entry, ts)
+    else:
+        e = cents(entry)
     if e <= 0:
         raise PlanError("the entry price must be above $0")
     detail = ""
     if stop_rule in ("or_mid", "or_low"):
         if or_high is None or or_low is None:
             raise PlanError("an %s stop needs the opening range (--or-high and --or-low)" % stop_rule.replace("_", "-"))
-        oh, ol = cents(or_high), cents(or_low)
+        oh = quantize_price(or_high, ts) if tick_size is not None and quantize_price else cents(or_high)
+        ol = quantize_price(or_low, ts) if tick_size is not None and quantize_price else cents(or_low)
         if oh <= ol:
             raise PlanError("the opening-range high %s must be above its low %s" % (money(oh), money(ol)))
         if stop_rule == "or_mid":
@@ -302,7 +324,7 @@ def compute(entry, stop_rule, stop_param, target_rule, target_param, or_high=Non
             num(a.quantize(Decimal("0.0001"))), atr_bars, " (fewer than 14 so far)" if atr_bars < ATR_BARS else "")
     else:
         raise PlanError("unknown stop rule %r" % stop_rule)
-    stop = floor_cents(raw)
+    stop = quantize_price(raw, ts) if tick_size is not None and quantize_price else floor_cents(raw)
     if stop != D(raw):
         detail = (detail + ", rounded down" if detail else "$%s rounded down" % num(raw))
     if stop >= e:
@@ -317,10 +339,11 @@ def compute(entry, stop_rule, stop_param, target_rule, target_param, or_high=Non
                         "survive the spread, normal wiggle would stop you out. Widen it."
                         % (money(risk), money(floor_risk.quantize(CENT, rounding=ROUND_HALF_UP)), money(e)))
     if target_rule == "r":
-        target = cents(e + target_param * risk)
+        raw_target = e + target_param * risk
+        target = quantize_price(raw_target, ts) if tick_size is not None and quantize_price else cents(raw_target)
         t_label = r_label(target_param)
     else:
-        target = cents(target_param)
+        target = quantize_price(target_param, ts) if tick_size is not None and quantize_price else cents(target_param)
         t_label = None
     if target <= e:
         raise PlanError("the target %s is at or below the entry %s: a long's target goes above it"
@@ -330,7 +353,7 @@ def compute(entry, stop_rule, stop_param, target_rule, target_param, or_high=Non
         t_label = "your price (%sR)" % ratio(rr)
     return {"entry": e, "stop": stop, "stop_label": label, "stop_detail": detail, "target": target,
             "target_r": target_param if target_rule == "r" else rr, "target_label": t_label,
-            "risk": risk, "reward_risk": rr}
+            "risk": risk, "reward_risk": rr, "tick_size": ts}
 
 
 # ---------------------------------------------------------------- bars for ATR (same reader as trader-entry)
@@ -390,8 +413,35 @@ def read_text(path):
         return fh.read()
 
 
+def binance_get(endpoint, params=None, timeout=15):
+    url = BINANCE_HOST + endpoint
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read().decode("utf-8", "replace")
+    except Exception as e:
+        raise PlanError("Binance API error on %s: %s" % (endpoint, e))
+
+
+def fetch_binance_chart(sym, interval="5m", limit=100):
+    text = binance_get("/api/v3/klines", {"symbol": sym.upper(), "interval": interval, "limit": limit})
+    try:
+        data = json.loads(text)
+    except ValueError as e:
+        raise PlanError("invalid kline json for %s: %s" % (sym, e))
+    bars = []
+    for k in data:
+        t = int(k[0]) // 1000
+        bars.append({"t": t, "h": float(k[2]), "l": float(k[3]), "c": float(k[4])})
+    return {"bars": bars, "data_time": bars[-1]["t"] if bars else None}
+
+
 def load_chart(sym, interval, day, offline=None):
     ysym = sym.upper().replace(".", "-")
+    if is_crypto(sym) and not offline:
+        return fetch_binance_chart(sym, interval, 100)
     if offline:
         path = offline
         if os.path.isdir(offline):
@@ -444,7 +494,7 @@ def session_bars(chart, day, interval, upto_slot=None, now_utc=None):
     step = INTERVALS[interval]
     s = session(day)
     if not s:
-        return []
+        return chart.get("bars", [])[-20:]
     open_dt = datetime.datetime.combine(day, s[0])
     close_dt = datetime.datetime.combine(day, s[1])
     if now_utc is None and chart.get("data_time"):
@@ -502,8 +552,28 @@ def read_config(path):
     return cfg
 
 
-def resolve_flat_by(day, explicit, cfg, entry_time):
-    """(HH:MM, note). The config's flat-by moves up with a 1:00 p.m. early close."""
+def resolve_flat_by(day, explicit, cfg, entry_time, symbol=""):
+    """(HH:MM, note). In crypto: configurable time stop (e.g. 4h). In stocks: 15:55 ET."""
+    if is_crypto(symbol):
+        ts_hours = int(cfg.get("time_stop_hours", 4))
+        if explicit:
+            m = re.match(r"^(\d+)\s*h(ours?)?$", str(explicit).strip().lower())
+            if m:
+                ts_hours = int(m.group(1))
+            else:
+                try:
+                    t = parse_hhmm(explicit, "--flat-by / --time-stop")
+                    return hm(t), "explicit time stop at %s" % hm(t)
+                except PlanError:
+                    pass
+        if entry_time:
+            tot_min = entry_time.hour * 60 + entry_time.minute + ts_hours * 60
+            stop_h = (tot_min // 60) % 24
+            stop_m = tot_min % 60
+            return "%02d:%02d UTC" % (stop_h, stop_m), "%d-hour time stop (%02d:%02d UTC)" % (ts_hours, stop_h, stop_m)
+        return "%d hours" % ts_hours, "%d-hour time stop" % ts_hours
+
+    # Standard stock market logic
     t = parse_hhmm(explicit or cfg.get("flat_by") or DEFAULTS["flat_by"], "--flat-by" if explicit else "flat_by")
     note = ""
     s = session(day) if day else None
@@ -590,9 +660,19 @@ def build_plan(a, now_utc):
             raise PlanError("an atr stop needs at least 3 closed %s bars of %s on %s by the entry; found %d"
                             % (info["interval"], info["symbol"], day, len(bars)))
         atr, atr_n = atr_of(bars)
+    tick_size = None
+    if is_crypto(info["symbol"]) and BinanceClient and parse_exchange_filters:
+        try:
+            bclient = BinanceClient(product="spot")
+            einfo = bclient.get_exchange_info(info["symbol"])
+            s_inf = next((s for s in einfo.get("symbols", []) if s.get("symbol") == info["symbol"]), {})
+            filters = parse_exchange_filters(s_inf)
+            tick_size = filters.get("tick_size")
+        except Exception:
+            pass
     c = compute(info["entry"], stop_rule, stop_param, target_rule, target_param, info["or_high"], info["or_low"],
-                atr, atr_n)
-    flat_by, flat_note = resolve_flat_by(day, a.flat_by, cfg, entry_time)
+                atr, atr_n, tick_size=tick_size)
+    flat_by, flat_note = resolve_flat_by(day, a.flat_by or getattr(a, "time_stop", None), cfg, entry_time, info["symbol"])
     orr = None
     if info["or_high"] is not None and info["or_low"] is not None:
         orr = {"high": float(cents(info["or_high"])), "low": float(cents(info["or_low"])),
@@ -605,6 +685,11 @@ def build_plan(a, now_utc):
             "target": float(c["target"]), "target_r": float(c["target_r"]), "target_label": c["target_label"],
             "risk_per_share": float(c["risk"]), "reward_risk": float(c["reward_risk"]), "flat_by": flat_by,
             "stop_detail": c["stop_detail"], "created_at": now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"), "note": NOTE}
+    if is_crypto(info["symbol"]):
+        plan["risk_per_token"] = float(c["risk"])
+        plan["time_stop"] = flat_by
+    if getattr(a, "trailing_stop", None):
+        plan["trailing_stop"] = a.trailing_stop
     if atr is not None:
         plan["atr"] = round(atr, 4)
         plan["atr_bars"] = atr_n
@@ -710,6 +795,8 @@ def main(argv=None):
     p.add_argument("--stop", help="or-mid (orb default), or-low, price:X, pct:X, atr:K")
     p.add_argument("--target", help="2R (default), 1R, 1.5R, price:X")
     p.add_argument("--flat-by", help="HH:MM New York (default: config flat_by, 15:55)")
+    p.add_argument("--time-stop", help="configurable time stop, e.g. 4h or 2h (default 4h for crypto)")
+    p.add_argument("--trailing-stop", help="trailing stop distance (e.g. 1.5%% or atr:1.5)")
     p.add_argument("--config", default="trader/config.json")
     p.add_argument("--offline", metavar="PATH", help="saved Yahoo chart JSON for an atr stop")
     p.add_argument("--now", help='pretend it is this New York time, e.g. "2026-10-19 10:15"')

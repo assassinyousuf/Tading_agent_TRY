@@ -1,0 +1,726 @@
+{
+  "generated_at": "2026-10-29T19:39:59.193319+00:00",
+  "dataset": {
+    "universe": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "BNBUSDT"
+    ],
+    "total_bars": 729,
+    "evaluation_start_bar": 30,
+    "evaluation_end_bar": 728,
+    "evaluation_return_days": 698
+  },
+  "benchmarks": {
+    "CASH": {
+      "benchmark_id": "BENCH_CASH",
+      "benchmark_name": "Cash Only (100% USDT)",
+      "initial_capital": 10000.0,
+      "final_capital": 10000.0,
+      "net_total_return_pct": 0.0,
+      "cagr_pct": 0.0,
+      "annualized_vol_pct": 0.0,
+      "sharpe_ratio": 0.0,
+      "sortino_ratio": 0.0,
+      "max_drawdown_pct": 0.0,
+      "total_friction_usd": 0.0,
+      "turnover": 0.0,
+      "trades_count": 0,
+      "n_trading_days": 698,
+      "status": "VALID_UNDEFINED_SHARPE"
+    },
+    "BTC_GROSS": {
+      "benchmark_id": "BENCH_BTC_HOLD_GROSS",
+      "benchmark_name": "BTC Buy & Hold (Gross)",
+      "initial_capital": 10000.0,
+      "final_capital": 8346.35,
+      "net_total_return_pct": -16.54,
+      "cagr_pct": -9.03,
+      "annualized_vol_pct": 42.93,
+      "sharpe_ratio": -0.2102,
+      "sortino_ratio": -0.3022,
+      "max_drawdown_pct": -52.97,
+      "total_friction_usd": 0.0,
+      "turnover": 0.0,
+      "trades_count": 0,
+      "n_trading_days": 698
+    },
+    "BTC_NET": {
+      "benchmark_id": "BENCH_BTC_HOLD_NET",
+      "benchmark_name": "BTC Buy & Hold (Net)",
+      "initial_capital": 10000.0,
+      "final_capital": 8321.33,
+      "net_total_return_pct": -16.79,
+      "cagr_pct": -9.17,
+      "annualized_vol_pct": 42.93,
+      "sharpe_ratio": -0.2136,
+      "sortino_ratio": -0.307,
+      "max_drawdown_pct": -52.97,
+      "total_friction_usd": 27.5,
+      "turnover": 1.0,
+      "trades_count": 2,
+      "n_trading_days": 698
+    },
+    "EW_L1_GROSS": {
+      "benchmark_id": "BENCH_EW_L1_GROSS",
+      "benchmark_name": "Equal-Weight L1 Basket (Gross)",
+      "initial_capital": 10000.0,
+      "final_capital": 7682.94,
+      "net_total_return_pct": -23.17,
+      "cagr_pct": -12.88,
+      "annualized_vol_pct": 51.13,
+      "sharpe_ratio": -0.252,
+      "sortino_ratio": -0.3524,
+      "max_drawdown_pct": -60.16,
+      "total_friction_usd": 0.0,
+      "turnover": 0.0,
+      "trades_count": 0,
+      "n_trading_days": 698
+    },
+    "EW_L1_NET": {
+      "benchmark_id": "BENCH_EW_L1_NET",
+      "benchmark_name": "Equal-Weight L1 Basket (Net)",
+      "initial_capital": 10000.0,
+      "final_capital": 7659.9,
+      "net_total_return_pct": -23.4,
+      "cagr_pct": -13.02,
+      "annualized_vol_pct": 51.13,
+      "sharpe_ratio": -0.2546,
+      "sortino_ratio": -0.3561,
+      "max_drawdown_pct": -60.16,
+      "total_friction_usd": 26.51,
+      "turnover": 1.0,
+      "trades_count": 8,
+      "n_trading_days": 698
+    },
+    "50_50_BTC_DRIFT": {
+      "benchmark_id": "BENCH_50_50_BTC_DRIFT_BAND",
+      "benchmark_name": "50% BTC / 50% Cash (Drift_band)",
+      "initial_capital": 10000.0,
+      "final_capital": 9614.36,
+      "net_total_return_pct": -3.86,
+      "cagr_pct": -2.04,
+      "annualized_vol_pct": 21.52,
+      "sharpe_ratio": -0.0946,
+      "sortino_ratio": -0.1368,
+      "max_drawdown_pct": -29.45,
+      "total_friction_usd": 21.72,
+      "total_traded_notional_usd": 14479.37,
+      "turnover": 1.4479,
+      "trades_count": 11,
+      "n_trading_days": 698
+    },
+    "50_50_BTC_MONTHLY": {
+      "benchmark_id": "BENCH_50_50_BTC_MONTHLY",
+      "benchmark_name": "50% BTC / 50% Cash (Monthly)",
+      "initial_capital": 10000.0,
+      "final_capital": 9454.06,
+      "net_total_return_pct": -5.46,
+      "cagr_pct": -2.9,
+      "annualized_vol_pct": 21.37,
+      "sharpe_ratio": -0.1355,
+      "sortino_ratio": -0.194,
+      "max_drawdown_pct": -30.27,
+      "total_friction_usd": 21.85,
+      "total_traded_notional_usd": 14564.49,
+      "turnover": 1.4564,
+      "trades_count": 25,
+      "n_trading_days": 698
+    },
+    "VOL_TARGET_25PCT": {
+      "benchmark_id": "BENCH_VOL_TARGET_25PCT",
+      "benchmark_name": "Volatility-Targeted BTC (25% Vol)",
+      "initial_capital": 10000.0,
+      "final_capital": 8476.13,
+      "net_total_return_pct": -15.24,
+      "cagr_pct": -8.29,
+      "annualized_vol_pct": 27.02,
+      "sharpe_ratio": -0.3067,
+      "sortino_ratio": -0.4285,
+      "max_drawdown_pct": -42.44,
+      "total_friction_usd": 126.52,
+      "total_traded_notional_usd": 84346.17,
+      "turnover": 8.4346,
+      "trades_count": 88,
+      "n_trading_days": 698
+    }
+  },
+  "walk_forward_folds": [
+    {
+      "fold": 1,
+      "warmup": {
+        "start": 0,
+        "end": 29
+      },
+      "train": {
+        "start": 30,
+        "end": 329,
+        "count": 300
+      },
+      "test": {
+        "start": 330,
+        "end": 408,
+        "count": 79
+      }
+    },
+    {
+      "fold": 2,
+      "warmup": {
+        "start": 79,
+        "end": 108
+      },
+      "train": {
+        "start": 109,
+        "end": 408,
+        "count": 300
+      },
+      "test": {
+        "start": 409,
+        "end": 487,
+        "count": 79
+      }
+    },
+    {
+      "fold": 3,
+      "warmup": {
+        "start": 158,
+        "end": 187
+      },
+      "train": {
+        "start": 188,
+        "end": 487,
+        "count": 300
+      },
+      "test": {
+        "start": 488,
+        "end": 566,
+        "count": 79
+      }
+    },
+    {
+      "fold": 4,
+      "warmup": {
+        "start": 237,
+        "end": 266
+      },
+      "train": {
+        "start": 267,
+        "end": 566,
+        "count": 300
+      },
+      "test": {
+        "start": 567,
+        "end": 645,
+        "count": 79
+      }
+    },
+    {
+      "fold": 5,
+      "warmup": {
+        "start": 316,
+        "end": 345
+      },
+      "train": {
+        "start": 346,
+        "end": 645,
+        "count": 300
+      },
+      "test": {
+        "start": 646,
+        "end": 728,
+        "count": 83
+      }
+    }
+  ],
+  "power_analysis": {
+    "evaluation_days": 698,
+    "annualized_excess_vol_pct": 42.93,
+    "mde_annualized_excess_pct": 77.22,
+    "alpha": 0.05,
+    "power": 0.8
+  },
+  "trial_accounting": {
+    "recovered_trials_documented": 67,
+    "estimated_cumulative_trials": 150,
+    "bonferroni_recovered_alpha": 0.000746,
+    "bonferroni_project_alpha": 0.000333,
+    "dsr_sensitivity_analysis": {
+      "observed_sharpe": 0.01,
+      "n_obs": 698,
+      "trial_counts": [
+        1,
+        5,
+        15,
+        25,
+        67,
+        150
+      ],
+      "trial_stds": [
+        0.3,
+        0.5,
+        0.7,
+        1.0
+      ],
+      "grid": {
+        "1": {
+          "0.3": {
+            "dsr": 0.5055,
+            "z_stat": 0.0138,
+            "expected_max_sr_annual": 0.0,
+            "expected_max_sr_daily": 0.0,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 1,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.5055,
+            "z_stat": 0.0138,
+            "expected_max_sr_annual": 0.0,
+            "expected_max_sr_daily": 0.0,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 1,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.5055,
+            "z_stat": 0.0138,
+            "expected_max_sr_annual": 0.0,
+            "expected_max_sr_daily": 0.0,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 1,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.5055,
+            "z_stat": 0.0138,
+            "expected_max_sr_annual": 0.0,
+            "expected_max_sr_daily": 0.0,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 1,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        },
+        "5": {
+          "0.3": {
+            "dsr": 0.3155,
+            "z_stat": -0.4804,
+            "expected_max_sr_annual": 0.3578,
+            "expected_max_sr_daily": 0.018721,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 5,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.209,
+            "z_stat": -0.8099,
+            "expected_max_sr_annual": 0.5963,
+            "expected_max_sr_daily": 0.031201,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 5,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.1273,
+            "z_stat": -1.1394,
+            "expected_max_sr_annual": 0.8348,
+            "expected_max_sr_daily": 0.043681,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 5,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.0512,
+            "z_stat": -1.6336,
+            "expected_max_sr_annual": 1.1926,
+            "expected_max_sr_daily": 0.062402,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 5,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        },
+        "15": {
+          "0.3": {
+            "dsr": 0.2358,
+            "z_stat": -0.72,
+            "expected_max_sr_annual": 0.5312,
+            "expected_max_sr_daily": 0.027795,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 15,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.1133,
+            "z_stat": -1.2092,
+            "expected_max_sr_annual": 0.8853,
+            "expected_max_sr_daily": 0.046325,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 15,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.0447,
+            "z_stat": -1.6984,
+            "expected_max_sr_annual": 1.2395,
+            "expected_max_sr_daily": 0.064855,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 15,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.0075,
+            "z_stat": -2.4322,
+            "expected_max_sr_annual": 1.7707,
+            "expected_max_sr_daily": 0.09265,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 15,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        },
+        "25": {
+          "0.3": {
+            "dsr": 0.2079,
+            "z_stat": -0.8138,
+            "expected_max_sr_annual": 0.5991,
+            "expected_max_sr_daily": 0.03135,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 25,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.086,
+            "z_stat": -1.3656,
+            "expected_max_sr_annual": 0.9986,
+            "expected_max_sr_daily": 0.05225,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 25,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.0276,
+            "z_stat": -1.9174,
+            "expected_max_sr_annual": 1.398,
+            "expected_max_sr_daily": 0.07315,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 25,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.003,
+            "z_stat": -2.7451,
+            "expected_max_sr_annual": 1.9971,
+            "expected_max_sr_daily": 0.1045,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 25,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        },
+        "67": {
+          "0.3": {
+            "dsr": 0.1647,
+            "z_stat": -0.9751,
+            "expected_max_sr_annual": 0.7159,
+            "expected_max_sr_daily": 0.037459,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 67,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.0511,
+            "z_stat": -1.6344,
+            "expected_max_sr_annual": 1.1932,
+            "expected_max_sr_daily": 0.062432,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 67,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.0109,
+            "z_stat": -2.2937,
+            "expected_max_sr_annual": 1.6704,
+            "expected_max_sr_daily": 0.087405,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 67,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.0005,
+            "z_stat": -3.2827,
+            "expected_max_sr_annual": 2.3863,
+            "expected_max_sr_daily": 0.124864,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 67,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        },
+        "150": {
+          "0.3": {
+            "dsr": 0.1373,
+            "z_stat": -1.0927,
+            "expected_max_sr_annual": 0.801,
+            "expected_max_sr_daily": 0.041914,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 150,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.5": {
+            "dsr": 0.0336,
+            "z_stat": -1.8304,
+            "expected_max_sr_annual": 1.3351,
+            "expected_max_sr_daily": 0.069856,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 150,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "0.7": {
+            "dsr": 0.0051,
+            "z_stat": -2.5681,
+            "expected_max_sr_annual": 1.8691,
+            "expected_max_sr_daily": 0.097798,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 150,
+            "n_obs": 698,
+            "status": "VALID"
+          },
+          "1.0": {
+            "dsr": 0.0001,
+            "z_stat": -3.6747,
+            "expected_max_sr_annual": 2.6701,
+            "expected_max_sr_daily": 0.139712,
+            "se_sr_annual": 0.7239,
+            "se_sr_daily": 0.037878,
+            "n_trials": 150,
+            "n_obs": 698,
+            "status": "VALID"
+          }
+        }
+      },
+      "rows": [
+        {
+          "n_trials": 1,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.5055,
+          "z_stat": 0.0138,
+          "expected_max_sr": 0.0
+        },
+        {
+          "n_trials": 1,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.5055,
+          "z_stat": 0.0138,
+          "expected_max_sr": 0.0
+        },
+        {
+          "n_trials": 1,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.5055,
+          "z_stat": 0.0138,
+          "expected_max_sr": 0.0
+        },
+        {
+          "n_trials": 1,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.5055,
+          "z_stat": 0.0138,
+          "expected_max_sr": 0.0
+        },
+        {
+          "n_trials": 5,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.3155,
+          "z_stat": -0.4804,
+          "expected_max_sr": 0.3578
+        },
+        {
+          "n_trials": 5,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.209,
+          "z_stat": -0.8099,
+          "expected_max_sr": 0.5963
+        },
+        {
+          "n_trials": 5,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.1273,
+          "z_stat": -1.1394,
+          "expected_max_sr": 0.8348
+        },
+        {
+          "n_trials": 5,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.0512,
+          "z_stat": -1.6336,
+          "expected_max_sr": 1.1926
+        },
+        {
+          "n_trials": 15,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.2358,
+          "z_stat": -0.72,
+          "expected_max_sr": 0.5312
+        },
+        {
+          "n_trials": 15,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.1133,
+          "z_stat": -1.2092,
+          "expected_max_sr": 0.8853
+        },
+        {
+          "n_trials": 15,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.0447,
+          "z_stat": -1.6984,
+          "expected_max_sr": 1.2395
+        },
+        {
+          "n_trials": 15,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.0075,
+          "z_stat": -2.4322,
+          "expected_max_sr": 1.7707
+        },
+        {
+          "n_trials": 25,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.2079,
+          "z_stat": -0.8138,
+          "expected_max_sr": 0.5991
+        },
+        {
+          "n_trials": 25,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.086,
+          "z_stat": -1.3656,
+          "expected_max_sr": 0.9986
+        },
+        {
+          "n_trials": 25,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.0276,
+          "z_stat": -1.9174,
+          "expected_max_sr": 1.398
+        },
+        {
+          "n_trials": 25,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.003,
+          "z_stat": -2.7451,
+          "expected_max_sr": 1.9971
+        },
+        {
+          "n_trials": 67,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.1647,
+          "z_stat": -0.9751,
+          "expected_max_sr": 0.7159
+        },
+        {
+          "n_trials": 67,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.0511,
+          "z_stat": -1.6344,
+          "expected_max_sr": 1.1932
+        },
+        {
+          "n_trials": 67,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.0109,
+          "z_stat": -2.2937,
+          "expected_max_sr": 1.6704
+        },
+        {
+          "n_trials": 67,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.0005,
+          "z_stat": -3.2827,
+          "expected_max_sr": 2.3863
+        },
+        {
+          "n_trials": 150,
+          "trial_sharpe_std": 0.3,
+          "dsr": 0.1373,
+          "z_stat": -1.0927,
+          "expected_max_sr": 0.801
+        },
+        {
+          "n_trials": 150,
+          "trial_sharpe_std": 0.5,
+          "dsr": 0.0336,
+          "z_stat": -1.8304,
+          "expected_max_sr": 1.3351
+        },
+        {
+          "n_trials": 150,
+          "trial_sharpe_std": 0.7,
+          "dsr": 0.0051,
+          "z_stat": -2.5681,
+          "expected_max_sr": 1.8691
+        },
+        {
+          "n_trials": 150,
+          "trial_sharpe_std": 1.0,
+          "dsr": 0.0001,
+          "z_stat": -3.6747,
+          "expected_max_sr": 2.6701
+        }
+      ],
+      "methodological_classification": {
+        "trial_counts": "HEURISTIC_SENSITIVITY_GRID (Not an empirical point estimate)",
+        "trial_dispersion": "HEURISTIC_SENSITIVITY_ASSUMPTION (Not an empirical measurement)",
+        "status": "SENSITIVITY_ANALYSIS_ONLY"
+      },
+      "warnings_and_limitations": [
+        "Historical effective trial count (M_eff) cannot be empirically reconstructed because aligned daily return series for V1-V3 do not exist.",
+        "Values such as M_eff in [15, 25] and sigma_trials = 0.50 are heuristic sensitivity assumptions, not measured facts.",
+        "A sensitivity grid does not resolve unknown research-selection bias or macro survivorship bias."
+      ]
+    }
+  },
+  "decision": "FRAMEWORK VERIFIED FOR RESEARCH USE -- PRODUCTION ENGINES CORRECTED"
+}

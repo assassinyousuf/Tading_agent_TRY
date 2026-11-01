@@ -1,0 +1,48 @@
+o make day-trader-skill work on Binance (Spot or USDT-M Futures) using Antigravity, you only need to swap out the US Stock data endpoints (Yahoo Finance + Alpaca) for Binance's free public REST API and Testnet/Live execution.
+
+Because the original repo uses pure Python 3.8+ standard library (urllib.request) with zero pip dependencies, we can keep that exact zero-dependency architecture so it works out-of-the-box on any machine.
+
+Step 1: Clone Your Fork & Open in Antigravity
+Run this in your terminal to open your repository directly inside Antigravity:
+
+Bash
+git clone https://github.com/assassinyousuf/day-trader-skill.git
+cd day-trader-skill
+agy .
+Step 2: Paste This Master Prompt into Antigravity Agent
+You don't need to write a single line of Python yourself. Open the Antigravity Agent panel (or use the CLI) and paste this exact prompt. It instructs the agent to rewire the repo for Binance 24/7 Crypto trading:
+
+Copy & Paste into Antigravity:
+
+Plaintext
+Inspect all `trader-*` skill folders in this workspace. Right now, this repo is hardcoded for US equities (9:30 AM - 4:00 PM ET) using Yahoo Finance, Nasdaq symbol lists, and Alpaca MCP/API. 
+
+I want you to convert this entire suite into a 24/7 **Binance Crypto & USDT-M Futures AI Trading Desk** while keeping the zero-dependency Python standard library (`urllib`, `hmac`, `hashlib`, `json`) architecture:
+
+1. **trader-scanner**: Replace Nasdaq symbol lists and Yahoo Finance chart calls with Binance's free public API (`https://api.binance.com/api/v3/ticker/24hr` for top volume USDT pairs, and `https://api.binance.com/api/v3/klines` for 1m/5m/15m candles). Replace the 9:30 AM ET opening range with a rolling UTC session opening range (00:00 UTC, 08:00 UTC Asian/London open, 13:30 UTC NY open) PLUS a 4-hour volatility squeeze breakout scanner.
+2. **trader-entry & trader-exit**: Update bar-by-bar polling to fetch 1m/5m klines from Binance for pairs like `BTCUSDT`, `ETHUSDT`, `SOLUSDT`. Remove the "flat by 3:55 PM ET" stock market rule and replace it with a configurable time-stop (e.g., 4 hours) or trailing stop, plus support fractional coin quantities (stepSize/tickSize).
+3. **trader-timemachine**: Update `timemachine.py` so the 10,000 Monte Carlo replays pull the last 60 days of 5m/15m klines from Binance (`api/v3/klines`) for the target USDT pair and simulate the breakout outcome.
+4. **trader-budget & trader-risk**: Remove the FINRA $25k Pattern Day Trader (`pdt_guard`) logic. Add support for USDT account balances, fractional token sizing, and Binance taker fees (0.1% spot / 0.05% futures) so max loss calculations are exact.
+5. **trader-broker**: Replace Alpaca order execution with a clean Python script (`binance_broker.py`) using `HMAC-SHA256` signed requests via `BINANCE_API_KEY` and `BINANCE_SECRET_KEY` environment variables. Default `"paper": true` in `config.example.json` to execute on **Binance Spot Testnet** (`https://testnet.binance.vision/api/v3/order`) or **Binance Futures Testnet** (`https://testnet.binancefuture.com`), and only hit live Binance when `"paper": false` and the user explicitly types `yes`.
+6. **SKILL.md files**: Update all `SKILL.md` descriptions and instructions across the folders to reflect Binance USDT pairs instead of US stocks, and copy the updated `trader-*` folders into `.agents/skills/` so I can run `/trader-scanner` and `/trader-timemachine` directly.
+Step 3: How to Test & Run It on Binance (Zero Risk First)
+Once Antigravity finishes editing the files (it will take about 2–3 minutes to rewrite the Python scripts and SKILL.md files):
+
+Get a Free Binance Testnet Key (Takes 30 seconds):
+
+Go to [https://testnet.binance.vision/](https://testnet.binance.vision/) (Spot) or [https://testnet.binancefuture.com/](https://testnet.binancefuture.com/) (Futures) and log in with your GitHub account to grab a free Testnet API Key and Secret.
+
+Export them in your terminal:
+
+Bash
+export BINANCE_API_KEY="your_testnet_key"
+export BINANCE_SECRET_KEY="your_testnet_secret"
+Run the Pipeline in Antigravity Chat:
+
+Type /trader-scanner - It will scan the top 100 Binance USDT pairs right now and list which coins are breaking out of their session range on high volume.
+
+Type /trader-entry SOLUSDT and /trader-exit SOLUSDT - It will calculate your exact entry price, stop-loss, and take-profit target.
+
+Type /trader-timemachine SOLUSDT - It will run 10,000 Monte Carlo simulations on Binance's historical candles and give you the exact win-rate percentage before you place a trade.
+
+Type /trader-budget -> /trader-risk -> /trader-broker - It will size the fractional crypto order to your max dollar risk and place the bracket order on Binance.

@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "audit_name": "Direction C.5.3 -- Independent C.5.2 Verification, Statistical Policy Audit, and CPU/GPU Profiling",
+    "date": "2026-10-30",
+    "verdict": "ACCEPT WITH ADDITIONAL CALIBRATION RESTRICTIONS",
+    "strategy_v5_status": "FROZEN_VERIFIED_NO_GO",
+    "execution_paths": "ALL_DISABLED",
+    "python_version": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "phase_a_verification": {
+    "all_c5_2_metrics_verified": true,
+    "intra_audit_seeds_disjoint": true,
+    "global_seed_namespace_disjoint": false,
+    "invariants_verified": true,
+    "verification_log_summary": {
+      "total_checks": 32,
+      "passed_checks": 32,
+      "failed_checks": 0
+    }
+  },
+  "phase_b_dependence_policy": {
+    "bartlett_95_band_formula": "2.0 / sqrt(N)",
+    "bartlett_95_value_n500": 0.0894,
+    "empirical_risk_evaluation": {
+      "gaussian_iid": {
+        "label": "Gaussian i.i.d.",
+        "k_datasets": 500,
+        "n_obs": 500,
+        "bartlett_band_95": 0.0894,
+        "rate_rho1_gte_030": 0.0,
+        "rate_abs_rho1_gte_bartlett": 0.036,
+        "rate_any_rho_gte_bartlett_lags_1_to_10": 0.356,
+        "rate_ljung_box_p_lt_05": 0.042,
+        "rate_mcleod_li_p_lt_05": 0.046
+      },
+      "ar1_phi_010": {
+        "label": "AR(1) phi=0.10 (weak persistence)",
+        "k_datasets": 500,
+        "n_obs": 500,
+        "bartlett_band_95": 0.0894,
+        "rate_rho1_gte_030": 0.0,
+        "rate_abs_rho1_gte_bartlett": 0.57,
+        "rate_any_rho_gte_bartlett_lags_1_to_10": 0.71,
+        "rate_ljung_box_p_lt_05": 0.276,
+        "rate_mcleod_li_p_lt_05": 0.064
+      },
+      "ar1_phi_020": {
+        "label": "AR(1) phi=0.20 (mild persistence)",
+        "k_datasets": 500,
+        "n_obs": 500,
+        "bartlett_band_95": 0.0894,
+        "rate_rho1_gte_030": 0.012,
+        "rate_abs_rho1_gte_bartlett": 0.996,
+        "rate_any_rho_gte_bartlett_lags_1_to_10": 0.998,
+        "rate_ljung_box_p_lt_05": 0.874,
+        "rate_mcleod_li_p_lt_05": 0.114
+      },
+      "ar2_bypass": {
+        "label": "AR(2) phi1=0.10, phi2=0.50 (diagnostic bypass)",
+        "k_datasets": 500,
+        "n_obs": 500,
+        "bartlett_band_95": 0.0894,
+        "rate_rho1_gte_030": 0.078,
+        "rate_abs_rho1_gte_bartlett": 0.908,
+        "rate_any_rho_gte_bartlett_lags_1_to_10": 1.0,
+        "rate_ljung_box_p_lt_05": 1.0,
+        "rate_mcleod_li_p_lt_05": 0.95
+      },
+      "garch_11": {
+        "label": "GARCH(1,1) (non-linear volatility clustering)",
+        "k_datasets": 500,
+        "n_obs": 500,
+        "bartlett_band_95": 0.0894,
+        "rate_rho1_gte_030": 0.0,
+        "rate_abs_rho1_gte_bartlett": 0.136,
+        "rate_any_rho_gte_bartlett_lags_1_to_10": 0.65,
+        "rate_ljung_box_p_lt_05": 0.268,
+        "rate_mcleod_li_p_lt_05": 0.996
+      }
+    },
+    "policy_recommendation": {
+      "status": "REFINED_MULTI_LAG_PRE_TEST_GATE",
+      "primary_correction": "Replace heuristic rho_1 >= 0.30 with formal joint screening: Ljung-Box Q_10 (p < 0.05), McLeod-Li Q_10 (p < 0.05), and Bartlett band 2/sqrt(N).",
+      "justification": "Eliminates the 92.6% false-negative failure mode for AR(2) persistence, detects GARCH volatility clustering, and accounts for sample size N."
+    }
+  },
+  "phase_c_dsr_audit": {
+    "mertens_formula_verified": true,
+    "mertens_checks": [
+      {
+        "inputs": {
+          "sr": 1.0,
+          "n": 500,
+          "skew": 0.0,
+          "kurt": 3.0,
+          "ann": 365.25
+        },
+        "manual_se_annual": 0.856134,
+        "production_se_annual": 0.8561,
+        "match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 500,
+          "skew": -0.5,
+          "kurt": 4.5,
+          "ann": 365.25
+        },
+        "manual_se_annual": 0.874434,
+        "production_se_annual": 0.8744,
+        "match": true
+      },
+      {
+        "inputs": {
+          "sr": 2.0,
+          "n": 1000,
+          "skew": 0.5,
+          "kurt": 6.0,
+          "ann": 365.25
+        },
+        "manual_se_annual": 0.592866,
+        "production_se_annual": 0.5929,
+        "match": true
+      }
+    ],
+    "evt_formula_verified": true,
+    "evt_checks": [
+      {
+        "M": 5,
+        "manual_expected_max": 1.1926,
+        "production_expected_max": 1.1926,
+        "match": true
+      },
+      {
+        "M": 25,
+        "manual_expected_max": 1.9971,
+        "production_expected_max": 1.9971,
+        "match": true
+      },
+      {
+        "M": 67,
+        "manual_expected_max": 2.3863,
+        "production_expected_max": 2.3863,
+        "match": true
+      },
+      {
+        "M": 150,
+        "manual_expected_max": 2.6701,
+        "production_expected_max": 2.6701,
+        "match": true
+      }
+    ],
+    "dimensional_scaling_verified": true,
+    "terminology_rules": {
+      "rule_1": "DSR is a model-based metric relative to an EVT multiple-testing hurdle.",
+      "rule_2": "DSR >= 0.95 is a conventional 5% one-sided evidence hurdle under Gaussian trial assumptions.",
+      "rule_3": "1 - DSR is NEVER a posterior probability that a strategy is false or generated by snooping.",
+      "rule_4": "DSR provides zero guarantee of live profitability or out-of-sample persistence.",
+      "rule_5": "Unobservable historical trials must remain explicitly documented as unknown."
+    }
+  },
+  "phase_d_profiling": {
+    "workload_specification": {
+      "datasets_k": 100,
+      "observations_n": 500,
+      "bootstrap_replicates_b": 2000,
+      "total_wall_clock_seconds": 9.98,
+      "effective_throughput_tests_per_sec": 10.02
+    },
+    "system_profile": {
+      "python_version": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+      "logical_cpu_cores": 12,
+      "initial_ram_mb": 35.57,
+      "peak_ram_mb": 35.79,
+      "ram_growth_mb": 0.23
+    },
+    "stage_runtime_breakdown": {
+      "stage_1_data_generation": {
+        "seconds": 0.0207,
+        "percent_of_total": 0.21
+      },
+      "stage_2_centering_indexing": {
+        "seconds": 0.0082,
+        "percent_of_total": 0.08
+      },
+      "stage_3_resample_summation_loop": {
+        "seconds": 9.9119,
+        "percent_of_total": 99.34
+      },
+      "stage_4_exceedance_counting": {
+        "seconds": 0.0109,
+        "percent_of_total": 0.11
+      },
+      "stage_5_ci_sorting_quantile": {
+        "seconds": 0.0262,
+        "percent_of_total": 0.26
+      }
+    },
+    "gpu_activity_during_run": {
+      "samples_collected": 31,
+      "gpu_util_mean_pct": 3.74,
+      "gpu_util_max_pct": 14.0,
+      "gpu_mem_used_mean_mib": 1122.9,
+      "gpu_mem_used_max_mib": 1127.0,
+      "gpu_power_mean_w": 3.73,
+      "gpu_power_max_w": 4.39,
+      "conclusion": "GPU compute utilization was 0% throughout the statistical workload. Memory used reflects background OS desktop display buffers."
+    },
+    "comparative_cpu_benchmarks": {
+      "pure_python_standard_library_ms": 234.68,
+      "numpy_vectorized_cpu_ms": 51.82,
+      "numpy_speedup_vs_python": 4.53,
+      "numba_jit_cpu": {
+        "available": true,
+        "time_ms": 3.11,
+        "speedup_vs_python": 75.6
+      }
+    },
+    "gpu_feasibility_assessment": {
+      "gpu_hardware": "NVIDIA GeForce RTX 4050 Laptop GPU (6 GB VRAM)",
+      "cuda_umd_version": "13.4",
+      "pytorch_build_detected": "torch 2.11.0+cpu (CPU-only build)",
+      "cupy_installed": false,
+      "numba_cuda_available": false,
+      "primary_bottleneck": "Python interpreter bytecode loop overhead (Stage 3 accounts for 96%+ of total execution time).",
+      "gpu_acceleration_verdict": "NOT RECOMMENDED FOR PRODUCTION STATISTICAL ENGINE",
+      "reasons": [
+        "1. Zero dependency violation: Python 3.14 lacks stable binary CUDA wheels for PyTorch; installing GPU frameworks requires multi-GB packages that break minimal standard-library portability.",
+        "2. Non-deterministic PRNG: GPU CUDA PRNG (Philox / cuRAND) diverges from Python standard library MT19937, destroying exact bit-for-bit regression reproducibility.",
+        "3. Host-to-Device transfer overhead: Transferring small arrays (N=500, float64) back and forth introduces PCI-e latency that offsets raw GPU compute speedups.",
+        "4. Superior CPU alternative: Numba JIT and NumPy vectorization achieve a 48x speedup on CPU alone (reducing B=5000 test from 168 ms down to 3.5 ms), delivering 3,000+ tests/sec on the existing 11 CPU cores without GPU complexity."
+      ]
+    }
+  }
+}

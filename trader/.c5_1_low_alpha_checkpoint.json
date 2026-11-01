@@ -1,0 +1,90 @@
+{
+  "gaussian_iid": {
+    "label": "Gaussian i.i.d.",
+    "nominal_alpha": 0.01,
+    "k_datasets": 2500,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_size": 10,
+    "rejections_count": 22,
+    "empirical_rejection_rate": 0.0088,
+    "wilson_95_ci": [
+      0.0058,
+      0.0133
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 0.88,
+    "finite_monte_carlo_parameters": {
+      "min_possible_p_value": 0.001,
+      "max_exceedance_k_for_rejection": 9,
+      "p_value_step_resolution": 0.001
+    },
+    "elapsed_seconds": 137.04
+  },
+  "ar1_phi_030": {
+    "label": "AR(1) phi=0.30 (moderate autocorrelation)",
+    "nominal_alpha": 0.01,
+    "k_datasets": 2500,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_size": 10,
+    "rejections_count": 37,
+    "empirical_rejection_rate": 0.0148,
+    "wilson_95_ci": [
+      0.0108,
+      0.0203
+    ],
+    "encloses_nominal": false,
+    "distortion_ratio": 1.48,
+    "finite_monte_carlo_parameters": {
+      "min_possible_p_value": 0.001,
+      "max_exceedance_k_for_rejection": 9,
+      "p_value_step_resolution": 0.001
+    },
+    "elapsed_seconds": 135.48
+  },
+  "ar1_phi_050": {
+    "label": "AR(1) phi=0.50 (high autocorrelation)",
+    "nominal_alpha": 0.01,
+    "k_datasets": 2500,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_size": 10,
+    "rejections_count": 43,
+    "empirical_rejection_rate": 0.0172,
+    "wilson_95_ci": [
+      0.0128,
+      0.0231
+    ],
+    "encloses_nominal": false,
+    "distortion_ratio": 1.72,
+    "finite_monte_carlo_parameters": {
+      "min_possible_p_value": 0.001,
+      "max_exceedance_k_for_rejection": 9,
+      "p_value_step_resolution": 0.001
+    },
+    "elapsed_seconds": 133.65
+  },
+  "garch_11": {
+    "label": "GARCH(1,1) (volatility clustering)",
+    "nominal_alpha": 0.01,
+    "k_datasets": 2500,
+    "n_obs": 500,
+    "n_boot": 1000,
+    "block_size": 10,
+    "rejections_count": 22,
+    "empirical_rejection_rate": 0.0088,
+    "wilson_95_ci": [
+      0.0058,
+      0.0133
+    ],
+    "encloses_nominal": true,
+    "distortion_ratio": 0.88,
+    "finite_monte_carlo_parameters": {
+      "min_possible_p_value": 0.001,
+      "max_exceedance_k_for_rejection": 9,
+      "p_value_step_resolution": 0.001
+    },
+    "elapsed_seconds": 135.86
+  }
+}

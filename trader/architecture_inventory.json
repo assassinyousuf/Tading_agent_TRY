@@ -1,0 +1,1247 @@
+{
+  "generated_at": "2026-10-30T05:15:00Z",
+  "project_name": "Binance Quantitative Research Framework & Autonomous Agent",
+  "repository_root": "E:/projects/binance",
+  "python_version": "3.14.0",
+  "summary": {
+    "total_source_files_audited": 39,
+    "total_loc": 27553,
+    "categories": {
+      "Market Data Ingestion & Caching": 1,
+      "Statistical Validation & Diagnostics": 13,
+      "Backtesting & Simulation Engines": 10,
+      "Risk Management & Position Sizing": 3,
+      "Market Analysis & Regimes": 1,
+      "Signal Generation & Timing": 2,
+      "External Intelligence": 3,
+      "Order Execution & Broker": 3,
+      "Data Architecture & Sealed Test Protocol": 1,
+      "Governance & Execution Security": 1,
+      "Implementation Roadmap & Minimal Prototype": 1
+    },
+    "reuse_status_counts": {
+      "REUSE_AS_IS": 8,
+      "NEEDS_ADAPTER": 17,
+      "OBSOLETE_HISTORICAL": 12,
+      "STRICTLY_ISOLATED": 2
+    }
+  },
+  "components": [
+    {
+      "file": "binance_client.py",
+      "category": "Market Data Ingestion & Caching",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 1038,
+      "classes": [
+        "BinanceAPIError",
+        "BinanceAmbiguousError",
+        "BinanceClient",
+        "BinanceRateLimitError"
+      ],
+      "functions_count": 40,
+      "functions_sample": [
+        "__init__",
+        "__repr__",
+        "_ipv4_getaddrinfo",
+        "_resolve_base_url",
+        "build_signed_query",
+        "cancel_all_open_orders",
+        "cancel_futures_algo_order",
+        "cancel_order",
+        "cancel_spot_order_list",
+        "check_rate_limit_throttle"
+      ],
+      "dependencies": [
+        "datetime",
+        "decimal",
+        "hashlib",
+        "hmac",
+        "json",
+        "logging",
+        "os",
+        "socket",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Public read klines and pagination reusable; order/write endpoints must remain disabled",
+      "execution_risk": "READ_ONLY_NETWORK"
+    },
+    {
+      "file": "trader-timemachine/benchmark_engine.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 1296,
+      "classes": [
+        "WalkForwardSplitter"
+      ],
+      "functions_count": 25,
+      "functions_sample": [
+        "__init__",
+        "adjust_multiple_testing_pvalues",
+        "calc_annualized_vol",
+        "calc_arithmetic_sharpe",
+        "calc_benchmark_50_50_btc",
+        "calc_benchmark_btc_hold",
+        "calc_benchmark_cash",
+        "calc_benchmark_equal_weight",
+        "calc_benchmark_vol_target_btc",
+        "calc_cagr"
+      ],
+      "dependencies": [
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random"
+      ],
+      "notes": "Core source of truth for DSR, bootstrap, MDE, benchmark metrics, and walk-forward splitting",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_6.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 629,
+      "classes": [],
+      "functions_count": 13,
+      "functions_sample": [
+        "_nb_kernel",
+        "audit_parity_common_indices",
+        "calc_ar2_companion_roots",
+        "calc_sample_acf_c56",
+        "compute_series_fingerprint",
+        "derive_audit_seed_63bit",
+        "evaluate_screening_gate_c56",
+        "execute_bootstrap_test_c56",
+        "fit_and_check_ar2",
+        "get_final_c56_research_policy"
+      ],
+      "dependencies": [
+        "audit_direction_c5_2",
+        "benchmark_engine",
+        "hashlib",
+        "json",
+        "math",
+        "numba",
+        "numpy",
+        "os",
+        "platform",
+        "random",
+        "scipy",
+        "sys",
+        "time"
+      ],
+      "notes": "AR(2) companion matrix roots, multi-diagnostic pre-screening, 63-bit deterministic seeds",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_5.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 680,
+      "classes": [],
+      "functions_count": 13,
+      "functions_sample": [
+        "_numba_kernel_with_indices_c55",
+        "audit_four_tier_policy_corrections",
+        "audit_hierarchical_seed_derivation_63bit",
+        "audit_screening_calibration",
+        "audit_strict_numba_equivalence",
+        "boot_numba_with_indices_c55",
+        "boot_numpy_with_indices_c55",
+        "boot_py_with_indices_c55",
+        "build_metric",
+        "calc_sample_acf_c55"
+      ],
+      "dependencies": [
+        "audit_direction_c5_2",
+        "benchmark_engine",
+        "hashlib",
+        "json",
+        "math",
+        "numba",
+        "numpy",
+        "os",
+        "platform",
+        "random",
+        "scipy",
+        "sys",
+        "time"
+      ],
+      "notes": "Historical audit artifact for C.5.5 calibration and Numba parity",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_4.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 915,
+      "classes": [],
+      "functions_count": 15,
+      "functions_sample": [
+        "_numba_bootstrap_kernel",
+        "audit_bootstrap_limitations_and_asymptotics",
+        "audit_dsr_terminology_and_epistemology",
+        "audit_numba_equivalence_and_benchmark",
+        "audit_screening_semantics",
+        "audit_seed_namespace_and_collisions",
+        "calc_sample_acf",
+        "calc_stats",
+        "derive_audit_seed",
+        "evaluate_screening_gate"
+      ],
+      "dependencies": [
+        "audit_direction_c5_2",
+        "benchmark_engine",
+        "concurrent",
+        "hashlib",
+        "json",
+        "math",
+        "numba",
+        "numpy",
+        "os",
+        "platform",
+        "random",
+        "scipy",
+        "sys",
+        "time"
+      ],
+      "notes": "Numba JIT bootstrap kernels and seed collision diagnostics",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_3.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 703,
+      "classes": [
+        "GpuMonitor"
+      ],
+      "functions_count": 9,
+      "functions_sample": [
+        "__init__",
+        "_numba_boot",
+        "audit_dependence_policy_and_risks",
+        "audit_dsr_mathematics_and_terminology",
+        "profile_workload_cpu_and_gpu",
+        "run",
+        "run_all_direction_c5_3_audits",
+        "stop",
+        "verify_c5_2_artifacts"
+      ],
+      "dependencies": [
+        "audit_direction_c5_2",
+        "benchmark_engine",
+        "concurrent",
+        "json",
+        "math",
+        "numba",
+        "numpy",
+        "os",
+        "platform",
+        "psutil",
+        "random",
+        "subprocess",
+        "sys",
+        "threading",
+        "time"
+      ],
+      "notes": "Historical audit artifact for C.5.3 CPU/GPU profiling",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_2.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 958,
+      "classes": [],
+      "functions_count": 21,
+      "functions_sample": [
+        "_audit1_chunk_worker",
+        "_audit3_chunk_worker",
+        "_audit5_chunk_worker",
+        "calc_autocorrelation",
+        "calc_ljung_box",
+        "calc_mcleod_li",
+        "chi2_sf",
+        "formulate_research_use_policy",
+        "gammp",
+        "generate_ar1_series"
+      ],
+      "dependencies": [
+        "benchmark_engine",
+        "concurrent",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys",
+        "time"
+      ],
+      "notes": "Historical audit artifact for C.5.2 calibration policies",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c5_1.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 478,
+      "classes": [],
+      "functions_count": 6,
+      "functions_sample": [
+        "audit_dsr_implementation_and_labels",
+        "audit_power_and_coverage",
+        "independent_calc_dsr",
+        "reconcile_ar1_discrepancy",
+        "run_direction_c5_1_audit",
+        "run_low_alpha_calibration_experiment"
+      ],
+      "dependencies": [
+        "benchmark_engine",
+        "calibration_direction_c5",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys",
+        "time"
+      ],
+      "notes": "Historical audit artifact for C.5.1 reconciliation",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/calibration_direction_c5.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 555,
+      "classes": [],
+      "functions_count": 10,
+      "functions_sample": [
+        "generate_ar1_series",
+        "generate_garch_series",
+        "generate_gaussian_series",
+        "generate_student_t_series",
+        "run_block_length_sensitivity_experiment",
+        "run_direction_c5_calibration",
+        "run_dsr_verification_suite",
+        "run_power_and_coverage_experiment",
+        "run_type_1_error_experiment",
+        "wilson_score_interval"
+      ],
+      "dependencies": [
+        "benchmark_engine",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys",
+        "time"
+      ],
+      "notes": "Synthetic calibration generator for Direction C.5",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c3.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 383,
+      "classes": [],
+      "functions_count": 7,
+      "functions_sample": [
+        "analytical_t_test_p_value",
+        "audit_production_benchmark_engine",
+        "audit_trial_data_availability",
+        "generate_ar1_series",
+        "generate_vol_clustered_series",
+        "run_adversarial_bootstrap_suite",
+        "run_direction_c3_audit"
+      ],
+      "dependencies": [
+        "audit_direction_c1",
+        "audit_direction_c2",
+        "benchmark_engine",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys"
+      ],
+      "notes": "Historical adversarial audit artifact for Direction C.3",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c2.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 548,
+      "classes": [],
+      "functions_count": 6,
+      "functions_sample": [
+        "calc_dsr_consistent",
+        "calc_mde_rigorous",
+        "calc_sample_std",
+        "paired_null_centered_bootstrap",
+        "run_direction_c2_audit",
+        "test_walk_forward_perturbation"
+      ],
+      "dependencies": [
+        "audit_direction_c1",
+        "benchmark_engine",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys"
+      ],
+      "notes": "Historical formula verification artifact for Direction C.2",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_direction_c1.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 429,
+      "classes": [],
+      "functions_count": 8,
+      "functions_sample": [
+        "calc_arithmetic_sharpe",
+        "calc_arithmetic_sortino",
+        "calc_rigorous_deflated_sharpe_ratio",
+        "fmt_date",
+        "normal_cdf",
+        "normal_quantile",
+        "paired_null_centered_bootstrap_test",
+        "run_direction_c1_audit"
+      ],
+      "dependencies": [
+        "benchmark_engine",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys"
+      ],
+      "notes": "Historical independent audit artifact for Direction C.1",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_baseline.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 161,
+      "classes": [],
+      "functions_count": 1,
+      "functions_sample": [
+        "audit"
+      ],
+      "dependencies": [
+        "decimal",
+        "json",
+        "math",
+        "sys"
+      ],
+      "notes": "Baseline audit script",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_trial_count.py",
+      "category": "Statistical Validation & Diagnostics",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 59,
+      "classes": [],
+      "functions_count": 2,
+      "functions_sample": [
+        "inspect_experiments",
+        "inspect_file"
+      ],
+      "dependencies": [
+        "json",
+        "re"
+      ],
+      "notes": "Multiple-testing trial accounting utility",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_v5_1.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 272,
+      "classes": [],
+      "functions_count": 2,
+      "functions_sample": [
+        "audit_v5_1",
+        "fmt_date"
+      ],
+      "dependencies": [
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "research_v5_trend_following",
+        "sys"
+      ],
+      "notes": "V5.1 independent audit script",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_v4_3_reproducibility.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 587,
+      "classes": [],
+      "functions_count": 11,
+      "functions_sample": [
+        "calc_annualized_vol",
+        "calc_cagr",
+        "calc_max_drawdown",
+        "calc_sharpe_ratio",
+        "calc_sortino_ratio",
+        "independently_rebuild_benchmarks",
+        "independently_reproduce_v4b",
+        "perform_hypothesis_tests",
+        "run_v4_3_audit",
+        "test_pair"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys"
+      ],
+      "notes": "V4.3 reproducibility audit script",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/audit_v4_accounting.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "OBSOLETE_HISTORICAL",
+      "loc": 664,
+      "classes": [],
+      "functions_count": 10,
+      "functions_sample": [
+        "audit_benchmark_parity",
+        "audit_regimes_and_robustness",
+        "audit_statistical_claims",
+        "audit_timing_and_lookahead",
+        "audit_transaction_costs",
+        "mean",
+        "pearson_corr",
+        "run_delayed_sim",
+        "run_v4_audit",
+        "stdev"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "research_v4_relative_strength",
+        "sys"
+      ],
+      "notes": "V4 accounting audit script",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/research_v5_trend_following.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 855,
+      "classes": [],
+      "functions_count": 12,
+      "functions_sample": [
+        "calc_annualized_vol",
+        "calc_btc_buy_and_hold",
+        "calc_cagr",
+        "calc_cash_benchmark",
+        "calc_equal_weight",
+        "calc_max_drawdown",
+        "calc_sharpe_ratio",
+        "calc_sortino_ratio",
+        "load_aligned_daily_candles",
+        "paired_block_bootstrap_test"
+      ],
+      "dependencies": [
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random"
+      ],
+      "notes": "Frozen V5 strategy engine (VERIFIED NO-GO); reference for volatility-parity trend mechanics",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/research_v4_relative_strength.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 932,
+      "classes": [],
+      "functions_count": 15,
+      "functions_sample": [
+        "block_bootstrap_uncertainty",
+        "calc_annualized_vol",
+        "calc_buy_and_hold",
+        "calc_cagr",
+        "calc_equal_weight",
+        "calc_max_drawdown",
+        "calc_sharpe_ratio",
+        "calc_sortino_ratio",
+        "clean_res",
+        "copy_clean_doc"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "random",
+        "sys",
+        "time"
+      ],
+      "notes": "V4 rotation research engine; reference for cross-sectional ranking",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/research_v3_mean_reversion.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 1147,
+      "classes": [],
+      "functions_count": 16,
+      "functions_sample": [
+        "calc_metrics",
+        "classify_market_regime",
+        "compute_adx",
+        "compute_atr",
+        "compute_bollinger_bands",
+        "compute_ema",
+        "compute_rsi",
+        "compute_sma",
+        "load_cached_bars",
+        "print_v3_summary"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "sys",
+        "time"
+      ],
+      "notes": "V3 mean-reversion research engine; reference for liquidity sweeps and RSI/ADX indicators",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/research_htf.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 681,
+      "classes": [],
+      "functions_count": 11,
+      "functions_sample": [
+        "calc_metrics",
+        "classify_market_regime",
+        "compute_atr",
+        "compute_ema",
+        "compute_sma",
+        "load_bars",
+        "print_htf_summary",
+        "run_htf_research",
+        "run_sensitivity_tests",
+        "simulate_htf_strategy"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "sys",
+        "time"
+      ],
+      "notes": "HTF 4h breakout research engine; reference for higher-timeframe regime filters",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/experiments.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 758,
+      "classes": [],
+      "functions_count": 16,
+      "functions_sample": [
+        "build_combined_filter",
+        "build_filter_atr_expansion",
+        "build_filter_bb_expansion",
+        "build_filter_trend_ema",
+        "build_filter_volume_rvol",
+        "calc_metrics",
+        "compute_atr",
+        "compute_bollinger_bandwidth",
+        "compute_ema",
+        "compute_sma"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "json",
+        "math",
+        "os",
+        "sys",
+        "time"
+      ],
+      "notes": "V1 filter experiment engine; reference for Wilson CI and technical filter functions",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/timemachine.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 1393,
+      "classes": [
+        "TMError"
+      ],
+      "functions_count": 49,
+      "functions_sample": [
+        "_calc_stats",
+        "_get",
+        "_nth_sunday",
+        "_num",
+        "_sleep",
+        "_until12",
+        "_write",
+        "build_pool",
+        "cents_away",
+        "chart_result"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "gzip",
+        "json",
+        "math",
+        "os",
+        "random",
+        "re",
+        "statistics",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Legacy backtest replay CLI engine; needs adapter for unified strategy protocol",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-timemachine/forward.py",
+      "category": "Backtesting & Simulation Engines",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 319,
+      "classes": [],
+      "functions_count": 2,
+      "functions_sample": [
+        "main",
+        "run_forward_test"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "decimal",
+        "json",
+        "math",
+        "os",
+        "sys",
+        "time",
+        "timemachine"
+      ],
+      "notes": "Paper-forward simulation driver",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-risk/check.py",
+      "category": "Risk Management & Position Sizing",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 834,
+      "classes": [
+        "RiskError"
+      ],
+      "functions_count": 30,
+      "functions_sample": [
+        "_cent",
+        "_f",
+        "_nth_sunday",
+        "_num",
+        "_p",
+        "_pct",
+        "_shift",
+        "account",
+        "business_days",
+        "check"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "re",
+        "sys"
+      ],
+      "notes": "Pre-trade risk validator; wrap into programmatic RiskEngineAdapter",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-budget/size.py",
+      "category": "Risk Management & Position Sizing",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 990,
+      "classes": [
+        "SizeError"
+      ],
+      "functions_count": 39,
+      "functions_sample": [
+        "_f",
+        "_nth_sunday",
+        "_num",
+        "_price",
+        "allocate",
+        "bracket_order",
+        "calc_qty",
+        "crypto_qty_round",
+        "eastern_offset",
+        "eastern_to_utc"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "decimal",
+        "json",
+        "math",
+        "os",
+        "sys"
+      ],
+      "notes": "Position sizing and capital allocator; wrap into PositionSizingAdapter",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-exit/exit.py",
+      "category": "Risk Management & Position Sizing",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 822,
+      "classes": [
+        "PlanError"
+      ],
+      "functions_count": 42,
+      "functions_sample": [
+        "D",
+        "_nth_sunday",
+        "_open_url",
+        "_sleep",
+        "ampm",
+        "at",
+        "atr_of",
+        "binance_get",
+        "build_plan",
+        "cents"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "decimal",
+        "gzip",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Mathematical stop-loss and take-profit planner; wrap into ExitPlannerAdapter",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-scanner/scan.py",
+      "category": "Market Analysis & Regimes",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 1486,
+      "classes": [
+        "ScanError"
+      ],
+      "functions_count": 65,
+      "functions_sample": [
+        "_absorb",
+        "_n",
+        "_nth_sunday",
+        "_p",
+        "_read_maybe_gz",
+        "_stem",
+        "binance_get",
+        "build_binance_universe",
+        "build_universe",
+        "calculate_squeeze"
+      ],
+      "dependencies": [
+        "argparse",
+        "concurrent",
+        "datetime",
+        "gzip",
+        "json",
+        "math",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Binance market scanner and squeeze breakout detector; extract regime indicators",
+      "execution_risk": "READ_ONLY_NETWORK"
+    },
+    {
+      "file": "trader-entry/entry.py",
+      "category": "Signal Generation & Timing",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 1064,
+      "classes": [
+        "EntryError",
+        "SimClock"
+      ],
+      "functions_count": 54,
+      "functions_sample": [
+        "__init__",
+        "_load",
+        "_nth_sunday",
+        "_open_url",
+        "_opts",
+        "_sleep",
+        "ampm",
+        "at",
+        "bar_line",
+        "binance_get"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "gzip",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Bar-by-bar entry breakout timer; wrap into SignalTimingAdapter",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-alerts/alerts.py",
+      "category": "Signal Generation & Timing",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 819,
+      "classes": [
+        "AlertError"
+      ],
+      "functions_count": 41,
+      "functions_sample": [
+        "_dedupe",
+        "_get",
+        "_hhmm",
+        "_n",
+        "_nth_sunday",
+        "_offline_text",
+        "_rang_today",
+        "_read",
+        "_write",
+        "active"
+      ],
+      "dependencies": [
+        "argparse",
+        "csv",
+        "datetime",
+        "gzip",
+        "io",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Price and threshold monitoring; wrap into AlertMonitoringAdapter",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader-news/news.py",
+      "category": "External Intelligence",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 546,
+      "classes": [
+        "Fetcher",
+        "NewsError"
+      ],
+      "functions_count": 28,
+      "functions_sample": [
+        "__init__",
+        "_json_ready",
+        "_local",
+        "_nth_sunday",
+        "_text",
+        "cik_map",
+        "collect",
+        "collect_moves",
+        "dedupe",
+        "eastern_offset"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "email",
+        "gzip",
+        "hashlib",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib",
+        "xml"
+      ],
+      "notes": "RSS and SEC 8-K headline parser; optional contextual intelligence",
+      "execution_risk": "READ_ONLY_NETWORK"
+    },
+    {
+      "file": "trader-analyst/facts.py",
+      "category": "External Intelligence",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 548,
+      "classes": [
+        "FactsError",
+        "Fetcher"
+      ],
+      "functions_count": 25,
+      "functions_sample": [
+        "__init__",
+        "_date",
+        "_m",
+        "_p",
+        "_pm",
+        "_yoy_match",
+        "analyse",
+        "changes",
+        "clean_title",
+        "exhibit_name"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "gzip",
+        "json",
+        "os",
+        "re",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "SEC EDGAR financial facts parser; equity-centric, low relevance to crypto",
+      "execution_risk": "READ_ONLY_NETWORK"
+    },
+    {
+      "file": "trader-pelosi/ptr.py",
+      "category": "External Intelligence",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 566,
+      "classes": [
+        "PtrError"
+      ],
+      "functions_count": 23,
+      "functions_sample": [
+        "_amount",
+        "_fetch_and_read",
+        "_finish",
+        "_parser",
+        "_run",
+        "common",
+        "describe",
+        "download",
+        "iso",
+        "load_index"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "io",
+        "json",
+        "os",
+        "re",
+        "shutil",
+        "subprocess",
+        "sys",
+        "urllib",
+        "xml",
+        "zipfile"
+      ],
+      "notes": "Congressional PTR trade disclosures; equity-centric, low relevance to crypto",
+      "execution_risk": "READ_ONLY_NETWORK"
+    },
+    {
+      "file": "trader-broker/binance_broker.py",
+      "category": "Order Execution & Broker",
+      "reuse_status": "STRICTLY_ISOLATED",
+      "loc": 1242,
+      "classes": [],
+      "functions_count": 19,
+      "functions_sample": [
+        "bounded_emergency_recovery",
+        "cmd_cancel",
+        "cmd_execute",
+        "cmd_flatten",
+        "cmd_positions",
+        "cmd_reconcile",
+        "cmd_status",
+        "execute_bracket_order",
+        "load_journal",
+        "load_json"
+      ],
+      "dependencies": [
+        "argparse",
+        "binance_client",
+        "datetime",
+        "decimal",
+        "hashlib",
+        "json",
+        "logging",
+        "os",
+        "sys",
+        "time",
+        "uuid"
+      ],
+      "notes": "Order execution desk; MUST REMAIN COMPLETELY DISABLED during research",
+      "execution_risk": "HIGH"
+    },
+    {
+      "file": "trader-broker/binance_client.py",
+      "category": "Order Execution & Broker",
+      "reuse_status": "STRICTLY_ISOLATED",
+      "loc": 1038,
+      "classes": [
+        "BinanceAPIError",
+        "BinanceAmbiguousError",
+        "BinanceClient",
+        "BinanceRateLimitError"
+      ],
+      "functions_count": 40,
+      "functions_sample": [
+        "__init__",
+        "__repr__",
+        "_ipv4_getaddrinfo",
+        "_resolve_base_url",
+        "build_signed_query",
+        "cancel_all_open_orders",
+        "cancel_futures_algo_order",
+        "cancel_order",
+        "cancel_spot_order_list",
+        "check_rate_limit_throttle"
+      ],
+      "dependencies": [
+        "datetime",
+        "decimal",
+        "hashlib",
+        "hmac",
+        "json",
+        "logging",
+        "os",
+        "socket",
+        "sys",
+        "time",
+        "urllib"
+      ],
+      "notes": "Duplicate of binance_client.py located in broker folder",
+      "execution_risk": "HIGH"
+    },
+    {
+      "file": "trader-broker/ticket.py",
+      "category": "Order Execution & Broker",
+      "reuse_status": "NEEDS_ADAPTER",
+      "loc": 720,
+      "classes": [
+        "TicketError"
+      ],
+      "functions_count": 43,
+      "functions_sample": [
+        "_clock",
+        "_f",
+        "_load",
+        "_money",
+        "_nth_sunday",
+        "_p",
+        "_pick",
+        "_str_num",
+        "amount_numbers",
+        "apply_fill"
+      ],
+      "dependencies": [
+        "argparse",
+        "datetime",
+        "hashlib",
+        "json",
+        "os",
+        "re",
+        "sys"
+      ],
+      "notes": "Order ticket formatting and decision logging; adaptable for experiment tickets",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader/test_partition_protocol.md",
+      "category": "Data Architecture & Sealed Test Protocol",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 135,
+      "classes": [],
+      "functions_count": 0,
+      "functions_sample": [],
+      "dependencies": [],
+      "notes": "Data partition protocol defining TRAIN, VALIDATION, and sealed TEST vault, with haircut Sharpe and Holm-Bonferroni repeated query penalties",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader/agent_permission_matrix.md",
+      "category": "Governance & Execution Security",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 137,
+      "classes": [],
+      "functions_count": 0,
+      "functions_sample": [],
+      "dependencies": [],
+      "notes": "Permission matrix establishing least privilege, zero broker access, append-only ledger, and structural adversarial firewall for Skeptical Researcher",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    },
+    {
+      "file": "trader/agent_implementation_plan.md",
+      "category": "Implementation Roadmap & Minimal Prototype",
+      "reuse_status": "REUSE_AS_IS",
+      "loc": 166,
+      "classes": [],
+      "functions_count": 0,
+      "functions_sample": [],
+      "dependencies": [],
+      "notes": "Defensive phased implementation plan specifying the 8-step minimal prototype, synthetic SMA demo strategy, and preservation of legacy code",
+      "execution_risk": "OFFLINE_DETERMINISTIC"
+    }
+  ]
+}

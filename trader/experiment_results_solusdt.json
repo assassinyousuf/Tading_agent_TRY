@@ -1,0 +1,872 @@
+{
+  "symbol": "SOLUSDT",
+  "date_range": {
+    "start": "2026-08-30T15:15:00+00:00",
+    "end": "2026-10-29T14:45:00+00:00",
+    "candles": 5759
+  },
+  "benchmarks": {
+    "buy_and_hold_overall_pct": -4.09,
+    "buy_and_hold_is_pct": 3.42,
+    "buy_and_hold_oos_pct": -7.26,
+    "buy_and_hold_fwd_30d_pct": -13.66
+  },
+  "experiments": [
+    {
+      "id": "BASELINE_V1",
+      "name": "Baseline (Unfiltered ORB 20)",
+      "params": {
+        "lookback": 20,
+        "target_r": 2.0,
+        "max_holding": 16
+      },
+      "is_metrics": {
+        "total_trades": 87,
+        "wins": 23,
+        "losses": 64,
+        "win_rate_pct": 26.44,
+        "win_rate_95_ci": [
+          18.31,
+          36.56
+        ],
+        "expectancy_r": -0.282,
+        "expectancy_return_pct": -0.399,
+        "total_net_pnl_pct": -34.74,
+        "profit_factor": 0.44,
+        "max_drawdown_r": 24.66,
+        "max_drawdown_pct": 34.92,
+        "avg_fee_drag_r": 0.148
+      },
+      "oos_metrics": {
+        "total_trades": 29,
+        "wins": 9,
+        "losses": 20,
+        "win_rate_pct": 31.03,
+        "win_rate_95_ci": [
+          17.28,
+          49.23
+        ],
+        "expectancy_r": -0.258,
+        "expectancy_return_pct": -0.319,
+        "total_net_pnl_pct": -9.25,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 9.06,
+        "max_drawdown_pct": 12.18,
+        "avg_fee_drag_r": 0.139
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 36,
+        "wins": 11,
+        "losses": 25,
+        "win_rate_pct": 30.56,
+        "win_rate_95_ci": [
+          18.0,
+          46.86
+        ],
+        "expectancy_r": -0.308,
+        "expectancy_return_pct": -0.397,
+        "total_net_pnl_pct": -14.3,
+        "profit_factor": 0.35,
+        "max_drawdown_r": 11.1,
+        "max_drawdown_pct": 14.3,
+        "avg_fee_drag_r": 0.142
+      },
+      "overall_metrics": {
+        "total_trades": 117,
+        "wins": 33,
+        "losses": 84,
+        "win_rate_pct": 28.21,
+        "win_rate_95_ci": [
+          20.84,
+          36.95
+        ],
+        "expectancy_r": -0.272,
+        "expectancy_return_pct": -0.373,
+        "total_net_pnl_pct": -43.63,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 31.89,
+        "max_drawdown_pct": 43.8,
+        "avg_fee_drag_r": 0.146
+      }
+    },
+    {
+      "id": "FILTER_A_TREND_EMA200",
+      "name": "Filter A: MTF Trend (Price > EMA 200)",
+      "params": {
+        "ema_period": 200
+      },
+      "is_metrics": {
+        "total_trades": 64,
+        "wins": 20,
+        "losses": 44,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          21.23,
+          43.39
+        ],
+        "expectancy_r": -0.163,
+        "expectancy_return_pct": -0.239,
+        "total_net_pnl_pct": -15.27,
+        "profit_factor": 0.61,
+        "max_drawdown_r": 12.82,
+        "max_drawdown_pct": 19.44,
+        "avg_fee_drag_r": 0.144
+      },
+      "oos_metrics": {
+        "total_trades": 18,
+        "wins": 5,
+        "losses": 13,
+        "win_rate_pct": 27.78,
+        "win_rate_95_ci": [
+          12.5,
+          50.87
+        ],
+        "expectancy_r": -0.377,
+        "expectancy_return_pct": -0.521,
+        "total_net_pnl_pct": -9.38,
+        "profit_factor": 0.25,
+        "max_drawdown_r": 7.03,
+        "max_drawdown_pct": 9.78,
+        "avg_fee_drag_r": 0.141
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 20,
+        "wins": 7,
+        "losses": 13,
+        "win_rate_pct": 35.0,
+        "win_rate_95_ci": [
+          18.12,
+          56.71
+        ],
+        "expectancy_r": -0.296,
+        "expectancy_return_pct": -0.402,
+        "total_net_pnl_pct": -8.03,
+        "profit_factor": 0.36,
+        "max_drawdown_r": 7.03,
+        "max_drawdown_pct": 9.78,
+        "avg_fee_drag_r": 0.14
+      },
+      "overall_metrics": {
+        "total_trades": 84,
+        "wins": 27,
+        "losses": 57,
+        "win_rate_pct": 32.14,
+        "win_rate_95_ci": [
+          23.13,
+          42.72
+        ],
+        "expectancy_r": -0.195,
+        "expectancy_return_pct": -0.277,
+        "total_net_pnl_pct": -23.3,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 18.75,
+        "max_drawdown_pct": 27.47,
+        "avg_fee_drag_r": 0.143
+      }
+    },
+    {
+      "id": "FILTER_A2_TREND_EMA100",
+      "name": "Filter A2: Trend (Price > EMA 100)",
+      "params": {
+        "ema_period": 100
+      },
+      "is_metrics": {
+        "total_trades": 72,
+        "wins": 22,
+        "losses": 50,
+        "win_rate_pct": 30.56,
+        "win_rate_95_ci": [
+          21.13,
+          41.95
+        ],
+        "expectancy_r": -0.205,
+        "expectancy_return_pct": -0.303,
+        "total_net_pnl_pct": -21.79,
+        "profit_factor": 0.54,
+        "max_drawdown_r": 15.74,
+        "max_drawdown_pct": 23.15,
+        "avg_fee_drag_r": 0.143
+      },
+      "oos_metrics": {
+        "total_trades": 26,
+        "wins": 6,
+        "losses": 20,
+        "win_rate_pct": 23.08,
+        "win_rate_95_ci": [
+          11.03,
+          42.05
+        ],
+        "expectancy_r": -0.293,
+        "expectancy_return_pct": -0.406,
+        "total_net_pnl_pct": -10.57,
+        "profit_factor": 0.33,
+        "max_drawdown_r": 7.63,
+        "max_drawdown_pct": 10.57,
+        "avg_fee_drag_r": 0.139
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 31,
+        "wins": 8,
+        "losses": 23,
+        "win_rate_pct": 25.81,
+        "win_rate_95_ci": [
+          13.7,
+          43.25
+        ],
+        "expectancy_r": -0.281,
+        "expectancy_return_pct": -0.39,
+        "total_net_pnl_pct": -12.08,
+        "profit_factor": 0.35,
+        "max_drawdown_r": 8.7,
+        "max_drawdown_pct": 12.08,
+        "avg_fee_drag_r": 0.14
+      },
+      "overall_metrics": {
+        "total_trades": 100,
+        "wins": 30,
+        "losses": 70,
+        "win_rate_pct": 30.0,
+        "win_rate_95_ci": [
+          21.89,
+          39.58
+        ],
+        "expectancy_r": -0.215,
+        "expectancy_return_pct": -0.31,
+        "total_net_pnl_pct": -31.01,
+        "profit_factor": 0.51,
+        "max_drawdown_r": 22.51,
+        "max_drawdown_pct": 32.37,
+        "avg_fee_drag_r": 0.142
+      }
+    },
+    {
+      "id": "FILTER_B_VOLUME_RVOL15",
+      "name": "Filter B: Volume Confirmation (RVOL >= 1.5x)",
+      "params": {
+        "vol_sma": 20,
+        "min_rvol": 1.5
+      },
+      "is_metrics": {
+        "total_trades": 69,
+        "wins": 17,
+        "losses": 52,
+        "win_rate_pct": 24.64,
+        "win_rate_95_ci": [
+          15.99,
+          35.96
+        ],
+        "expectancy_r": -0.278,
+        "expectancy_return_pct": -0.381,
+        "total_net_pnl_pct": -26.28,
+        "profit_factor": 0.49,
+        "max_drawdown_r": 19.3,
+        "max_drawdown_pct": 26.45,
+        "avg_fee_drag_r": 0.147
+      },
+      "oos_metrics": {
+        "total_trades": 20,
+        "wins": 7,
+        "losses": 13,
+        "win_rate_pct": 35.0,
+        "win_rate_95_ci": [
+          18.12,
+          56.71
+        ],
+        "expectancy_r": -0.183,
+        "expectancy_return_pct": -0.186,
+        "total_net_pnl_pct": -3.72,
+        "profit_factor": 0.63,
+        "max_drawdown_r": 5.07,
+        "max_drawdown_pct": 6.54,
+        "avg_fee_drag_r": 0.144
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 24,
+        "wins": 8,
+        "losses": 16,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          17.97,
+          53.29
+        ],
+        "expectancy_r": -0.221,
+        "expectancy_return_pct": -0.259,
+        "total_net_pnl_pct": -6.22,
+        "profit_factor": 0.51,
+        "max_drawdown_r": 5.31,
+        "max_drawdown_pct": 6.54,
+        "avg_fee_drag_r": 0.146
+      },
+      "overall_metrics": {
+        "total_trades": 90,
+        "wins": 25,
+        "losses": 65,
+        "win_rate_pct": 27.78,
+        "win_rate_95_ci": [
+          19.58,
+          37.8
+        ],
+        "expectancy_r": -0.251,
+        "expectancy_return_pct": -0.329,
+        "total_net_pnl_pct": -29.63,
+        "profit_factor": 0.52,
+        "max_drawdown_r": 22.68,
+        "max_drawdown_pct": 29.81,
+        "avg_fee_drag_r": 0.147
+      }
+    },
+    {
+      "id": "FILTER_B2_VOLUME_RVOL20",
+      "name": "Filter B2: Volume Confirmation (RVOL >= 2.0x)",
+      "params": {
+        "vol_sma": 20,
+        "min_rvol": 2.0
+      },
+      "is_metrics": {
+        "total_trades": 45,
+        "wins": 12,
+        "losses": 33,
+        "win_rate_pct": 26.67,
+        "win_rate_95_ci": [
+          15.96,
+          41.04
+        ],
+        "expectancy_r": -0.188,
+        "expectancy_return_pct": -0.249,
+        "total_net_pnl_pct": -11.21,
+        "profit_factor": 0.64,
+        "max_drawdown_r": 13.35,
+        "max_drawdown_pct": 18.75,
+        "avg_fee_drag_r": 0.141
+      },
+      "oos_metrics": {
+        "total_trades": 14,
+        "wins": 5,
+        "losses": 9,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          16.34,
+          61.24
+        ],
+        "expectancy_r": -0.2,
+        "expectancy_return_pct": -0.193,
+        "total_net_pnl_pct": -2.7,
+        "profit_factor": 0.61,
+        "max_drawdown_r": 3.65,
+        "max_drawdown_pct": 4.63,
+        "avg_fee_drag_r": 0.144
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 17,
+        "wins": 6,
+        "losses": 11,
+        "win_rate_pct": 35.29,
+        "win_rate_95_ci": [
+          17.31,
+          58.7
+        ],
+        "expectancy_r": -0.244,
+        "expectancy_return_pct": -0.289,
+        "total_net_pnl_pct": -4.91,
+        "profit_factor": 0.48,
+        "max_drawdown_r": 4.15,
+        "max_drawdown_pct": 4.91,
+        "avg_fee_drag_r": 0.144
+      },
+      "overall_metrics": {
+        "total_trades": 60,
+        "wins": 18,
+        "losses": 42,
+        "win_rate_pct": 30.0,
+        "win_rate_95_ci": [
+          19.9,
+          42.51
+        ],
+        "expectancy_r": -0.184,
+        "expectancy_return_pct": -0.226,
+        "total_net_pnl_pct": -13.55,
+        "profit_factor": 0.64,
+        "max_drawdown_r": 15.88,
+        "max_drawdown_pct": 21.09,
+        "avg_fee_drag_r": 0.142
+      }
+    },
+    {
+      "id": "FILTER_C_REGIME_ATR125",
+      "name": "Filter C: Volatility Expansion (Range >= 1.25x ATR14)",
+      "params": {
+        "atr_period": 14,
+        "min_atr_mult": 1.25
+      },
+      "is_metrics": {
+        "total_trades": 74,
+        "wins": 20,
+        "losses": 54,
+        "win_rate_pct": 27.03,
+        "win_rate_95_ci": [
+          18.23,
+          38.09
+        ],
+        "expectancy_r": -0.261,
+        "expectancy_return_pct": -0.367,
+        "total_net_pnl_pct": -27.12,
+        "profit_factor": 0.5,
+        "max_drawdown_r": 19.4,
+        "max_drawdown_pct": 27.3,
+        "avg_fee_drag_r": 0.142
+      },
+      "oos_metrics": {
+        "total_trades": 24,
+        "wins": 9,
+        "losses": 15,
+        "win_rate_pct": 37.5,
+        "win_rate_95_ci": [
+          21.16,
+          57.29
+        ],
+        "expectancy_r": -0.155,
+        "expectancy_return_pct": -0.156,
+        "total_net_pnl_pct": -3.75,
+        "profit_factor": 0.67,
+        "max_drawdown_r": 5.38,
+        "max_drawdown_pct": 7.12,
+        "avg_fee_drag_r": 0.137
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 30,
+        "wins": 10,
+        "losses": 20,
+        "win_rate_pct": 33.33,
+        "win_rate_95_ci": [
+          19.23,
+          51.22
+        ],
+        "expectancy_r": -0.257,
+        "expectancy_return_pct": -0.317,
+        "total_net_pnl_pct": -9.51,
+        "profit_factor": 0.45,
+        "max_drawdown_r": 7.7,
+        "max_drawdown_pct": 9.51,
+        "avg_fee_drag_r": 0.14
+      },
+      "overall_metrics": {
+        "total_trades": 99,
+        "wins": 30,
+        "losses": 69,
+        "win_rate_pct": 30.3,
+        "win_rate_95_ci": [
+          22.13,
+          39.95
+        ],
+        "expectancy_r": -0.23,
+        "expectancy_return_pct": -0.308,
+        "total_net_pnl_pct": -30.51,
+        "profit_factor": 0.53,
+        "max_drawdown_r": 22.86,
+        "max_drawdown_pct": 30.69,
+        "avg_fee_drag_r": 0.141
+      }
+    },
+    {
+      "id": "FILTER_C2_REGIME_BB_EXP",
+      "name": "Filter C2: Volatility Regime (BB Bandwidth > SMA20)",
+      "params": {
+        "bb_period": 20
+      },
+      "is_metrics": {
+        "total_trades": 57,
+        "wins": 18,
+        "losses": 39,
+        "win_rate_pct": 31.58,
+        "win_rate_95_ci": [
+          21.0,
+          44.48
+        ],
+        "expectancy_r": -0.21,
+        "expectancy_return_pct": -0.327,
+        "total_net_pnl_pct": -18.63,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 12.0,
+        "max_drawdown_pct": 18.63,
+        "avg_fee_drag_r": 0.137
+      },
+      "oos_metrics": {
+        "total_trades": 16,
+        "wins": 5,
+        "losses": 11,
+        "win_rate_pct": 31.25,
+        "win_rate_95_ci": [
+          14.16,
+          55.6
+        ],
+        "expectancy_r": -0.196,
+        "expectancy_return_pct": -0.249,
+        "total_net_pnl_pct": -3.98,
+        "profit_factor": 0.54,
+        "max_drawdown_r": 4.45,
+        "max_drawdown_pct": 6.46,
+        "avg_fee_drag_r": 0.127
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 19,
+        "wins": 6,
+        "losses": 13,
+        "win_rate_pct": 31.58,
+        "win_rate_95_ci": [
+          15.36,
+          53.99
+        ],
+        "expectancy_r": -0.248,
+        "expectancy_return_pct": -0.335,
+        "total_net_pnl_pct": -6.36,
+        "profit_factor": 0.44,
+        "max_drawdown_r": 4.71,
+        "max_drawdown_pct": 6.46,
+        "avg_fee_drag_r": 0.131
+      },
+      "overall_metrics": {
+        "total_trades": 74,
+        "wins": 24,
+        "losses": 50,
+        "win_rate_pct": 32.43,
+        "win_rate_95_ci": [
+          22.86,
+          43.73
+        ],
+        "expectancy_r": -0.201,
+        "expectancy_return_pct": -0.301,
+        "total_net_pnl_pct": -22.24,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 14.87,
+        "max_drawdown_pct": 22.24,
+        "avg_fee_drag_r": 0.135
+      }
+    },
+    {
+      "id": "COMBINED_TREND_VOLUME",
+      "name": "Combined: Trend (EMA200) + Volume (RVOL >= 1.5x)",
+      "params": {
+        "ema_period": 200,
+        "min_rvol": 1.5
+      },
+      "is_metrics": {
+        "total_trades": 51,
+        "wins": 14,
+        "losses": 37,
+        "win_rate_pct": 27.45,
+        "win_rate_95_ci": [
+          17.11,
+          40.95
+        ],
+        "expectancy_r": -0.169,
+        "expectancy_return_pct": -0.229,
+        "total_net_pnl_pct": -11.67,
+        "profit_factor": 0.66,
+        "max_drawdown_r": 11.45,
+        "max_drawdown_pct": 16.37,
+        "avg_fee_drag_r": 0.145
+      },
+      "oos_metrics": {
+        "total_trades": 14,
+        "wins": 5,
+        "losses": 9,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          16.34,
+          61.24
+        ],
+        "expectancy_r": -0.317,
+        "expectancy_return_pct": -0.431,
+        "total_net_pnl_pct": -6.03,
+        "profit_factor": 0.25,
+        "max_drawdown_r": 4.68,
+        "max_drawdown_pct": 6.44,
+        "avg_fee_drag_r": 0.142
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate_pct": 43.75,
+        "win_rate_95_ci": [
+          23.1,
+          66.82
+        ],
+        "expectancy_r": -0.224,
+        "expectancy_return_pct": -0.293,
+        "total_net_pnl_pct": -4.69,
+        "profit_factor": 0.43,
+        "max_drawdown_r": 4.68,
+        "max_drawdown_pct": 6.44,
+        "avg_fee_drag_r": 0.141
+      },
+      "overall_metrics": {
+        "total_trades": 67,
+        "wins": 21,
+        "losses": 46,
+        "win_rate_pct": 31.34,
+        "win_rate_95_ci": [
+          21.51,
+          43.2
+        ],
+        "expectancy_r": -0.182,
+        "expectancy_return_pct": -0.244,
+        "total_net_pnl_pct": -16.36,
+        "profit_factor": 0.62,
+        "max_drawdown_r": 15.03,
+        "max_drawdown_pct": 21.06,
+        "avg_fee_drag_r": 0.144
+      }
+    },
+    {
+      "id": "COMBINED_TREND_ATR",
+      "name": "Combined: Trend (EMA200) + Volatility (Range >= 1.25x ATR14)",
+      "params": {
+        "ema_period": 200,
+        "min_atr_mult": 1.25
+      },
+      "is_metrics": {
+        "total_trades": 55,
+        "wins": 17,
+        "losses": 38,
+        "win_rate_pct": 30.91,
+        "win_rate_95_ci": [
+          20.28,
+          44.03
+        ],
+        "expectancy_r": -0.148,
+        "expectancy_return_pct": -0.192,
+        "total_net_pnl_pct": -10.55,
+        "profit_factor": 0.69,
+        "max_drawdown_r": 11.47,
+        "max_drawdown_pct": 16.5,
+        "avg_fee_drag_r": 0.142
+      },
+      "oos_metrics": {
+        "total_trades": 14,
+        "wins": 5,
+        "losses": 9,
+        "win_rate_pct": 35.71,
+        "win_rate_95_ci": [
+          16.34,
+          61.24
+        ],
+        "expectancy_r": -0.277,
+        "expectancy_return_pct": -0.355,
+        "total_net_pnl_pct": -4.97,
+        "profit_factor": 0.39,
+        "max_drawdown_r": 4.11,
+        "max_drawdown_pct": 5.38,
+        "avg_fee_drag_r": 0.14
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 16,
+        "wins": 7,
+        "losses": 9,
+        "win_rate_pct": 43.75,
+        "win_rate_95_ci": [
+          23.1,
+          66.82
+        ],
+        "expectancy_r": -0.188,
+        "expectancy_return_pct": -0.227,
+        "total_net_pnl_pct": -3.63,
+        "profit_factor": 0.56,
+        "max_drawdown_r": 4.11,
+        "max_drawdown_pct": 5.38,
+        "avg_fee_drag_r": 0.139
+      },
+      "overall_metrics": {
+        "total_trades": 71,
+        "wins": 24,
+        "losses": 47,
+        "win_rate_pct": 33.8,
+        "win_rate_95_ci": [
+          23.89,
+          45.38
+        ],
+        "expectancy_r": -0.157,
+        "expectancy_return_pct": -0.2,
+        "total_net_pnl_pct": -14.17,
+        "profit_factor": 0.67,
+        "max_drawdown_r": 14.48,
+        "max_drawdown_pct": 20.13,
+        "avg_fee_drag_r": 0.141
+      }
+    },
+    {
+      "id": "COMBINED_TRIPLE_DEFENSE",
+      "name": "Combined Triple: Trend (EMA200) + RVOL(1.5x) + Range(1.25x ATR)",
+      "params": {
+        "ema_period": 200,
+        "min_rvol": 1.5,
+        "min_atr_mult": 1.25
+      },
+      "is_metrics": {
+        "total_trades": 49,
+        "wins": 14,
+        "losses": 35,
+        "win_rate_pct": 28.57,
+        "win_rate_95_ci": [
+          17.85,
+          42.41
+        ],
+        "expectancy_r": -0.149,
+        "expectancy_return_pct": -0.199,
+        "total_net_pnl_pct": -9.77,
+        "profit_factor": 0.7,
+        "max_drawdown_r": 11.45,
+        "max_drawdown_pct": 16.37,
+        "avg_fee_drag_r": 0.142
+      },
+      "oos_metrics": {
+        "total_trades": 13,
+        "wins": 5,
+        "losses": 8,
+        "win_rate_pct": 38.46,
+        "win_rate_95_ci": [
+          17.71,
+          64.48
+        ],
+        "expectancy_r": -0.311,
+        "expectancy_return_pct": -0.43,
+        "total_net_pnl_pct": -5.59,
+        "profit_factor": 0.27,
+        "max_drawdown_r": 4.28,
+        "max_drawdown_pct": 6.0,
+        "avg_fee_drag_r": 0.138
+      },
+      "fwd_30d_metrics": {
+        "total_trades": 15,
+        "wins": 7,
+        "losses": 8,
+        "win_rate_pct": 46.67,
+        "win_rate_95_ci": [
+          24.81,
+          69.88
+        ],
+        "expectancy_r": -0.212,
+        "expectancy_return_pct": -0.283,
+        "total_net_pnl_pct": -4.25,
+        "profit_factor": 0.46,
+        "max_drawdown_r": 4.28,
+        "max_drawdown_pct": 6.0,
+        "avg_fee_drag_r": 0.138
+      },
+      "overall_metrics": {
+        "total_trades": 64,
+        "wins": 21,
+        "losses": 43,
+        "win_rate_pct": 32.81,
+        "win_rate_95_ci": [
+          22.57,
+          45.0
+        ],
+        "expectancy_r": -0.164,
+        "expectancy_return_pct": -0.219,
+        "total_net_pnl_pct": -14.02,
+        "profit_factor": 0.66,
+        "max_drawdown_r": 14.63,
+        "max_drawdown_pct": 20.62,
+        "avg_fee_drag_r": 0.141
+      }
+    }
+  ],
+  "sensitivity_analysis": {
+    "candidate_id": "FILTER_C_REGIME_ATR125",
+    "candidate_name": "Filter C: Volatility Expansion (Range >= 1.25x ATR14)",
+    "scenarios": [
+      {
+        "fee_rate_pct": 0.075,
+        "slippage_rate_pct": 0.02,
+        "total_trades": 99,
+        "win_rate_pct": 36.36,
+        "expectancy_r": -0.152,
+        "profit_factor": 0.66,
+        "max_drawdown_r": 17.1,
+        "total_net_pnl_pct": -19.08
+      },
+      {
+        "fee_rate_pct": 0.075,
+        "slippage_rate_pct": 0.05,
+        "total_trades": 99,
+        "win_rate_pct": 32.32,
+        "expectancy_r": -0.195,
+        "profit_factor": 0.58,
+        "max_drawdown_r": 20.12,
+        "total_net_pnl_pct": -25.57
+      },
+      {
+        "fee_rate_pct": 0.075,
+        "slippage_rate_pct": 0.1,
+        "total_trades": 100,
+        "win_rate_pct": 28.0,
+        "expectancy_r": -0.272,
+        "profit_factor": 0.46,
+        "max_drawdown_r": 27.24,
+        "total_net_pnl_pct": -39.52
+      },
+      {
+        "fee_rate_pct": 0.1,
+        "slippage_rate_pct": 0.02,
+        "total_trades": 99,
+        "win_rate_pct": 33.33,
+        "expectancy_r": -0.188,
+        "profit_factor": 0.6,
+        "max_drawdown_r": 19.39,
+        "total_net_pnl_pct": -24.03
+      },
+      {
+        "fee_rate_pct": 0.1,
+        "slippage_rate_pct": 0.05,
+        "total_trades": 99,
+        "win_rate_pct": 30.3,
+        "expectancy_r": -0.23,
+        "profit_factor": 0.53,
+        "max_drawdown_r": 22.86,
+        "total_net_pnl_pct": -30.51
+      },
+      {
+        "fee_rate_pct": 0.1,
+        "slippage_rate_pct": 0.1,
+        "total_trades": 100,
+        "win_rate_pct": 27.0,
+        "expectancy_r": -0.306,
+        "profit_factor": 0.42,
+        "max_drawdown_r": 30.61,
+        "total_net_pnl_pct": -44.51
+      },
+      {
+        "fee_rate_pct": 0.15,
+        "slippage_rate_pct": 0.02,
+        "total_trades": 99,
+        "win_rate_pct": 29.29,
+        "expectancy_r": -0.26,
+        "profit_factor": 0.5,
+        "max_drawdown_r": 25.79,
+        "total_net_pnl_pct": -33.93
+      },
+      {
+        "fee_rate_pct": 0.15,
+        "slippage_rate_pct": 0.05,
+        "total_trades": 99,
+        "win_rate_pct": 28.28,
+        "expectancy_r": -0.3,
+        "profit_factor": 0.44,
+        "max_drawdown_r": 29.77,
+        "total_net_pnl_pct": -40.41
+      },
+      {
+        "fee_rate_pct": 0.15,
+        "slippage_rate_pct": 0.1,
+        "total_trades": 100,
+        "win_rate_pct": 22.0,
+        "expectancy_r": -0.373,
+        "profit_factor": 0.36,
+        "max_drawdown_r": 37.35,
+        "total_net_pnl_pct": -54.5
+      }
+    ]
+  },
+  "generated_at": "2026-10-29T15:12:15.375006+00:00"
+}

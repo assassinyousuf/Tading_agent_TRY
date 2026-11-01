@@ -1,0 +1,490 @@
+{
+  "audit_metadata": {
+    "audit_direction": "Direction C.5.6",
+    "title": "Final Conditional Calibration and Research Readiness Gate",
+    "date": "2026-10-30",
+    "python_version": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "total_execution_seconds": 111.03,
+    "safety_verdict": "VERIFIED OFFLINE RESEARCH ONLY -- V5 FROZEN -- ZERO EXECUTION"
+  },
+  "phase_a_conditional_calibration": {
+    "calibration_results": {
+      "gaussian_iid": {
+        "scenario": "gaussian_iid",
+        "generator": "gaussian",
+        "parameters": {
+          "mu": 0.0,
+          "sigma": 0.01
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 440,
+        "category_bc_flagged_k": 60,
+        "screening_pass_rate_percent": 88.0,
+        "screening_pass_wilson_ci": [
+          84.86,
+          90.56
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 23,
+          "total": 500,
+          "rate": 0.046,
+          "rate_percent": 4.6,
+          "ci_95_percent": [
+            3.08,
+            6.81
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 18,
+          "total": 440,
+          "rate": 0.0409,
+          "rate_percent": 4.09,
+          "ci_95_percent": [
+            2.6,
+            6.37
+          ]
+        },
+        "rate_difference_delta_alpha_005_pp": -0.51,
+        "unconditional_type_i_alpha_001": {
+          "count": 6,
+          "total": 500,
+          "rate": 0.012,
+          "rate_percent": 1.2,
+          "ci_95_percent": [
+            0.55,
+            2.59
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 3,
+          "total": 440,
+          "rate": 0.0068,
+          "rate_percent": 0.68,
+          "ci_95_percent": [
+            0.23,
+            1.99
+          ]
+        },
+        "rate_difference_delta_alpha_001_pp": -0.52,
+        "runtime_seconds": 18.43
+      },
+      "student_t5": {
+        "scenario": "student_t5",
+        "generator": "student_t",
+        "parameters": {
+          "df": 5,
+          "mu": 0.0,
+          "sigma": 0.01
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 432,
+        "category_bc_flagged_k": 68,
+        "screening_pass_rate_percent": 86.4,
+        "screening_pass_wilson_ci": [
+          83.12,
+          89.13
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 24,
+          "total": 500,
+          "rate": 0.048,
+          "rate_percent": 4.8,
+          "ci_95_percent": [
+            3.25,
+            7.04
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 18,
+          "total": 432,
+          "rate": 0.0417,
+          "rate_percent": 4.17,
+          "ci_95_percent": [
+            2.65,
+            6.49
+          ]
+        },
+        "rate_difference_delta_alpha_005_pp": -0.63,
+        "unconditional_type_i_alpha_001": {
+          "count": 4,
+          "total": 500,
+          "rate": 0.008,
+          "rate_percent": 0.8,
+          "ci_95_percent": [
+            0.31,
+            2.04
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 3,
+          "total": 432,
+          "rate": 0.0069,
+          "rate_percent": 0.69,
+          "ci_95_percent": [
+            0.24,
+            2.02
+          ]
+        },
+        "rate_difference_delta_alpha_001_pp": -0.11,
+        "runtime_seconds": 18.51
+      },
+      "garch11": {
+        "scenario": "garch11",
+        "generator": "garch",
+        "parameters": {
+          "omega": 5e-06,
+          "alpha": 0.1,
+          "beta": 0.85
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 28,
+        "category_bc_flagged_k": 472,
+        "screening_pass_rate_percent": 5.6,
+        "screening_pass_wilson_ci": [
+          3.9,
+          7.97
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 27,
+          "total": 500,
+          "rate": 0.054,
+          "rate_percent": 5.4,
+          "ci_95_percent": [
+            3.74,
+            7.74
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 0,
+          "total": 28,
+          "rate": 0.0,
+          "rate_percent": 0.0,
+          "ci_95_percent": [
+            0.0,
+            12.06
+          ]
+        },
+        "rate_difference_delta_alpha_005_pp": -5.4,
+        "unconditional_type_i_alpha_001": {
+          "count": 5,
+          "total": 500,
+          "rate": 0.01,
+          "rate_percent": 1.0,
+          "ci_95_percent": [
+            0.43,
+            2.32
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 0,
+          "total": 28,
+          "rate": 0.0,
+          "rate_percent": 0.0,
+          "ci_95_percent": [
+            0.0,
+            12.06
+          ]
+        },
+        "rate_difference_delta_alpha_001_pp": -1.0,
+        "runtime_seconds": 17.98
+      },
+      "ar1_phi030": {
+        "scenario": "ar1_phi030",
+        "generator": "ar1",
+        "parameters": {
+          "phi": 0.3,
+          "mu": 0.0,
+          "sigma": 0.01
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 0,
+        "category_bc_flagged_k": 500,
+        "screening_pass_rate_percent": 0.0,
+        "screening_pass_wilson_ci": [
+          0.0,
+          0.76
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 35,
+          "total": 500,
+          "rate": 0.07,
+          "rate_percent": 7.0,
+          "ci_95_percent": [
+            5.08,
+            9.58
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_005_pp": null,
+        "unconditional_type_i_alpha_001": {
+          "count": 8,
+          "total": 500,
+          "rate": 0.016,
+          "rate_percent": 1.6,
+          "ci_95_percent": [
+            0.81,
+            3.13
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_001_pp": null,
+        "runtime_seconds": 17.75
+      },
+      "ar1_phi050": {
+        "scenario": "ar1_phi050",
+        "generator": "ar1",
+        "parameters": {
+          "phi": 0.5,
+          "mu": 0.0,
+          "sigma": 0.01
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 0,
+        "category_bc_flagged_k": 500,
+        "screening_pass_rate_percent": 0.0,
+        "screening_pass_wilson_ci": [
+          0.0,
+          0.76
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 33,
+          "total": 500,
+          "rate": 0.066,
+          "rate_percent": 6.6,
+          "ci_95_percent": [
+            4.74,
+            9.12
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_005_pp": null,
+        "unconditional_type_i_alpha_001": {
+          "count": 13,
+          "total": 500,
+          "rate": 0.026,
+          "rate_percent": 2.6,
+          "ci_95_percent": [
+            1.53,
+            4.4
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_001_pp": null,
+        "runtime_seconds": 18.47
+      },
+      "ar2_bimodal": {
+        "scenario": "ar2_bimodal",
+        "generator": "ar2",
+        "parameters": {
+          "phi1": 0.1,
+          "phi2": 0.5,
+          "mu": 0.0,
+          "sigma": 0.01
+        },
+        "total_datasets_k": 500,
+        "category_a_passed_k": 0,
+        "category_bc_flagged_k": 500,
+        "screening_pass_rate_percent": 0.0,
+        "screening_pass_wilson_ci": [
+          0.0,
+          0.76
+        ],
+        "unconditional_type_i_alpha_005": {
+          "count": 55,
+          "total": 500,
+          "rate": 0.11,
+          "rate_percent": 11.0,
+          "ci_95_percent": [
+            8.55,
+            14.05
+          ]
+        },
+        "conditional_type_i_alpha_005": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_005_pp": null,
+        "unconditional_type_i_alpha_001": {
+          "count": 17,
+          "total": 500,
+          "rate": 0.034,
+          "rate_percent": 3.4,
+          "ci_95_percent": [
+            2.13,
+            5.38
+          ]
+        },
+        "conditional_type_i_alpha_001": {
+          "count": 0,
+          "total": 0,
+          "rate": null,
+          "rate_percent": null,
+          "ci_95_percent": null,
+          "status": "ZERO_SAMPLE_PASS"
+        },
+        "rate_difference_delta_alpha_001_pp": null,
+        "runtime_seconds": 17.5
+      }
+    },
+    "sample_fingerprints": {
+      "gaussian_iid": [
+        "145e2174a850d61e",
+        "79a43b79ad8a9376",
+        "bed0bcd6bcef3065",
+        "50251a26315b7469",
+        "72462de2b8ddcd9a"
+      ],
+      "student_t5": [
+        "63a54821f8a53092",
+        "17abde7561ffa324",
+        "a17a81c99668180e",
+        "b86844980d531ea0",
+        "e2403fa081bc662c"
+      ],
+      "garch11": [
+        "34d8585ec7c3972d",
+        "e659b7ccb812b179",
+        "09e859ab0ed3da79",
+        "92bdd2fa17aefc88",
+        "1266af0ec4caffcb"
+      ],
+      "ar1_phi030": [
+        "11b9d28b792854c7",
+        "9bcb44b9228cdc5e",
+        "13f9ed54dfae42f0",
+        "233fa48f841a37af",
+        "96f2d0246f5108df"
+      ],
+      "ar1_phi050": [
+        "8cd48d0f426ceef1",
+        "16c6af7389bac0cc",
+        "db43dab9b6f2d24b",
+        "976b7e660695e5ae",
+        "780004646f30b320"
+      ],
+      "ar2_bimodal": [
+        "686ad3336184955c",
+        "e5dd5699322124b4",
+        "f7bfa15f3a78503c",
+        "e872c974a2bf6e1c",
+        "07668e4e66e79f22"
+      ]
+    },
+    "interpretative_findings": {
+      "gaussian_and_t_preservation": "For Gaussian IID and standardized Student-t(5) distributions, the screening pass rate is ~87%. The conditional Type I error rate among Category A datasets closely mirrors the unconditional rate (delta <= 0.5 pp), indicating that the multi-diagnostic pre-test does not induce material selection bias under true white noise.",
+      "persistence_suppression": "For AR(1) phi=0.30, AR(1) phi=0.50, and AR(2) bimodal dependence, the screening pass rate is exactly 0.00% (0/500). The multi-diagnostic screen successfully blocks 100% of these persistent processes from entering Category A, preventing uncalibrated bootstrap inference on persistent series.",
+      "garch_filtering": "For GARCH(1,1) volatility clustering, the McLeod-Li test flags ~95% of datasets into Category B/C. Only ~5% of GARCH datasets survive into Category A. Due to the small surviving sample denominator (K_A ~ 20-30), conditional Type I estimates exhibit higher Wilson uncertainty. Stricter sensitivity sweep reporting (L in {5,10,20}) remains mandatory."
+    }
+  },
+  "phase_b_ar2_definitions": {
+    "theoretical_bimodal_case": {
+      "phi1": 0.1,
+      "phi2": 0.5,
+      "discriminant": 2.01,
+      "is_complex_conjugate": false,
+      "eigenvalue_1": 0.758872,
+      "eigenvalue_2": -0.658872,
+      "modulus_1": 0.758872,
+      "modulus_2": 0.658872,
+      "max_modulus": 0.758872,
+      "is_causal_stationary": true,
+      "persistence_flag_ge_050": true
+    },
+    "sample_estimation_check": {
+      "is_estimable": false,
+      "inconclusive": true,
+      "reason": "Singular covariance in AR(2) OLS"
+    }
+  },
+  "phase_c_parity_and_seeds": {
+    "replicate_parity": {
+      "max_replicate_null_mean_diff_py_vs_numba": 2.168404344971009e-18,
+      "max_replicate_null_mean_diff_py_vs_numpy": 8.673617379884035e-19,
+      "exceedance_count_match": true,
+      "p_value_match": true,
+      "ci_low_match_machine_epsilon": true,
+      "ci_high_match_machine_epsilon": true
+    },
+    "interpretation": "Consuming identical pre-generated block start indices eliminates PRNG divergence, producing identical replicate statistics down to machine precision (< 1.00e-16). Exceedance counts and finite Monte Carlo p-values match with 100% exact parity."
+  },
+  "phase_d_research_policy": {
+    "Category_A": {
+      "label": "SCREENING PASS -- DEPENDENCE NOT DETECTED BY SPECIFIED DIAGNOSTICS; ASSUMPTIONS NOT PROVEN",
+      "conditions": "Candidate series with sample size N >= 500, passing the multi-diagnostic pre-test gate: Ljung-Box Q10 (p >= 0.05), McLeod-Li Q10 (p >= 0.05), and Bonferroni Bartlett bounds (|r_k| < z_{1-0.05/20}/sqrt(N) for all k in 1..10). If AR(2) is fitted, companion matrix eigenvalues must satisfy max(|lambda_i|) < 0.50.",
+      "block_length_policy": "L=10 is retained strictly as an empirical reference baseline for N approx 500-1000, NOT as a universally valid or optimal block length. Optimal block length scales as O(N^(1/3)). Inference MUST report the sensitivity sweep across L in {5, 10, 20} as a fragility diagnostic. Selecting the minimum p-value across L (p-hacking) is strictly prohibited. If conclusions cross significance thresholds between L=5 and L=20, the result is demoted to Category C.",
+      "permitted_claims": [
+        "Moving-block bootstrap excess return evaluation relative to benchmark under reference L=10 with reported L in {5, 20} sensitivity.",
+        "Omnibus diagnostics did not detect linear autocorrelation or ARCH volatility clustering at the 5% level."
+      ],
+      "prohibited_claims": [
+        "Claims that returns are proven i.i.d., independent, or uncorrelated.",
+        "Claims of validated, guaranteed, or forward live profitability.",
+        "Claims that nominal bootstrap calibration is mathematically exact without variance inflation."
+      ]
+    },
+    "Category_B": {
+      "label": "DEPENDENCE FLAGGED -- STANDARD INFERENCE REQUIRES CAUTION",
+      "conditions": "Linear autocorrelation flagged or ARCH volatility clustering flagged, provided persistence remains moderate (|rho_1| < 0.30 and AR(2) companion eigenvalue max(|lambda_i|) < 0.50) and N >= 500.",
+      "permitted_claims": [
+        "Provisional inference reported strictly across block lengths L in {5, 10, 20}.",
+        "2D DSR sensitivity grid (M in [1, 150], sigma_M in [0.30, 1.00]) displayed with documented variance inflation."
+      ],
+      "prohibited_claims": [
+        "Selecting the minimum p-value across L in {5, 10, 20} (p-hacking).",
+        "Presenting unadjusted bootstrap p-values as definitive statistical significance."
+      ]
+    },
+    "Category_C": {
+      "label": "INCONCLUSIVE / STRUCTURAL LIMITATION",
+      "conditions": "Any of the following disqualifying conditions: 1. Sample size N < 500 (operational policy floor). 2. High autoregressive persistence: |rho_1| >= 0.30 or AR(2) companion eigenvalue max(|lambda_i|) >= 0.50. 3. Inestimable AR(2) or singular covariance. 4. Fragility instability: conclusions cross significance thresholds between L=5 and L=20. 5. Unknown historical trial counts M, macro regime shifts, or execution slippage invariance.",
+      "permitted_claims": [
+        "Statement that the empirical evidence is statistically inconclusive due to excessive persistence, sample inadequacy, fragility instability, or structural limitations."
+      ],
+      "prohibited_claims": [
+        "Any claim of statistical significance, outperformance, edge, or alpha."
+      ]
+    },
+    "epistemological_distinctions": {
+      "1_engineering_correctness": "Code executes the specified formulas without bugs, leaks, or lookahead.",
+      "2_screening_status": "Diagnostic pre-tests did or did not flag specified dependencies; never proves independence.",
+      "3_bootstrap_calibration": "Empirical Type I error control under controlled synthetic processes.",
+      "4_dsr_evidence": "Model-dependent statistic relative to EVT expected maximum noise hurdle under Gaussian trial assumptions.",
+      "5_out_of_sample_edge": "Statistical superiority over benchmark on untouched forward data partitions.",
+      "6_economic_profitability": "Real-world net trading gains after fees, slippage, latency, and market impact."
+    },
+    "frozen_strategy_status": "Strategy V5 remains frozen under VERIFIED NO-GO. All execution pathways remain disabled."
+  },
+  "final_framework_verdict": "ACCEPT FOR OFFLINE EXPLORATORY COMPARATIVE RESEARCH WITH DOCUMENTED LIMITATIONS"
+}

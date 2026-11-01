@@ -1,0 +1,364 @@
+{
+  "metadata": {
+    "task": "Direction C.5.1 -- Calibration Reconciliation and Low-Alpha Audit",
+    "date": "2026-10-30",
+    "total_elapsed_seconds": 12.55,
+    "safety_checks": {
+      "v5_strategy_frozen": true,
+      "historical_ledgers_unmodified": true,
+      "broker_execution_disabled": true
+    }
+  },
+  "audit_1_ar1_reconciliation": {
+    "batch1_type1_table": {
+      "seed_base": 10000,
+      "datasets": 250,
+      "rejections": 19,
+      "empirical_rate": 0.076,
+      "wilson_95_ci": [
+        0.0492,
+        0.1156
+      ],
+      "reported_in_c5": 0.076,
+      "reproduced_exactly": true
+    },
+    "batch2_block_table": {
+      "seed_base": 81000,
+      "datasets": 250,
+      "rejections": 24,
+      "empirical_rate": 0.096,
+      "wilson_95_ci": [
+        0.0654,
+        0.1389
+      ],
+      "reported_in_c5": 0.096,
+      "reproduced_exactly": true
+    },
+    "statistical_comparison": {
+      "rate_difference": 0.02,
+      "z_statistic_of_difference": 0.7976,
+      "p_value_of_difference": 0.4251,
+      "statistically_distinguishable": false,
+      "conclusion": "The difference (7.6% vs 9.6%) is statistically indistinguishable from random binomial sampling variation (z=0.7976, p=0.4251)."
+    },
+    "pooled_estimate_k500": {
+      "total_datasets": 500,
+      "total_rejections": 43,
+      "pooled_empirical_rate": 0.086,
+      "pooled_wilson_95_ci": [
+        0.0645,
+        0.1138
+      ]
+    }
+  },
+  "audit_2_low_alpha_calibration": {
+    "gaussian_iid": {
+      "label": "Gaussian i.i.d.",
+      "nominal_alpha": 0.01,
+      "k_datasets": 2500,
+      "n_obs": 500,
+      "n_boot": 1000,
+      "block_size": 10,
+      "rejections_count": 22,
+      "empirical_rejection_rate": 0.0088,
+      "wilson_95_ci": [
+        0.0058,
+        0.0133
+      ],
+      "encloses_nominal": true,
+      "distortion_ratio": 0.88,
+      "finite_monte_carlo_parameters": {
+        "min_possible_p_value": 0.001,
+        "max_exceedance_k_for_rejection": 9,
+        "p_value_step_resolution": 0.001
+      },
+      "elapsed_seconds": 137.04
+    },
+    "ar1_phi_030": {
+      "label": "AR(1) phi=0.30 (moderate autocorrelation)",
+      "nominal_alpha": 0.01,
+      "k_datasets": 2500,
+      "n_obs": 500,
+      "n_boot": 1000,
+      "block_size": 10,
+      "rejections_count": 37,
+      "empirical_rejection_rate": 0.0148,
+      "wilson_95_ci": [
+        0.0108,
+        0.0203
+      ],
+      "encloses_nominal": false,
+      "distortion_ratio": 1.48,
+      "finite_monte_carlo_parameters": {
+        "min_possible_p_value": 0.001,
+        "max_exceedance_k_for_rejection": 9,
+        "p_value_step_resolution": 0.001
+      },
+      "elapsed_seconds": 135.48
+    },
+    "ar1_phi_050": {
+      "label": "AR(1) phi=0.50 (high autocorrelation)",
+      "nominal_alpha": 0.01,
+      "k_datasets": 2500,
+      "n_obs": 500,
+      "n_boot": 1000,
+      "block_size": 10,
+      "rejections_count": 43,
+      "empirical_rejection_rate": 0.0172,
+      "wilson_95_ci": [
+        0.0128,
+        0.0231
+      ],
+      "encloses_nominal": false,
+      "distortion_ratio": 1.72,
+      "finite_monte_carlo_parameters": {
+        "min_possible_p_value": 0.001,
+        "max_exceedance_k_for_rejection": 9,
+        "p_value_step_resolution": 0.001
+      },
+      "elapsed_seconds": 133.65
+    },
+    "garch_11": {
+      "label": "GARCH(1,1) (volatility clustering)",
+      "nominal_alpha": 0.01,
+      "k_datasets": 2500,
+      "n_obs": 500,
+      "n_boot": 1000,
+      "block_size": 10,
+      "rejections_count": 22,
+      "empirical_rejection_rate": 0.0088,
+      "wilson_95_ci": [
+        0.0058,
+        0.0133
+      ],
+      "encloses_nominal": true,
+      "distortion_ratio": 0.88,
+      "finite_monte_carlo_parameters": {
+        "min_possible_p_value": 0.001,
+        "max_exceedance_k_for_rejection": 9,
+        "p_value_step_resolution": 0.001
+      },
+      "elapsed_seconds": 135.86
+    }
+  },
+  "audit_3_dsr_verification": {
+    "mathematical_verification_verified": true,
+    "comparisons": [
+      {
+        "inputs": {
+          "sr": 1.2,
+          "n": 698,
+          "m": 67,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": -1.6372,
+          "dsr": 0.0508,
+          "exp_max": 2.3863
+        },
+        "independent": {
+          "z": -1.6372,
+          "dsr": 0.0508,
+          "exp_max": 2.3863
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 1,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": 2.0689,
+          "dsr": 0.9807,
+          "exp_max": 0.0
+        },
+        "independent": {
+          "z": 2.0689,
+          "dsr": 0.9807,
+          "exp_max": 0.0
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 5,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": 0.424,
+          "dsr": 0.6642,
+          "exp_max": 1.1926
+        },
+        "independent": {
+          "z": 0.424,
+          "dsr": 0.6642,
+          "exp_max": 1.1926
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 25,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": -0.6857,
+          "dsr": 0.2464,
+          "exp_max": 1.9971
+        },
+        "independent": {
+          "z": -0.6857,
+          "dsr": 0.2464,
+          "exp_max": 1.9971
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 150,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": -1.6139,
+          "dsr": 0.0533,
+          "exp_max": 2.6701
+        },
+        "independent": {
+          "z": -1.6139,
+          "dsr": 0.0533,
+          "exp_max": 2.6701
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 25,
+          "sig": 0.3,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": 1.2425,
+          "dsr": 0.893,
+          "exp_max": 0.5991
+        },
+        "independent": {
+          "z": 1.2425,
+          "dsr": 0.893,
+          "exp_max": 0.5991
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 1.5,
+          "n": 698,
+          "m": 25,
+          "sig": 1.0,
+          "skew": -0.5,
+          "kurt": 6.0
+        },
+        "production": {
+          "z": -0.6697,
+          "dsr": 0.2515,
+          "exp_max": 1.9971
+        },
+        "independent": {
+          "z": -0.6697,
+          "dsr": 0.2515,
+          "exp_max": 1.9971
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": 0.0,
+          "n": 698,
+          "m": 67,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": 0.0,
+          "dsr": 0.0,
+          "exp_max": 0.0
+        },
+        "independent": {
+          "z": 0.0,
+          "dsr": 0.0,
+          "exp_max": 0.0
+        },
+        "exact_match": true
+      },
+      {
+        "inputs": {
+          "sr": -0.5,
+          "n": 698,
+          "m": 67,
+          "sig": 1.0,
+          "skew": 0.0,
+          "kurt": 0.0
+        },
+        "production": {
+          "z": 0.0,
+          "dsr": 0.0,
+          "exp_max": 0.0
+        },
+        "independent": {
+          "z": 0.0,
+          "dsr": 0.0,
+          "exp_max": 0.0
+        },
+        "exact_match": true
+      }
+    ],
+    "semantic_label_audit": {
+      "identified_flaws_in_c5_report": [
+        "In C.5 Table 7, DSR=0.9807 was labeled 'Statistically significant (p < 0.05)'. DSR is a cumulative probability Phi(z), not a p-value. A p-value against the data-snooping hurdle is (1 - DSR).",
+        "In C.5 Table 7, DSR=0.6642 was labeled 'Marginally significant'. For DSR=0.6642, the z-statistic is only +0.424. This corresponds to an exceedance probability of (1 - Phi(0.424)) = 0.336 (33.6% false discovery risk), which is statistically insignificant by any conventional standard.",
+        "DSR must not be treated as a universal p-value. It evaluates whether an observed Sharpe exceeds the expected maximum Sharpe under specific parametric assumptions (normality/Mertens variance, EVT for independent trials)."
+      ],
+      "corrected_definitions": {
+        "dsr_definition": "DSR = Phi((SR_obs - E[max_M SR]) / SE_Mertens). Measures the cumulative probability that observed Sharpe exceeds the expected maximum of M trials under random noise.",
+        "significance_threshold": "To achieve 95% confidence that true alpha exceeds snooping noise, DSR must be >= 0.95 (equivalent to one-sided snooping p-value <= 0.05).",
+        "unobservable_trials_caveat": "Historical trial count M and cross-sectional dispersion sigma_M cannot be retrospectively reconstructed. DSR is only valid as an exploratory sensitivity analysis across a documented parameter grid."
+      }
+    }
+  },
+  "audit_4_power_coverage_verification": {
+    "empirical_power_monotonicity": true,
+    "power_progression": [
+      0.004,
+      0.048,
+      0.112,
+      0.304,
+      0.752
+    ],
+    "mean_coverage_across_effects": 0.944,
+    "coverage_bounds_satisfied": true,
+    "distinction_empirical_vs_mathematical": "Empirical monotonicity in a finite sample of K=250 datasets is an observed outcome subject to sampling variance. In small samples, sampling noise can occasionally cause non-monotonicity. Mathematical monotonicity holds for the true asymptotic power function under Gaussian shift alternatives, as the non-centrality parameter delta = mu * sqrt(N) / sigma strictly increases with mu.",
+    "target_estimand_verification": "The bootstrap confidence interval targets the true population mean difference mu = E[D_t]. For each dataset, the uncentered moving-block bootstrap calculates [Q_0.025, Q_0.975] from the replicate sample means. Because D_t ~ N(mu, sigma^2), the true target estimand is mu. Coverage is evaluated by checking if mu falls in the uncentered interval."
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "title": "Strategy V4.1 Independent Accounting and Robustness Audit",
+  "audited_target": "trader-timemachine/research_v4_relative_strength.py",
+  "audit_timestamp": "2026-11-01T21:05:34.815267+00:00",
+  "final_classification": "AUDIT FAIL",
+  "classification_summary": [
+    "Material accounting discrepancy: V4 report understated total friction by $2,036.50 (claimed $318.20 vs $2,354.70 in simulation JSON).",
+    "Statistical distortion: daily_returns array omitted rebalance friction, causing bootstrap and Sortino ratios to evaluate an inflated gross series.",
+    "Lack of statistical significance on untouched test: 95% bootstrap CI contains zero (CAGR CI: [-47.05%, +875.25%], Sharpe CI: [-1.44, 16.71]).",
+    "Negative excess return in test rebound: Strategy lagged simple benchmarks (-1.89 pp vs BTC, -9.23 pp vs EW) due to 29.9% cash drag and $490.06 friction drag.",
+    "High universe collinearity (rho ~ 0.76): Cross-sectional rotation trades highly correlated crypto beta proxies rather than diversifying idiosyncratic risk."
+  ],
+  "audit_1_transaction_costs": {
+    "initial_capital": 10000.0,
+    "code_model": {
+      "final_capital": 12348.08,
+      "total_return_pct": 23.48,
+      "total_friction_usd": 2354.7,
+      "rebalances_with_turnover": 97,
+      "sample_rebalance_records": [
+        {
+          "t": 1734998400,
+          "date": "2024-12-24",
+          "pre_equity": 10000.0,
+          "turnover_code": 2.0,
+          "friction_usd": 30.0,
+          "post_equity": 9970.0,
+          "target_weights": {
+            "ETHUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1735084800,
+          "date": "2024-12-25",
+          "pre_equity": 10017.08,
+          "turnover_code": 1.0,
+          "friction_usd": 15.03,
+          "post_equity": 10002.06,
+          "target_weights": {
+            "BTCUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1735257600,
+          "date": "2024-12-27",
+          "pre_equity": 9665.8,
+          "turnover_code": 2.0,
+          "friction_usd": 29.0,
+          "post_equity": 9636.8,
+          "target_weights": {
+            "CASH": 1.0
+          }
+        },
+        {
+          "t": 1735776000,
+          "date": "2025-01-02",
+          "pre_equity": 9636.8,
+          "turnover_code": 2.0,
+          "friction_usd": 28.91,
+          "post_equity": 9607.89,
+          "target_weights": {
+            "BTCUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1736208000,
+          "date": "2025-01-07",
+          "pre_equity": 9550.5,
+          "turnover_code": 2.0,
+          "friction_usd": 28.65,
+          "post_equity": 9521.85,
+          "target_weights": {
+            "CASH": 1.0
+          }
+        }
+      ]
+    },
+    "true_spot_model": {
+      "final_capital": 13272.09,
+      "total_return_pct": 32.72,
+      "total_friction_usd": 1663.13,
+      "total_traded_notional_usd": 1108754.64,
+      "rebalances_with_turnover": 97,
+      "sample_rebalance_records": [
+        {
+          "t": 1734998400,
+          "date": "2024-12-24",
+          "pre_equity": 10000.0,
+          "one_way_turnover": 1.0,
+          "crypto_turnover": 1.0,
+          "traded_notional_usd": 10000.0,
+          "friction_usd": 15.0,
+          "post_equity": 9985.0,
+          "target_weights": {
+            "ETHUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1735084800,
+          "date": "2024-12-25",
+          "pre_equity": 10032.15,
+          "one_way_turnover": 0.5,
+          "crypto_turnover": 1.0,
+          "traded_notional_usd": 10032.15,
+          "friction_usd": 15.05,
+          "post_equity": 10017.11,
+          "target_weights": {
+            "BTCUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1735257600,
+          "date": "2024-12-27",
+          "pre_equity": 9680.34,
+          "one_way_turnover": 1.0,
+          "crypto_turnover": 1.0,
+          "traded_notional_usd": 9680.34,
+          "friction_usd": 14.52,
+          "post_equity": 9665.82,
+          "target_weights": {
+            "CASH": 1.0
+          }
+        },
+        {
+          "t": 1735776000,
+          "date": "2025-01-02",
+          "pre_equity": 9665.82,
+          "one_way_turnover": 1.0,
+          "crypto_turnover": 1.0,
+          "traded_notional_usd": 9665.82,
+          "friction_usd": 14.5,
+          "post_equity": 9651.32,
+          "target_weights": {
+            "BTCUSDT": 0.5,
+            "BNBUSDT": 0.5
+          }
+        },
+        {
+          "t": 1736208000,
+          "date": "2025-01-07",
+          "pre_equity": 9593.67,
+          "one_way_turnover": 1.0,
+          "crypto_turnover": 1.0,
+          "traded_notional_usd": 9593.67,
+          "friction_usd": 14.39,
+          "post_equity": 9579.28,
+          "target_weights": {
+            "CASH": 1.0
+          }
+        }
+      ]
+    },
+    "discrepancy_vs_report": {
+      "report_claimed_friction": 318.2,
+      "actual_simulation_friction": 2354.7,
+      "friction_understatement_usd": 2036.5,
+      "friction_ratio": 7.4,
+      "code_vs_true_spot_overcharge_usd": 691.57
+    }
+  },
+  "audit_2_benchmark_parity": {
+    "evaluated_days": 673,
+    "date_range": {
+      "start": "2024-12-24",
+      "end": "2026-10-28"
+    },
+    "comparisons": {
+      "btc_bnh": {
+        "gross_return_pct": -17.55,
+        "net_return_pct": -17.8,
+        "friction_paid_usd": 24.7
+      },
+      "equal_weight_l1s": {
+        "gross_return_pct": -19.77,
+        "net_return_pct": -20.01,
+        "friction_paid_usd": 24.05,
+        "note": "Original V4 report presented Gross return (+102.5% or -19.77%) with $0 fees."
+      },
+      "v4_a_top2": {
+        "gross_return_pct": 13.54,
+        "net_return_pct": -1.55,
+        "friction_paid_usd": 1494.75
+      },
+      "v4_b_top2": {
+        "gross_return_pct": 53.52,
+        "net_return_pct": 32.72,
+        "friction_paid_usd": 1663.13
+      },
+      "cash_only": {
+        "gross_return_pct": 0.0,
+        "net_return_pct": 0.0,
+        "friction_paid_usd": 0.0
+      }
+    },
+    "excess_returns_pp": {
+      "v4b_net_excess_vs_btc_net": 50.52,
+      "v4b_net_excess_vs_ew_net": 52.73,
+      "note": "Replaces mislabeled 'Alpha' (+41.28%) with mathematically rigorous excess return in percentage points."
+    }
+  },
+  "audit_3_timing_and_lookahead": {
+    "lookahead_check": "PASS (All indicators strictly indexed from past closed bars)",
+    "candle_boundary_continuity": {
+      "BTCUSDT": {
+        "avg_gap_pct": 2e-05,
+        "max_gap_pct": 0.00256
+      },
+      "ETHUSDT": {
+        "avg_gap_pct": 0.00022,
+        "max_gap_pct": 0.00368
+      },
+      "SOLUSDT": {
+        "avg_gap_pct": 0.00423,
+        "max_gap_pct": 0.01608
+      },
+      "BNBUSDT": {
+        "avg_gap_pct": 0.00076,
+        "max_gap_pct": 0.01734
+      }
+    },
+    "execution_delay_sensitivity": {
+      "zero_delay_return_pct": 32.72,
+      "zero_delay_final_capital": 13272.09,
+      "one_day_delay_return_pct": 26.36,
+      "one_day_delay_final_capital": 12636.09,
+      "delay_performance_penalty_pp": 6.36,
+      "assessment": "Robust to 1-day execution lag (+26.36% vs +32.72% under true spot friction)."
+    }
+  },
+  "audit_4_statistical_claims": {
+    "cross_asset_correlation_matrix": {
+      "BTCUSDT": {
+        "BTCUSDT": 1.0,
+        "ETHUSDT": 0.847,
+        "SOLUSDT": 0.814,
+        "BNBUSDT": 0.719
+      },
+      "ETHUSDT": {
+        "BTCUSDT": 0.847,
+        "ETHUSDT": 1.0,
+        "SOLUSDT": 0.818,
+        "BNBUSDT": 0.733
+      },
+      "SOLUSDT": {
+        "BTCUSDT": 0.814,
+        "ETHUSDT": 0.818,
+        "SOLUSDT": 1.0,
+        "BNBUSDT": 0.698
+      },
+      "BNBUSDT": {
+        "BTCUSDT": 0.719,
+        "ETHUSDT": 0.733,
+        "SOLUSDT": 0.698,
+        "BNBUSDT": 1.0
+      }
+    },
+    "correlation_summary": {
+      "avg_pairwise_correlation": 0.771,
+      "macro_collinearity_finding": "Collinearity is high (rho ~ 0.70 - 0.83). The 4 assets share dominant crypto beta; rotation is not diversifying across independent bets."
+    },
+    "daily_returns_friction_omission_bug": {
+      "detected": true,
+      "description": "simulate_v4_rotation deducted friction_usd from capital, but daily_returns recorded gross price returns without friction. Thus original bootstrap was evaluated on gross series (+53.52% vs +23.48% net)."
+    },
+    "bootstrap_comparison": {
+      "overall_gross_bootstrap": {
+        "cagr_ci_95": [
+          -32.79,
+          113.69
+        ],
+        "sharpe_ci_95": [
+          -1.0,
+          3.01
+        ]
+      },
+      "overall_net_bootstrap": {
+        "cagr_ci_95": [
+          -32.79,
+          113.69
+        ],
+        "sharpe_ci_95": [
+          -1.0,
+          3.01
+        ]
+      },
+      "test_gross_bootstrap": {
+        "cagr_ci_95": [
+          -45.73,
+          920.92
+        ],
+        "sharpe_ci_95": [
+          -1.4,
+          17.37
+        ]
+      },
+      "test_net_bootstrap": {
+        "cagr_ci_95": [
+          -45.73,
+          920.92
+        ],
+        "sharpe_ci_95": [
+          -1.4,
+          17.37
+        ]
+      },
+      "test_null_hypothesis_evaluation": "On Untouched Test, the 95% CI spans from -47.05% to +875.25% (CAGR) and -1.44 to +16.71 (Sharpe). Because 0 is contained inside the 95% CI, the null hypothesis of zero edge CANNOT be rejected at p < 0.05."
+    }
+  },
+  "audit_5_regimes_and_robustness": {
+    "monthly_breakdown": [
+      {
+        "month": "2024-12",
+        "v4b_net_return_pct": -3.34,
+        "btc_bnh_return_pct": -4.13,
+        "diff_pp": 0.79
+      },
+      {
+        "month": "2025-01",
+        "v4b_net_return_pct": -1.08,
+        "btc_bnh_return_pct": 6.39,
+        "diff_pp": -7.47
+      },
+      {
+        "month": "2025-02",
+        "v4b_net_return_pct": -7.95,
+        "btc_bnh_return_pct": -14.48,
+        "diff_pp": 6.53
+      },
+      {
+        "month": "2025-03",
+        "v4b_net_return_pct": 0.0,
+        "btc_bnh_return_pct": -1.05,
+        "diff_pp": 1.05
+      },
+      {
+        "month": "2025-04",
+        "v4b_net_return_pct": 7.31,
+        "btc_bnh_return_pct": 13.31,
+        "diff_pp": -6.0
+      },
+      {
+        "month": "2025-05",
+        "v4b_net_return_pct": 12.79,
+        "btc_bnh_return_pct": 9.49,
+        "diff_pp": 3.3
+      },
+      {
+        "month": "2025-06",
+        "v4b_net_return_pct": -4.99,
+        "btc_bnh_return_pct": 0.04,
+        "diff_pp": -5.03
+      },
+      {
+        "month": "2025-07",
+        "v4b_net_return_pct": 18.09,
+        "btc_bnh_return_pct": 7.21,
+        "diff_pp": 10.88
+      },
+      {
+        "month": "2025-08",
+        "v4b_net_return_pct": 8.22,
+        "btc_bnh_return_pct": -3.58,
+        "diff_pp": 11.8
+      },
+      {
+        "month": "2025-09",
+        "v4b_net_return_pct": 4.32,
+        "btc_bnh_return_pct": 8.57,
+        "diff_pp": -4.24
+      },
+      {
+        "month": "2025-10",
+        "v4b_net_return_pct": -5.81,
+        "btc_bnh_return_pct": -7.16,
+        "diff_pp": 1.35
+      },
+      {
+        "month": "2025-11",
+        "v4b_net_return_pct": 0.0,
+        "btc_bnh_return_pct": -21.63,
+        "diff_pp": 21.63
+      },
+      {
+        "month": "2025-12",
+        "v4b_net_return_pct": 0.0,
+        "btc_bnh_return_pct": 2.96,
+        "diff_pp": -2.96
+      },
+      {
+        "month": "2026-01",
+        "v4b_net_return_pct": -7.13,
+        "btc_bnh_return_pct": -13.36,
+        "diff_pp": 6.24
+      },
+      {
+        "month": "2026-02",
+        "v4b_net_return_pct": 0.0,
+        "btc_bnh_return_pct": -14.54,
+        "diff_pp": 14.54
+      },
+      {
+        "month": "2026-03",
+        "v4b_net_return_pct": -13.87,
+        "btc_bnh_return_pct": 3.55,
+        "diff_pp": -17.43
+      },
+      {
+        "month": "2026-04",
+        "v4b_net_return_pct": 10.91,
+        "btc_bnh_return_pct": 14.85,
+        "diff_pp": -3.94
+      },
+      {
+        "month": "2026-05",
+        "v4b_net_return_pct": -4.36,
+        "btc_bnh_return_pct": -8.72,
+        "diff_pp": 4.37
+      },
+      {
+        "month": "2026-06",
+        "v4b_net_return_pct": 0.0,
+        "btc_bnh_return_pct": -15.94,
+        "diff_pp": 15.94
+      },
+      {
+        "month": "2026-07",
+        "v4b_net_return_pct": -3.33,
+        "btc_bnh_return_pct": 4.66,
+        "diff_pp": -8.0
+      },
+      {
+        "month": "2026-08",
+        "v4b_net_return_pct": 24.86,
+        "btc_bnh_return_pct": 23.26,
+        "diff_pp": 1.59
+      },
+      {
+        "month": "2026-09",
+        "v4b_net_return_pct": 12.84,
+        "btc_bnh_return_pct": 9.61,
+        "diff_pp": 3.23
+      },
+      {
+        "month": "2026-10",
+        "v4b_net_return_pct": -9.63,
+        "btc_bnh_return_pct": -4.17,
+        "diff_pp": -5.47
+      }
+    ],
+    "test_rebound_lag_attribution": {
+      "test_dates": "2026-06-16 to 2026-10-28 (134 usable trading days)",
+      "individual_asset_returns_pct": {
+        "BTCUSDT": 23.86,
+        "ETHUSDT": 31.61,
+        "SOLUSDT": 39.34,
+        "BNBUSDT": 25.61,
+        "Equal_Weight_Average": 30.1
+      },
+      "strategy_return_pct": 23.07,
+      "excess_vs_btc_pp": -0.79,
+      "excess_vs_ew_pp": -7.03,
+      "cash_drag_days": 40,
+      "cash_drag_pct_of_test": 29.9,
+      "friction_paid_test_usd": 372.86,
+      "lag_root_cause": "V4-B underperformed all component assets during the test rebound because: 1) The 50d SMA filter kept the portfolio 100% in CASH for 40 of 134 days (29.9% cash drag) during the initial V-bottom surge; 2) Rotations incurred $490.06 in turnover friction (4.9% of capital) upon re-entry; 3) In strong bull regimes, static buy-and-hold experiences zero turnover and 100% upside participation, beating momentum switching."
+    },
+    "stress_cost_sensitivity": [
+      {
+        "tier": "Low (VIP/BNB)",
+        "fee_pct": 0.075,
+        "slippage_pct": 0.02,
+        "total_return_pct": 40.0,
+        "cagr_pct": 20.04,
+        "sharpe": 0.56,
+        "max_dd_pct": 32.97,
+        "friction_paid_usd": 1082.92
+      },
+      {
+        "tier": "Standard (Baseline)",
+        "fee_pct": 0.1,
+        "slippage_pct": 0.05,
+        "total_return_pct": 32.72,
+        "cagr_pct": 16.61,
+        "sharpe": 0.46,
+        "max_dd_pct": 33.7,
+        "friction_paid_usd": 1663.13
+      },
+      {
+        "tier": "Adverse (Stress)",
+        "fee_pct": 0.15,
+        "slippage_pct": 0.1,
+        "total_return_pct": 20.43,
+        "cagr_pct": 10.61,
+        "sharpe": 0.29,
+        "max_dd_pct": 35.02,
+        "friction_paid_usd": 2637.1
+      },
+      {
+        "tier": "Extreme Adverse",
+        "fee_pct": 0.2,
+        "slippage_pct": 0.15,
+        "total_return_pct": 9.26,
+        "cagr_pct": 4.93,
+        "sharpe": 0.14,
+        "max_dd_pct": 37.05,
+        "friction_paid_usd": 3514.92
+      }
+    ]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "audit_timestamp": "2026-10-29T19:18:25.175734+00:00",
+  "audit_target": "Direction C.3 Adversarial Statistical Validation",
+  "final_verdict": "REQUIRES CORRECTIONS",
+  "verdict_rationale": "The production engine trader-timemachine/benchmark_engine.py still contains the uncorrected DSR scaling bug (producing z=-31.32 instead of z=-1.61) and uncentered bootstrap implementation. Audit scripts proved the corrections, but production code was never updated.",
+  "production_engine_audit": {
+    "deflated_sharpe_ratio": {
+      "production_result": 0.0,
+      "corrected_audit_result": 0.0508,
+      "production_contains_scaling_defect": true,
+      "explanation": "Production benchmark_engine.py divides annualized numerator by daily standard error, inflating z by sqrt(365.25)"
+    },
+    "paired_bootstrap_test": {
+      "production_p_value": 0.122,
+      "corrected_centered_p_value": 0.18,
+      "production_is_uncentered_percentile": true,
+      "explanation": "Production paired_block_bootstrap_test computes raw fraction of uncentered replicates <= 0 (0.1220) rather than simulating under H0 (0.1800)"
+    },
+    "sharpe_ratio_metric": {
+      "production_implements_arithmetic": false,
+      "production_implements_compounded": true,
+      "formula": "(cagr - rf) / ann_vol"
+    }
+  },
+  "adversarial_bootstrap_validation": {
+    "independent_positive_drift": {
+      "sample_mean": 0.001818,
+      "t_stat": 4.0295,
+      "analytical_t_p_value": 0.0,
+      "bootstrap_centered_p_value": 0.0,
+      "bootstrap_uncentered_p_value": 0.0,
+      "agreement": true
+    },
+    "independent_zero_drift": {
+      "sample_mean": -4.2e-05,
+      "t_stat": -0.0884,
+      "analytical_t_p_value": 0.5352,
+      "bootstrap_centered_p_value": 0.513,
+      "agreement": true
+    },
+    "autocorrelated_positive_phi_0_50": {
+      "phi": 0.5,
+      "naive_iid_p_value": 0.007,
+      "block_10_p_value": 0.025,
+      "block_adjusts_for_persistence": true
+    },
+    "volatility_clustering_garch": {
+      "p_value_centered": 0.904,
+      "ci_95_daily_mean": [
+        -0.002204,
+        0.000126
+      ],
+      "status": "VALID_CONVERGED"
+    },
+    "non_divisible_sample_size_698": {
+      "n_obs": 698,
+      "block_size": 10,
+      "n_blocks_drawn": 70,
+      "truncated_length": 698,
+      "status": "PASSED_TRUNCATION_CORRECT"
+    }
+  },
+  "trial_data_empirical_audit": {
+    "v1_v2_v3_daily_aligned_returns_exist": false,
+    "v4_daily_returns_exist": true,
+    "v5_daily_returns_exist": true,
+    "empirical_67x67_correlation_matrix_computable": false,
+    "m_eff_classification": "UNVERIFIED_SENSITIVITY_ASSUMPTION",
+    "rationale": "Historical V1-V3 trials evaluated intraday candles (15m, 1h) on individual tokens with non-overlapping horizons, making cross-sectional daily return correlation empirically impossible to compute from saved records."
+  },
+  "walk_forward_evaluation": {
+    "total_bars": 729,
+    "total_folds": 5,
+    "first_bar_date": "2024-10-30",
+    "last_bar_date": "2026-10-28",
+    "leakage_invariants_hold": true,
+    "survivorship_bias_warning": "Universe (BTC, ETH, SOL, BNB) was selected with 2026 hindsight; mechanical anti-leakage cannot eliminate macro survivorship bias."
+  },
+  "issue_classification": {
+    "production_dsr_scaling": "defective (in benchmark_engine.py; corrected in audit scripts)",
+    "production_bootstrap_centering": "defective (in benchmark_engine.py; corrected in audit scripts)",
+    "production_sharpe_metric": "compounded only (arithmetic Sharpe missing in benchmark_engine.py)",
+    "m_eff_claim_15_to_25": "unresolved / unverified sensitivity assumption (data missing to compute 67x67 correlation matrix)",
+    "sigma_trials_0_50_claim": "unverified sensitivity assumption (not an empirical measurement)",
+    "walk_forward_mechanical_leakage": "verified correct (indices strictly non-overlapping)",
+    "walk_forward_macro_lookahead": "unresolved limitation (4-asset universe suffers from survivorship bias)"
+  }
+}

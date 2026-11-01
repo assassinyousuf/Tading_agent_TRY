@@ -1,0 +1,206 @@
+[
+  {
+    "experiment_id": "EXP_V5_H5-B_CFG1_TEST",
+    "timestamp": "2026-10-29T18:07:22.426919+00:00",
+    "hypothesis_id": "H5-B",
+    "strategy_name": "VP-TF_H5-B_CFG1",
+    "universe": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "BNBUSDT"
+    ],
+    "timeframe": "1d",
+    "partition_protocol": {
+      "type": "CHRONOLOGICAL_SPLIT",
+      "partition": "TEST",
+      "start_bar": 580,
+      "end_bar": 728,
+      "warmup_bars": 30
+    },
+    "parameters": {
+      "lookback": 20,
+      "stop_mult": 2.5,
+      "risk_budget": 0.02,
+      "max_asset_weight": 0.4
+    },
+    "cost_model": {
+      "fee_rate": 0.001,
+      "slippage_rate": 0.0005,
+      "fill_timing": "NEXT_OPEN",
+      "terminal_liquidation": true
+    },
+    "metrics": {
+      "initial_capital": 10000.0,
+      "final_capital": 10107.96,
+      "net_total_return_pct": 1.08,
+      "cagr_pct": 2.69,
+      "annualized_vol_pct": 17.25,
+      "sharpe_ratio": 0.1557,
+      "sortino_ratio": 0.2746,
+      "max_drawdown_pct": -8.92,
+      "avg_one_way_turnover": 0.0195,
+      "total_friction_usd": 89.72,
+      "total_traded_notional_usd": 59810.91,
+      "trades_count": 26,
+      "n_trading_days": 148,
+      "compounding_error_usd": 1.8189894035458565e-12
+    },
+    "benchmarks": {
+      "btc_buy_and_hold_net_return_pct": 21.48,
+      "equal_weight_net_return_pct": 25.5,
+      "cash_return_pct": 0.0
+    },
+    "hypothesis_test": {
+      "excess_return_vs_btc_pp": -20.4,
+      "excess_return_vs_ew_pp": -24.42,
+      "bootstrap_p_value_vs_btc": 0.957,
+      "bootstrap_p_value_vs_ew": 0.97,
+      "bootstrap_iterations": 2000,
+      "block_size": 10,
+      "seed": 42
+    },
+    "multiple_testing_correction": {
+      "total_hypotheses_tested": 3,
+      "bonferroni_alpha_threshold": 0.0167,
+      "adjusted_significance_achieved": false
+    },
+    "decision": "NO-GO"
+  },
+  {
+    "experiment_id": "EXP_V5_H5-B_CFG2_TEST",
+    "timestamp": "2026-10-29T18:07:22.826736+00:00",
+    "hypothesis_id": "H5-B",
+    "strategy_name": "VP-TF_H5-B_CFG2",
+    "universe": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "BNBUSDT"
+    ],
+    "timeframe": "1d",
+    "partition_protocol": {
+      "type": "CHRONOLOGICAL_SPLIT",
+      "partition": "TEST",
+      "start_bar": 580,
+      "end_bar": 728,
+      "warmup_bars": 30
+    },
+    "parameters": {
+      "lookback": 20,
+      "stop_mult": 2.0,
+      "risk_budget": 0.015,
+      "max_asset_weight": 0.4
+    },
+    "cost_model": {
+      "fee_rate": 0.001,
+      "slippage_rate": 0.0005,
+      "fill_timing": "NEXT_OPEN",
+      "terminal_liquidation": true
+    },
+    "metrics": {
+      "initial_capital": 10000.0,
+      "final_capital": 10000.6,
+      "net_total_return_pct": 0.01,
+      "cagr_pct": 0.01,
+      "annualized_vol_pct": 15.43,
+      "sharpe_ratio": 0.001,
+      "sortino_ratio": 0.0019,
+      "max_drawdown_pct": -8.09,
+      "avg_one_way_turnover": 0.0213,
+      "total_friction_usd": 96.45,
+      "total_traded_notional_usd": 64297.67,
+      "trades_count": 28,
+      "n_trading_days": 148,
+      "compounding_error_usd": 1.8189894035458565e-12
+    },
+    "benchmarks": {
+      "btc_buy_and_hold_net_return_pct": 21.48,
+      "equal_weight_net_return_pct": 25.5,
+      "cash_return_pct": 0.0
+    },
+    "hypothesis_test": {
+      "excess_return_vs_btc_pp": -21.47,
+      "excess_return_vs_ew_pp": -25.49,
+      "bootstrap_p_value_vs_btc": 0.958,
+      "bootstrap_p_value_vs_ew": 0.9685,
+      "bootstrap_iterations": 2000,
+      "block_size": 10,
+      "seed": 42
+    },
+    "multiple_testing_correction": {
+      "total_hypotheses_tested": 3,
+      "bonferroni_alpha_threshold": 0.0167,
+      "adjusted_significance_achieved": false
+    },
+    "decision": "NO-GO"
+  },
+  {
+    "experiment_id": "EXP_V5_H5-B_CFG3_TEST",
+    "timestamp": "2026-10-29T18:07:23.315934+00:00",
+    "hypothesis_id": "H5-B",
+    "strategy_name": "VP-TF_H5-B_CFG3",
+    "universe": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT",
+      "BNBUSDT"
+    ],
+    "timeframe": "1d",
+    "partition_protocol": {
+      "type": "CHRONOLOGICAL_SPLIT",
+      "partition": "TEST",
+      "start_bar": 580,
+      "end_bar": 728,
+      "warmup_bars": 30
+    },
+    "parameters": {
+      "lookback": 30,
+      "stop_mult": 3.0,
+      "risk_budget": 0.025,
+      "max_asset_weight": 0.4
+    },
+    "cost_model": {
+      "fee_rate": 0.001,
+      "slippage_rate": 0.0005,
+      "fill_timing": "NEXT_OPEN",
+      "terminal_liquidation": true
+    },
+    "metrics": {
+      "initial_capital": 10000.0,
+      "final_capital": 10673.98,
+      "net_total_return_pct": 6.74,
+      "cagr_pct": 17.46,
+      "annualized_vol_pct": 23.2,
+      "sharpe_ratio": 0.7527,
+      "sortino_ratio": 1.3176,
+      "max_drawdown_pct": -11.29,
+      "avg_one_way_turnover": 0.0153,
+      "total_friction_usd": 73.38,
+      "total_traded_notional_usd": 48921.68,
+      "trades_count": 18,
+      "n_trading_days": 148,
+      "compounding_error_usd": 1.8189894035458565e-12
+    },
+    "benchmarks": {
+      "btc_buy_and_hold_net_return_pct": 21.48,
+      "equal_weight_net_return_pct": 25.5,
+      "cash_return_pct": 0.0
+    },
+    "hypothesis_test": {
+      "excess_return_vs_btc_pp": -14.74,
+      "excess_return_vs_ew_pp": -18.76,
+      "bootstrap_p_value_vs_btc": 0.9265,
+      "bootstrap_p_value_vs_ew": 0.9545,
+      "bootstrap_iterations": 2000,
+      "block_size": 10,
+      "seed": 42
+    },
+    "multiple_testing_correction": {
+      "total_hypotheses_tested": 3,
+      "bonferroni_alpha_threshold": 0.0167,
+      "adjusted_significance_achieved": false
+    },
+    "decision": "NO-GO"
+  }
+]

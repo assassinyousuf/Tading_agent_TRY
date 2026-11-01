@@ -1,0 +1,30 @@
+{
+  "created_by": "trader-exit",
+  "symbol": "SOLUSDT",
+  "side": "buy",
+  "date": "2026-10-29",
+  "setup": "level",
+  "entry": 102.32,
+  "entry_time": "12:05 AM",
+  "entry_bar": 0,
+  "interval": "5m",
+  "opening_range": {
+    "high": 102.55,
+    "low": 102.31,
+    "minutes": 15
+  },
+  "stop": 100.27,
+  "stop_rule": "price",
+  "stop_label": "your price",
+  "target": 106.42,
+  "target_r": 2.0,
+  "target_label": "2R (two times the risk)",
+  "risk_per_share": 2.05,
+  "reward_risk": 2.0,
+  "flat_by": "04:05 UTC",
+  "stop_detail": "",
+  "created_at": "2026-10-29T07:58:22Z",
+  "note": "A stop is a plan, not a guarantee: a gap or a fast market can fill past it.",
+  "risk_per_token": 2.05,
+  "time_stop": "04:05 UTC"
+}

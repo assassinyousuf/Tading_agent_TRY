@@ -1,0 +1,16 @@
+{
+  "as_of": "2026-10-29T02:21:46Z",
+  "source": "yahoo",
+  "note": "Delayed quotes for alerts and sizing checks. Your broker's price is the one that fills. detail.fetched is when each price was read.",
+  "prices": {
+    "SOLUSDT": 99.87
+  },
+  "detail": {
+    "SOLUSDT": {
+      "prev_close": 101.77,
+      "time": "2026-10-29T02:21:47Z",
+      "source": "binance",
+      "fetched": "2026-10-29T02:21:46Z"
+    }
+  }
+}

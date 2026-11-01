@@ -1,0 +1,151 @@
+{
+  "circuit_breaker": {
+    "locked": false,
+    "reason": null
+  },
+  "entries": [
+    {
+      "id": "trader_e_14718089_322512",
+      "symbol": "SOLUSDT",
+      "side": "BUY",
+      "qty": "0.10000000",
+      "order_type": "LIMIT",
+      "price": "80.00000000",
+      "stop": "75.00000000",
+      "target": "90.00000000",
+      "market": "spot",
+      "list_client_order_id": "trader_l_14718089_322512",
+      "client_sl_id": "trader_s_14718089_322512",
+      "client_tp_id": "trader_t_14718089_322512",
+      "status": "FAILED",
+      "created_at": "2026-10-29T14:48:42.512207+00:00",
+      "history": [
+        {
+          "status": "INTENT",
+          "timestamp": 1793285322.512227
+        },
+        {
+          "status": "FAILED",
+          "timestamp": 1793285323.0820324
+        }
+      ],
+      "broker_order_id": null,
+      "fill_info": {}
+    },
+    {
+      "id": "trader_e_f9499c07_346547",
+      "symbol": "SOLUSDT",
+      "side": "BUY",
+      "qty": "0.10000000",
+      "order_type": "LIMIT",
+      "price": "98.00000000",
+      "stop": "90.00000000",
+      "target": "115.00000000",
+      "market": "spot",
+      "list_client_order_id": "trader_l_f9499c07_346547",
+      "client_sl_id": "trader_s_f9499c07_346547",
+      "client_tp_id": "trader_t_f9499c07_346547",
+      "status": "CLOSED_CANCELED",
+      "created_at": "2026-10-29T14:49:06.547931+00:00",
+      "history": [
+        {
+          "status": "INTENT",
+          "timestamp": 1793285346.5479534
+        },
+        {
+          "status": "PLACED_OTOCO",
+          "timestamp": 1793285346.7474537
+        },
+        {
+          "status": "CLOSED_CANCELED",
+          "timestamp": 1793285795.4769204,
+          "reconciled": true
+        }
+      ],
+      "broker_order_id": "285331",
+      "fill_info": {
+        "orderListId": 285331,
+        "contingencyType": "OTO",
+        "listStatusType": "ALL_DONE",
+        "listOrderStatus": "ALL_DONE",
+        "listClientOrderId": "trader_l_f9499c07_346547",
+        "transactionTime": 1793285348220,
+        "symbol": "SOLUSDT",
+        "orders": [
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420112,
+            "clientOrderId": "trader_e_f9499c07_346547"
+          },
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420113,
+            "clientOrderId": "cJ7sz4wCUWDwRSaVsaU5II"
+          },
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420114,
+            "clientOrderId": "VbwylDQ2RAccIrvXfBgRAN"
+          }
+        ],
+        "orderReports": [
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420112,
+            "orderListId": 285331,
+            "clientOrderId": "trader_e_f9499c07_346547",
+            "transactTime": 1793285348220,
+            "price": "98.00000000",
+            "origQty": "0.10000000",
+            "executedQty": "0.00000000",
+            "origQuoteOrderQty": "0.00000000",
+            "cummulativeQuoteQty": "0.00000000",
+            "status": "NEW",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "side": "BUY",
+            "workingTime": 1793285348220,
+            "selfTradePreventionMode": "EXPIRE_MAKER"
+          },
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420113,
+            "orderListId": 285331,
+            "clientOrderId": "cJ7sz4wCUWDwRSaVsaU5II",
+            "transactTime": 1793285348220,
+            "price": "0.00000000",
+            "origQty": "0.10000000",
+            "executedQty": "0.00000000",
+            "origQuoteOrderQty": "0.00000000",
+            "cummulativeQuoteQty": "0.00000000",
+            "status": "PENDING_NEW",
+            "timeInForce": "GTC",
+            "type": "STOP_LOSS",
+            "side": "SELL",
+            "stopPrice": "90.00000000",
+            "workingTime": -1,
+            "selfTradePreventionMode": "EXPIRE_MAKER"
+          },
+          {
+            "symbol": "SOLUSDT",
+            "orderId": 1420114,
+            "orderListId": 285331,
+            "clientOrderId": "VbwylDQ2RAccIrvXfBgRAN",
+            "transactTime": 1793285348220,
+            "price": "115.00000000",
+            "origQty": "0.10000000",
+            "executedQty": "0.00000000",
+            "origQuoteOrderQty": "0.00000000",
+            "cummulativeQuoteQty": "0.00000000",
+            "status": "PENDING_NEW",
+            "timeInForce": "GTC",
+            "type": "LIMIT_MAKER",
+            "side": "SELL",
+            "workingTime": -1,
+            "selfTradePreventionMode": "EXPIRE_MAKER"
+          }
+        ]
+      }
+    }
+  ]
+}
