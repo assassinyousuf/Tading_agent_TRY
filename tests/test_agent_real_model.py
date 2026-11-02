@@ -161,6 +161,37 @@ class TestAuthenticHTTPLoopbackCommunication(unittest.TestCase):
             self.assertIn("overall_recommendation", resp.structured_data)
             self.assertGreater(resp.prompt_tokens, 0)
 
+    def test_constrained_decoding_parameter(self) -> None:
+        """Verify constrained decoding configuration on OpenAI and Ollama protocols."""
+        with LocalOpenAITestServer() as server:
+            # OpenAI wire protocol
+            assistant_openai = LocalResearchAssistant(
+                endpoint_url=server.endpoint_url,
+                model_identifier="test-model",
+                constrained_decoding=True,
+            )
+            self.assertTrue(assistant_openai.constrained_decoding)
+            resp = assistant_openai.generate(
+                role="Hypothesis Researcher",
+                prompt="Propose strategy.",
+                schema_class=HypothesisPayload,
+            )
+            self.assertIsNotNone(resp.structured_data)
+
+            # Ollama wire protocol
+            assistant_ollama = LocalResearchAssistant(
+                endpoint_url=server.ollama_endpoint_url,
+                model_identifier="ollama-model",
+                constrained_decoding=True,
+            )
+            self.assertTrue(assistant_ollama.constrained_decoding)
+            resp_ollama = assistant_ollama.generate(
+                role="Hypothesis Researcher",
+                prompt="Propose strategy.",
+                schema_class=HypothesisPayload,
+            )
+            self.assertIsNotNone(resp_ollama.structured_data)
+
     def test_redirect_to_external_host_is_blocked(self) -> None:
         """Verify HTTP redirect from loopback server to external host is intercepted and blocked."""
         with LocalOpenAITestServer(inject_error="EXTERNAL_REDIRECT") as server:

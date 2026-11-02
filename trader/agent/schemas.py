@@ -104,6 +104,16 @@ class SkepticalReviewerOutput(BaseModel):
         default_factory=list,
         description="Specific changes required before approval recommendation can be granted",
     )
+    revision_assessment: Optional[Literal[
+        "NOT_APPLICABLE",
+        "FULLY_CORRECTED",
+        "PARTIALLY_CORRECTED",
+        "UNCORRECTED",
+        "INVALID_REVISION",
+    ]] = Field(
+        default=None,
+        description="Assessment of revised hypothesis against prior critique objections",
+    )
 
 
 class PreregistrationProposalPayload(BaseModel):
@@ -319,5 +329,21 @@ class ResearchSessionState(BaseModel):
     audit_events: List[AuditEvent] = Field(
         default_factory=list,
         description="In-memory trace of audit events during this session",
+    )
+    revision_history: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Audit trace of hypothesis revision cycles and re-critiques",
+    )
+    requested_max_revisions: Optional[int] = Field(
+        default=None,
+        description="Revision limit requested by caller",
+    )
+    effective_max_revisions: Optional[int] = Field(
+        default=None,
+        description="Effective revision limit enforced under policy ceiling",
+    )
+    temporal_audit: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Deterministic temporal integrity audit report",
     )
 

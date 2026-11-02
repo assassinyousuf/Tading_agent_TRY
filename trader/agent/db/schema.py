@@ -15,6 +15,7 @@ Establishes relational tables and constraints for:
 12. preregistration_proposals: Persistent proposals and human approval tickets.
 13. research_sessions: Persistent session state checkpoints and crash recovery tracking.
 14. rerun_authorizations: Explicit human authorizations for re-evaluating interrupted requests.
+15. proposal_revisions: Append-only proposal revision history tracking with configuration digests.
 
 Database-level triggers enforce append-only immutability against accidental UPDATE or DELETE.
 """
@@ -25,7 +26,7 @@ import shutil
 import sqlite3
 from typing import Any, Dict, List, Optional
 
-CURRENT_SCHEMA_VERSION = 5
+CURRENT_SCHEMA_VERSION = 7
 
 
 class IncompatibleSchemaVersionError(Exception):
@@ -320,6 +321,111 @@ def create_schema(conn: sqlite3.Connection) -> None:
         """
     )
 
+    # 15. Proposal Revisions Table (Append-only bounded revision cycle tracking)
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS proposal_revisions (
+            revision_id TEXT PRIMARY KEY,
+            hypothesis_id TEXT NOT NULL,
+            revision_number INTEGER NOT NULL,
+            parent_proposal_id TEXT,
+            revised_proposal_id TEXT,
+            reviewer_decision TEXT NOT NULL,
+            structured_reasons_json TEXT NOT NULL,
+            timestamp TEXT NOT NULL,
+            configuration_digest TEXT NOT NULL,
+            prompt_hash TEXT,
+            response_hash TEXT,
+            FOREIGN KEY (hypothesis_id) REFERENCES hypotheses(hypothesis_id)
+        );
+        """
+    )
+
+    # 16. Experiment Evidence Manifests Table (Phase 2.6)
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS experiment_evidence_manifests (
+            manifest_id TEXT PRIMARY KEY,
+            experiment_id TEXT NOT NULL UNIQUE,
+            hypothesis_id TEXT NOT NULL,
+            prereg_id TEXT NOT NULL,
+            session_id TEXT,
+            ticket_id TEXT,
+            request_id TEXT,
+            trial_id INTEGER,
+            strategy_name TEXT NOT NULL,
+            strategy_version TEXT NOT NULL,
+            strategy_digest TEXT NOT NULL,
+            provenance_type TEXT NOT NULL,
+            dataset_id TEXT NOT NULL,
+            partition_name TEXT NOT NULL,
+            dataset_fingerprint TEXT NOT NULL,
+            code_revision TEXT NOT NULL,
+            feature_definitions_json TEXT NOT NULL,
+            parameter_definitions_json TEXT NOT NULL,
+            execution_engine_version TEXT NOT NULL,
+            fee_assumptions_json TEXT NOT NULL,
+            slippage_assumptions_json TEXT NOT NULL,
+            funding_assumptions_json TEXT,
+            benchmark_id TEXT NOT NULL,
+            statistical_test_identifiers_json TEXT NOT NULL,
+            random_seeds_json TEXT NOT NULL,
+            start_timestamp_utc TEXT NOT NULL,
+            completion_timestamp_utc TEXT NOT NULL,
+            input_artifact_hash TEXT NOT NULL,
+            output_artifact_hash TEXT NOT NULL,
+            result_status TEXT NOT NULL,
+            failure_or_interruption_status TEXT,
+            metrics_summary_json TEXT NOT NULL,
+            manifest_hash TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id),
+            FOREIGN KEY (hypothesis_id) REFERENCES hypotheses(hypothesis_id),
+            FOREIGN KEY (prereg_id) REFERENCES preregistrations(prereg_id)
+        );
+        """
+    )
+
+    # 17. Reproducibility Verifications Table (Phase 2.6)
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS reproducibility_verifications (
+            verification_id TEXT PRIMARY KEY,
+            manifest_id TEXT NOT NULL,
+            experiment_id TEXT NOT NULL,
+            verifier_identity TEXT NOT NULL,
+            verification_timestamp_utc TEXT NOT NULL,
+            verdict TEXT NOT NULL,
+            tolerances_json TEXT NOT NULL,
+            discrepancies_json TEXT NOT NULL,
+            reproduced_metrics_json TEXT NOT NULL,
+            reproduced_output_hash TEXT NOT NULL,
+            notes TEXT,
+            FOREIGN KEY (manifest_id) REFERENCES experiment_evidence_manifests(manifest_id),
+            FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id)
+        );
+        """
+    )
+
+    # 18. Temporal Integrity Audits Table (Phase 2.7.1)
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS temporal_integrity_audits (
+            audit_id TEXT PRIMARY KEY,
+            hypothesis_id TEXT NOT NULL,
+            disposition TEXT NOT NULL, -- REJECT, REVISE, REVIEW_REQUIRED, ELIGIBLE_FOR_REVIEW
+            has_definitive_violation INTEGER NOT NULL,
+            total_findings INTEGER NOT NULL,
+            detector_version TEXT NOT NULL,
+            input_digest TEXT NOT NULL,
+            findings_json TEXT NOT NULL,
+            disposition_rationale TEXT NOT NULL,
+            audited_at TEXT NOT NULL,
+            FOREIGN KEY (hypothesis_id) REFERENCES hypotheses(hypothesis_id)
+        );
+        """
+    )
+
     # Relational Indexes
     cur.execute("CREATE INDEX IF NOT EXISTS idx_prereg_hypothesis ON preregistrations(hypothesis_id);")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_exp_prereg ON experiments(prereg_id);")
@@ -335,6 +441,19 @@ def create_schema(conn: sqlite3.Connection) -> None:
     cur.execute("CREATE INDEX IF NOT EXISTS idx_sessions_hyp ON research_sessions(hypothesis_id);")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_rerun_orig_req ON rerun_authorizations(original_request_id);")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_rerun_new_req ON rerun_authorizations(new_request_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_revisions_hyp ON proposal_revisions(hypothesis_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_exp ON experiment_evidence_manifests(experiment_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_hyp ON experiment_evidence_manifests(hypothesis_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_prereg ON experiment_evidence_manifests(prereg_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_manifest ON reproducibility_verifications(manifest_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_exp ON reproducibility_verifications(experiment_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_temporal_audit_hyp ON temporal_integrity_audits(hypothesis_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_revisions_revised_prop ON proposal_revisions(revised_proposal_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_exp ON experiment_evidence_manifests(experiment_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_hyp ON experiment_evidence_manifests(hypothesis_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_prereg ON experiment_evidence_manifests(prereg_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_manifest ON reproducibility_verifications(manifest_id);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_exp ON reproducibility_verifications(experiment_id);")
 
     # Record Schema Version History
     cur.execute(
@@ -367,6 +486,18 @@ def create_schema(conn: sqlite3.Connection) -> None:
         VALUES (5, datetime('now'), 'Phase 2.2.1: Add rerun_authorizations table and immutability triggers');
         """
     )
+    cur.execute(
+        """
+        INSERT OR IGNORE INTO schema_metadata (version, applied_at, description)
+        VALUES (6, datetime('now'), 'Phase 2.5.1: Add proposal_revisions table and immutability triggers');
+        """
+    )
+    cur.execute(
+        """
+        INSERT OR IGNORE INTO schema_metadata (version, applied_at, description)
+        VALUES (7, datetime('now'), 'Phase 2.6: Add experiment_evidence_manifests and reproducibility_verifications tables');
+        """
+    )
 
     # Immutability Triggers: Block UPDATE and DELETE on historical records
     immutable_update_tables = [
@@ -377,6 +508,10 @@ def create_schema(conn: sqlite3.Connection) -> None:
         ("audit_results", "audit"),
         ("research_decisions", "decision"),
         ("test_evaluation_records", "test_record"),
+        ("proposal_revisions", "proposal_revision"),
+        ("experiment_evidence_manifests", "evidence_manifest"),
+        ("reproducibility_verifications", "reproducibility_verification"),
+        ("temporal_integrity_audits", "temporal_audit"),
     ]
 
     for table, name in immutable_update_tables:
@@ -845,6 +980,165 @@ def migrate_database(db_path: str, target_version: int = CURRENT_SCHEMA_VERSION)
                 """
                 INSERT OR IGNORE INTO schema_metadata (version, applied_at, description)
                 VALUES (5, datetime('now'), 'Phase 2.2.1: Add rerun_authorizations table and immutability triggers');
+                """
+            )
+
+        # v5 -> v6: proposal_revisions table, indexes, and immutability triggers
+        if current_version < 6:
+            mig_cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS proposal_revisions (
+                    revision_id TEXT PRIMARY KEY,
+                    hypothesis_id TEXT NOT NULL,
+                    revision_number INTEGER NOT NULL,
+                    parent_proposal_id TEXT,
+                    revised_proposal_id TEXT,
+                    reviewer_decision TEXT NOT NULL,
+                    structured_reasons_json TEXT NOT NULL,
+                    timestamp TEXT NOT NULL,
+                    configuration_digest TEXT NOT NULL,
+                    prompt_hash TEXT,
+                    response_hash TEXT,
+                    FOREIGN KEY (hypothesis_id) REFERENCES hypotheses(hypothesis_id)
+                );
+                """
+            )
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_revisions_hyp ON proposal_revisions(hypothesis_id);")
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_revisions_revised_prop ON proposal_revisions(revised_proposal_id);")
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_proposal_revision_delete
+                BEFORE DELETE ON proposal_revisions
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: DELETE prohibited on historical table proposal_revisions');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_proposal_revision_update
+                BEFORE UPDATE ON proposal_revisions
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: UPDATE prohibited on historical table proposal_revisions');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                INSERT OR IGNORE INTO schema_metadata (version, applied_at, description)
+                VALUES (6, datetime('now'), 'Phase 2.5.1: Add proposal_revisions table and immutability triggers');
+                """
+            )
+
+        # v6 -> v7: experiment_evidence_manifests and reproducibility_verifications tables, indexes, and immutability triggers
+        if current_version < 7:
+            mig_cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS experiment_evidence_manifests (
+                    manifest_id TEXT PRIMARY KEY,
+                    experiment_id TEXT NOT NULL UNIQUE,
+                    hypothesis_id TEXT NOT NULL,
+                    prereg_id TEXT NOT NULL,
+                    session_id TEXT,
+                    ticket_id TEXT,
+                    request_id TEXT,
+                    trial_id INTEGER,
+                    strategy_name TEXT NOT NULL,
+                    strategy_version TEXT NOT NULL,
+                    strategy_digest TEXT NOT NULL,
+                    provenance_type TEXT NOT NULL,
+                    dataset_id TEXT NOT NULL,
+                    partition_name TEXT NOT NULL,
+                    dataset_fingerprint TEXT NOT NULL,
+                    code_revision TEXT NOT NULL,
+                    feature_definitions_json TEXT NOT NULL,
+                    parameter_definitions_json TEXT NOT NULL,
+                    execution_engine_version TEXT NOT NULL,
+                    fee_assumptions_json TEXT NOT NULL,
+                    slippage_assumptions_json TEXT NOT NULL,
+                    funding_assumptions_json TEXT,
+                    benchmark_id TEXT NOT NULL,
+                    statistical_test_identifiers_json TEXT NOT NULL,
+                    random_seeds_json TEXT NOT NULL,
+                    start_timestamp_utc TEXT NOT NULL,
+                    completion_timestamp_utc TEXT NOT NULL,
+                    input_artifact_hash TEXT NOT NULL,
+                    output_artifact_hash TEXT NOT NULL,
+                    result_status TEXT NOT NULL,
+                    failure_or_interruption_status TEXT,
+                    metrics_summary_json TEXT NOT NULL,
+                    manifest_hash TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id),
+                    FOREIGN KEY (hypothesis_id) REFERENCES hypotheses(hypothesis_id),
+                    FOREIGN KEY (prereg_id) REFERENCES preregistrations(prereg_id)
+                );
+                """
+            )
+            mig_cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS reproducibility_verifications (
+                    verification_id TEXT PRIMARY KEY,
+                    manifest_id TEXT NOT NULL,
+                    experiment_id TEXT NOT NULL,
+                    verifier_identity TEXT NOT NULL,
+                    verification_timestamp_utc TEXT NOT NULL,
+                    verdict TEXT NOT NULL,
+                    tolerances_json TEXT NOT NULL,
+                    discrepancies_json TEXT NOT NULL,
+                    reproduced_metrics_json TEXT NOT NULL,
+                    reproduced_output_hash TEXT NOT NULL,
+                    notes TEXT,
+                    FOREIGN KEY (manifest_id) REFERENCES experiment_evidence_manifests(manifest_id),
+                    FOREIGN KEY (experiment_id) REFERENCES experiments(experiment_id)
+                );
+                """
+            )
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_exp ON experiment_evidence_manifests(experiment_id);")
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_hyp ON experiment_evidence_manifests(hypothesis_id);")
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_manifests_prereg ON experiment_evidence_manifests(prereg_id);")
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_manifest ON reproducibility_verifications(manifest_id);")
+            mig_cur.execute("CREATE INDEX IF NOT EXISTS idx_repro_exp ON reproducibility_verifications(experiment_id);")
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_evidence_manifest_delete
+                BEFORE DELETE ON experiment_evidence_manifests
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: DELETE prohibited on historical table experiment_evidence_manifests');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_evidence_manifest_update
+                BEFORE UPDATE ON experiment_evidence_manifests
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: UPDATE prohibited on historical table experiment_evidence_manifests');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_reproducibility_verification_delete
+                BEFORE DELETE ON reproducibility_verifications
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: DELETE prohibited on historical table reproducibility_verifications');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                CREATE TRIGGER IF NOT EXISTS prevent_reproducibility_verification_update
+                BEFORE UPDATE ON reproducibility_verifications
+                BEGIN
+                    SELECT RAISE(ABORT, 'Immutability violation: UPDATE prohibited on historical table reproducibility_verifications');
+                END;
+                """
+            )
+            mig_cur.execute(
+                """
+                INSERT OR IGNORE INTO schema_metadata (version, applied_at, description)
+                VALUES (7, datetime('now'), 'Phase 2.6: Add experiment_evidence_manifests and reproducibility_verifications tables');
                 """
             )
 

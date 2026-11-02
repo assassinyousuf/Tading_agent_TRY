@@ -26,7 +26,10 @@ from trader.agent.benchmark.schema import (
 from trader.agent.benchmark.scorer import BenchmarkScorer
 from trader.agent.coordinator import (
     ResearchCoordinator,
+    SkepticalReviewInvestigationRequiredError,
+    SkepticalReviewInsufficientEvidenceError,
     SkepticalReviewRejectionError,
+    SkepticalReviewRevisionExhaustedError,
 )
 from trader.agent.core.execution import ResearchExecutionEngine
 from trader.agent.db.ledger import ResearchLedger
@@ -103,14 +106,30 @@ class FullCoordinatorBenchmarkRunner:
                     f"created in SQLite with proposal {session_state.proposal.proposal_id}."
                 )
 
+        except SkepticalReviewRevisionExhaustedError as exc:
+            decision = "REVISION_EXHAUSTED"
+            error_msg = str(exc)
+            decision_rationale = f"Coordinator halted proposal: revision attempts exhausted: {str(exc)}"
+            sessions = ledger.conn.cursor().execute("SELECT session_state_json FROM research_sessions ORDER BY created_at DESC LIMIT 1;").fetchone()
+            if sessions and sessions[0]:
+                saved_state = json.loads(sessions[0])
+                raw_hypothesis = saved_state.get("hypothesis")
+                raw_critique = saved_state.get("critique")
+
+        except (SkepticalReviewInvestigationRequiredError, SkepticalReviewInsufficientEvidenceError) as exc:
+            decision = "REVIEW_REQUIRED"
+            error_msg = str(exc)
+            decision_rationale = f"Coordinator halted proposal for human review/evidence: {str(exc)}"
+            sessions = ledger.conn.cursor().execute("SELECT session_state_json FROM research_sessions ORDER BY created_at DESC LIMIT 1;").fetchone()
+            if sessions and sessions[0]:
+                saved_state = json.loads(sessions[0])
+                raw_hypothesis = saved_state.get("hypothesis")
+                raw_critique = saved_state.get("critique")
+
         except SkepticalReviewRejectionError as exc:
             decision = "REVIEW_REQUIRED" if "REVIEW_REQUIRED" in str(exc) else "REJECTED"
             error_msg = str(exc)
             decision_rationale = f"Coordinator halted proposal at skeptical review gate: {str(exc)}"
-            # Retrieve critique from coordinator if available
-            if hasattr(coordinator, "pending_proposals"):
-                pass
-            # Query session state from ledger
             sessions = ledger.conn.cursor().execute("SELECT session_state_json FROM research_sessions ORDER BY created_at DESC LIMIT 1;").fetchone()
             if sessions and sessions[0]:
                 saved_state = json.loads(sessions[0])

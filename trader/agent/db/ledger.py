@@ -18,6 +18,7 @@ import uuid
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 
+from trader.agent.evidence.manifest import EvidenceManifestContradictionError
 from trader.agent.db.schema import (
     CURRENT_SCHEMA_VERSION,
     IncompatibleSchemaVersionError,
@@ -1678,3 +1679,431 @@ class ResearchLedger:
         if cur.rowcount == 0:
             raise ValueError(f"Rerun authorization '{auth_id}' is not active or has already been consumed.")
         return True
+
+    def record_proposal_revision(
+        self,
+        hypothesis_id: str,
+        revision_number: int,
+        reviewer_decision: str,
+        structured_reasons: List[str],
+        configuration_digest: str,
+        parent_proposal_id: Optional[str] = None,
+        revised_proposal_id: Optional[str] = None,
+        prompt_hash: Optional[str] = None,
+        response_hash: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Record an immutable proposal revision entry in proposal_revisions."""
+        revision_id = f"REV-{uuid.uuid4().hex[:12].upper()}"
+        timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        reasons_json = json.dumps(structured_reasons, sort_keys=True)
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO proposal_revisions (
+                revision_id, hypothesis_id, revision_number,
+                parent_proposal_id, revised_proposal_id,
+                reviewer_decision, structured_reasons_json,
+                timestamp, configuration_digest,
+                prompt_hash, response_hash
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """,
+            (
+                revision_id,
+                hypothesis_id,
+                revision_number,
+                parent_proposal_id,
+                revised_proposal_id,
+                reviewer_decision,
+                reasons_json,
+                timestamp,
+                configuration_digest,
+                prompt_hash,
+                response_hash,
+            ),
+        )
+        self.conn.commit()
+        return {
+            "revision_id": revision_id,
+            "hypothesis_id": hypothesis_id,
+            "revision_number": revision_number,
+            "parent_proposal_id": parent_proposal_id,
+            "revised_proposal_id": revised_proposal_id,
+            "reviewer_decision": reviewer_decision,
+            "structured_reasons_json": reasons_json,
+            "timestamp": timestamp,
+            "configuration_digest": configuration_digest,
+            "prompt_hash": prompt_hash,
+            "response_hash": response_hash,
+        }
+
+    def get_proposal_revisions(self, hypothesis_id: str) -> List[Dict[str, Any]]:
+        """Retrieve all recorded revisions for a hypothesis in chronological order."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            SELECT revision_id, hypothesis_id, revision_number,
+                   parent_proposal_id, revised_proposal_id,
+                   reviewer_decision, structured_reasons_json,
+                   timestamp, configuration_digest,
+                   prompt_hash, response_hash
+            FROM proposal_revisions
+            WHERE hypothesis_id = ?
+            ORDER BY revision_number ASC, timestamp ASC;
+            """,
+            (hypothesis_id,),
+        )
+        rows = cur.fetchall()
+        return [
+            {
+                "revision_id": r[0],
+                "hypothesis_id": r[1],
+                "revision_number": r[2],
+                "parent_proposal_id": r[3],
+                "revised_proposal_id": r[4],
+                "reviewer_decision": r[5],
+                "structured_reasons": json.loads(r[6]),
+                "timestamp": r[7],
+                "configuration_digest": r[8],
+                "prompt_hash": r[9],
+                "response_hash": r[10],
+            }
+            for r in rows
+        ]
+
+    def record_evidence_manifest(self, manifest_data: Dict[str, Any]) -> str:
+        """Persist an immutable experiment evidence manifest in SQLite."""
+        cur = self.conn.cursor()
+        manifest_id = manifest_data["manifest_id"]
+
+        # Check if manifest already exists (idempotency and contradiction prevention)
+        cur.execute("SELECT manifest_hash FROM experiment_evidence_manifests WHERE manifest_id = ?;", (manifest_id,))
+        existing = cur.fetchone()
+        if existing:
+            if existing[0] == manifest_data["manifest_hash"]:
+                return manifest_id  # Idempotent recovery
+            raise EvidenceManifestContradictionError(
+                f"Contradictory manifest record detected for {manifest_id}: existing hash {existing[0]} != {manifest_data['manifest_hash']}"
+            )
+
+        feat_json = json.dumps(manifest_data.get("feature_definitions", {}), sort_keys=True)
+        param_json = json.dumps(manifest_data.get("parameter_definitions", {}), sort_keys=True)
+        fee_json = json.dumps(manifest_data.get("fee_assumptions", {}), sort_keys=True)
+        slip_json = json.dumps(manifest_data.get("slippage_assumptions", {}), sort_keys=True)
+        fund_json = json.dumps(manifest_data["funding_assumptions"], sort_keys=True) if manifest_data.get("funding_assumptions") else None
+        test_json = json.dumps(manifest_data.get("statistical_test_identifiers", []), sort_keys=True)
+        seed_json = json.dumps(manifest_data.get("random_seeds", {}), sort_keys=True)
+        metrics_json = json.dumps(manifest_data.get("metrics_summary", {}), sort_keys=True)
+
+        cur.execute(
+            """
+            INSERT INTO experiment_evidence_manifests (
+                manifest_id, experiment_id, hypothesis_id, prereg_id,
+                session_id, ticket_id, request_id, trial_id,
+                strategy_name, strategy_version, strategy_digest,
+                provenance_type, dataset_id, partition_name,
+                dataset_fingerprint, code_revision, feature_definitions_json,
+                parameter_definitions_json, execution_engine_version,
+                fee_assumptions_json, slippage_assumptions_json,
+                funding_assumptions_json, benchmark_id,
+                statistical_test_identifiers_json, random_seeds_json,
+                start_timestamp_utc, completion_timestamp_utc,
+                input_artifact_hash, output_artifact_hash,
+                result_status, failure_or_interruption_status,
+                metrics_summary_json, manifest_hash, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """,
+            (
+                manifest_id,
+                manifest_data["experiment_id"],
+                manifest_data["hypothesis_id"],
+                manifest_data["prereg_id"],
+                manifest_data.get("session_id"),
+                manifest_data.get("ticket_id"),
+                manifest_data.get("request_id"),
+                manifest_data.get("trial_id"),
+                manifest_data["strategy_name"],
+                manifest_data["strategy_version"],
+                manifest_data["strategy_digest"],
+                manifest_data.get("provenance_type", "PROGRAMMATIC_GENERATION"),
+                manifest_data["dataset_id"],
+                manifest_data["partition_name"],
+                manifest_data["dataset_fingerprint"],
+                manifest_data["code_revision"],
+                feat_json,
+                param_json,
+                manifest_data.get("execution_engine_version", "2.6.0"),
+                fee_json,
+                slip_json,
+                fund_json,
+                manifest_data.get("benchmark_id", "BTC_NET"),
+                test_json,
+                seed_json,
+                manifest_data["start_timestamp_utc"],
+                manifest_data["completion_timestamp_utc"],
+                manifest_data["input_artifact_hash"],
+                manifest_data["output_artifact_hash"],
+                manifest_data["result_status"],
+                manifest_data.get("failure_or_interruption_status"),
+                metrics_json,
+                manifest_data["manifest_hash"],
+                manifest_data["created_at"],
+            ),
+        )
+        self.conn.commit()
+        return manifest_id
+
+    def get_evidence_manifest(self, experiment_id: str) -> Optional[Dict[str, Any]]:
+        """Retrieve an experiment evidence manifest by experiment_id."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            SELECT manifest_id, experiment_id, hypothesis_id, prereg_id,
+                   session_id, ticket_id, request_id, trial_id,
+                   strategy_name, strategy_version, strategy_digest,
+                   provenance_type, dataset_id, partition_name,
+                   dataset_fingerprint, code_revision, feature_definitions_json,
+                   parameter_definitions_json, execution_engine_version,
+                   fee_assumptions_json, slippage_assumptions_json,
+                   funding_assumptions_json, benchmark_id,
+                   statistical_test_identifiers_json, random_seeds_json,
+                   start_timestamp_utc, completion_timestamp_utc,
+                   input_artifact_hash, output_artifact_hash,
+                   result_status, failure_or_interruption_status,
+                   metrics_summary_json, manifest_hash, created_at
+            FROM experiment_evidence_manifests
+            WHERE experiment_id = ?;
+            """,
+            (experiment_id,),
+        )
+        row = cur.fetchone()
+        if not row:
+            return None
+        return {
+            "manifest_id": row[0],
+            "experiment_id": row[1],
+            "hypothesis_id": row[2],
+            "prereg_id": row[3],
+            "session_id": row[4],
+            "ticket_id": row[5],
+            "request_id": row[6],
+            "trial_id": row[7],
+            "strategy_name": row[8],
+            "strategy_version": row[9],
+            "strategy_digest": row[10],
+            "provenance_type": row[11],
+            "dataset_id": row[12],
+            "partition_name": row[13],
+            "dataset_fingerprint": row[14],
+            "code_revision": row[15],
+            "feature_definitions": json.loads(row[16]),
+            "parameter_definitions": json.loads(row[17]),
+            "execution_engine_version": row[18],
+            "fee_assumptions": json.loads(row[19]),
+            "slippage_assumptions": json.loads(row[20]),
+            "funding_assumptions": json.loads(row[21]) if row[21] else None,
+            "benchmark_id": row[22],
+            "statistical_test_identifiers": json.loads(row[23]),
+            "random_seeds": json.loads(row[24]),
+            "start_timestamp_utc": row[25],
+            "completion_timestamp_utc": row[26],
+            "input_artifact_hash": row[27],
+            "output_artifact_hash": row[28],
+            "result_status": row[29],
+            "failure_or_interruption_status": row[30],
+            "metrics_summary": json.loads(row[31]),
+            "manifest_hash": row[32],
+            "created_at": row[33],
+        }
+
+    def list_evidence_manifests(self, hypothesis_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Retrieve all experiment evidence manifests, optionally filtered by hypothesis_id."""
+        cur = self.conn.cursor()
+        if hypothesis_id:
+            cur.execute(
+                """
+                SELECT manifest_id, experiment_id, hypothesis_id, prereg_id,
+                       strategy_name, strategy_version, strategy_digest,
+                       provenance_type, dataset_id, partition_name,
+                       result_status, manifest_hash, created_at
+                FROM experiment_evidence_manifests
+                WHERE hypothesis_id = ?
+                ORDER BY created_at ASC;
+                """,
+                (hypothesis_id,),
+            )
+        else:
+            cur.execute(
+                """
+                SELECT manifest_id, experiment_id, hypothesis_id, prereg_id,
+                       strategy_name, strategy_version, strategy_digest,
+                       provenance_type, dataset_id, partition_name,
+                       result_status, manifest_hash, created_at
+                FROM experiment_evidence_manifests
+                ORDER BY created_at ASC;
+                """
+            )
+        rows = cur.fetchall()
+        return [
+            {
+                "manifest_id": r[0],
+                "experiment_id": r[1],
+                "hypothesis_id": r[2],
+                "prereg_id": r[3],
+                "strategy_name": r[4],
+                "strategy_version": r[5],
+                "strategy_digest": r[6],
+                "provenance_type": r[7],
+                "dataset_id": r[8],
+                "partition_name": r[9],
+                "result_status": r[10],
+                "manifest_hash": r[11],
+                "created_at": r[12],
+            }
+            for r in rows
+        ]
+
+    def record_reproducibility_verification(self, verification_data: Dict[str, Any]) -> str:
+        """Record an independent reproducibility verification result."""
+        cur = self.conn.cursor()
+        v_id = verification_data["verification_id"]
+        tol_json = json.dumps(verification_data.get("tolerances", {}), sort_keys=True)
+        disc_json = json.dumps(verification_data.get("metric_discrepancies", []), sort_keys=True)
+        repro_metrics_json = json.dumps(verification_data.get("reproduced_metrics", {}), sort_keys=True)
+
+        cur.execute(
+            """
+            INSERT INTO reproducibility_verifications (
+                verification_id, manifest_id, experiment_id, verifier_identity,
+                verification_timestamp_utc, verdict, tolerances_json,
+                discrepancies_json, reproduced_metrics_json,
+                reproduced_output_hash, notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """,
+            (
+                v_id,
+                verification_data["manifest_id"],
+                verification_data["experiment_id"],
+                verification_data.get("verifier_identity", "ReproducibilityEngine"),
+                verification_data["verification_timestamp_utc"],
+                verification_data["verdict"],
+                tol_json,
+                disc_json,
+                repro_metrics_json,
+                verification_data["reproduced_output_hash"],
+                verification_data.get("audit_notes", ""),
+            ),
+        )
+        self.conn.commit()
+        return v_id
+
+    def get_reproducibility_verifications(self, manifest_id: str) -> List[Dict[str, Any]]:
+        """Retrieve all reproducibility verification records for a manifest."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            SELECT verification_id, manifest_id, experiment_id, verifier_identity,
+                   verification_timestamp_utc, verdict, tolerances_json,
+                   discrepancies_json, reproduced_metrics_json,
+                   reproduced_output_hash, notes
+            FROM reproducibility_verifications
+            WHERE manifest_id = ?
+            ORDER BY verification_timestamp_utc ASC;
+            """,
+            (manifest_id,),
+        )
+        rows = cur.fetchall()
+        return [
+            {
+                "verification_id": r[0],
+                "manifest_id": r[1],
+                "experiment_id": r[2],
+                "verifier_identity": r[3],
+                "verification_timestamp_utc": r[4],
+                "verdict": r[5],
+                "tolerances": json.loads(r[6]),
+                "metric_discrepancies": json.loads(r[7]),
+                "reproduced_metrics": json.loads(r[8]),
+                "reproduced_output_hash": r[9],
+                "notes": r[10],
+            }
+            for r in rows
+        ]
+
+
+    def record_temporal_integrity_audit(self, audit_report_data: Dict[str, Any]) -> str:
+        """Persist an immutable deterministic temporal integrity audit report in SQLite."""
+        cur = self.conn.cursor()
+        audit_id = audit_report_data["audit_id"]
+
+        # Check if already persisted (idempotent return)
+        cur.execute("SELECT audit_id FROM temporal_integrity_audits WHERE audit_id = ?;", (audit_id,))
+        if cur.fetchone():
+            return audit_id
+
+        findings_json = json.dumps(
+            audit_report_data.get("findings", []),
+            sort_keys=True,
+            default=str,
+        )
+
+        disp_raw = audit_report_data["disposition"]
+        if hasattr(disp_raw, "value"):
+            disp_str = str(disp_raw.value)
+        elif isinstance(disp_raw, str) and "." in disp_raw:
+            disp_str = disp_raw.split(".")[-1]
+        else:
+            disp_str = str(disp_raw)
+
+        cur.execute(
+            """
+            INSERT INTO temporal_integrity_audits (
+                audit_id, hypothesis_id, disposition, has_definitive_violation,
+                total_findings, detector_version, input_digest, findings_json,
+                disposition_rationale, audited_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """,
+            (
+                audit_id,
+                audit_report_data.get("hypothesis_id") or "UNKNOWN",
+                disp_str,
+                1 if audit_report_data.get("has_definitive_violation") else 0,
+                audit_report_data.get("total_findings", len(audit_report_data.get("findings", []))),
+                audit_report_data.get("detector_version", "1.0.0"),
+                audit_report_data.get("input_digest", "UNKNOWN"),
+                findings_json,
+                audit_report_data.get("disposition_rationale", ""),
+                audit_report_data.get("timestamp_utc", datetime.datetime.now(datetime.timezone.utc).isoformat()),
+            ),
+        )
+        self.conn.commit()
+        return audit_id
+
+    def get_temporal_integrity_audit(self, hypothesis_id: str) -> Optional[Dict[str, Any]]:
+        """Retrieve latest temporal integrity audit record for a hypothesis."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            SELECT audit_id, hypothesis_id, disposition, has_definitive_violation,
+                   total_findings, detector_version, input_digest, findings_json,
+                   disposition_rationale, audited_at
+            FROM temporal_integrity_audits
+            WHERE hypothesis_id = ?
+            ORDER BY audited_at DESC LIMIT 1;
+            """,
+            (hypothesis_id,),
+        )
+        row = cur.fetchone()
+        if not row:
+            return None
+        return {
+            "audit_id": row[0],
+            "hypothesis_id": row[1],
+            "disposition": row[2],
+            "has_definitive_violation": bool(row[3]),
+            "total_findings": row[4],
+            "detector_version": row[5],
+            "input_digest": row[6],
+            "findings": json.loads(row[7]),
+            "disposition_rationale": row[8],
+            "audited_at": row[9],
+        }

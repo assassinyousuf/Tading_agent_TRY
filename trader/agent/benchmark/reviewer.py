@@ -29,12 +29,32 @@ from trader.agent.schemas import (
 )
 
 
+from trader.agent.coordinator import (
+    ABSOLUTE_MAX_REVISIONS_CEILING,
+    DEFAULT_MAX_REVISIONS,
+    InvalidRevisionLimitError,
+    MIN_ALLOWED_REVISIONS,
+    ResearchCoordinator,
+)
+
+
 class ResearcherReviewerRunner:
     """Benchmark evaluation runner for Configuration B: Researcher + Independent Reviewer."""
 
-    def __init__(self, provider: LLMProvider) -> None:
+    def __init__(self, provider: LLMProvider, max_revisions: int = 3) -> None:
         self.provider = provider
         self.config_id = "RESEARCHER_REVIEWER"
+        if (
+            isinstance(max_revisions, bool)
+            or not isinstance(max_revisions, int)
+            or max_revisions < MIN_ALLOWED_REVISIONS
+            or max_revisions > ABSOLUTE_MAX_REVISIONS_CEILING
+        ):
+            raise InvalidRevisionLimitError(
+                f"Invalid constructor max_revisions ({max_revisions}). "
+                f"Must be an integer between {MIN_ALLOWED_REVISIONS} and {ABSOLUTE_MAX_REVISIONS_CEILING} (Booleans explicitly rejected)."
+            )
+        self.max_revisions = max_revisions
 
     def run_task(self, task: BenchmarkTask) -> TaskRunResult:
         """Execute a benchmark task through the Researcher + Independent Reviewer configuration."""
@@ -71,13 +91,8 @@ class ResearcherReviewerRunner:
             # Deterministic Python schema validation on hypothesis
             HypothesisPayload.model_validate(raw_hypothesis)
 
-            # Stage 2: Independent Skeptical Review
-            review_prompt = (
-                f"Audit the following hypothesis and research mandate for data snooping, lookahead bias, and turnover realism:\n"
-                f"Mandate: {task.objective_prompt}\n"
-                f"Hypothesis: {json.dumps(raw_hypothesis, indent=2)}\n"
-                "Apply the 4-dimension scoring rubric and issue your recommendation."
-            )
+            # Stage 2: Independent Skeptical Review (using calibrated prompt)
+            review_prompt = ResearchCoordinator._build_reviewer_prompt(task.objective_prompt, raw_hypothesis)
             crit_resp = self.provider.generate(
                 role="Skeptical Reviewer",
                 prompt=review_prompt,
@@ -90,21 +105,50 @@ class ResearcherReviewerRunner:
             # Deterministic Python schema validation on critique
             critique_obj = SkepticalReviewerOutput.model_validate(raw_critique)
 
-            # Gating on reviewer critique
-            if critique_obj.overall_recommendation == "RECOMMEND_REJECTION" or (
-                critique_obj.lookahead_risk_score == 5 or critique_obj.snooping_risk_score == 5
-            ):
-                decision = "REJECTED"
-                decision_rationale = f"Independent reviewer rejected proposal: {critique_obj.critique_rationale}"
-            elif critique_obj.overall_recommendation in {
-                "REVIEW_REQUIRED",
-                "INSUFFICIENT_EVIDENCE",
-                "RECOMMEND_REVISION",
-            }:
-                decision = "REVIEW_REQUIRED"
-                decision_rationale = f"Independent reviewer flagged proposal for review: {critique_obj.critique_rationale}"
-            else:
-                # Stage 3: Generate Proposal if reviewer passed
+            # Revision loop if reviewer requested revision
+            revisions_attempted = 0
+            while critique_obj.overall_recommendation == "RECOMMEND_REVISION" and revisions_attempted < self.max_revisions:
+                revisions_attempted += 1
+                previous_hyp = raw_hypothesis
+
+                # Researcher revises hypothesis based on critique
+                rev_prompt = ResearchCoordinator._build_revision_prompt(
+                    objective=task.objective_prompt,
+                    previous_hypothesis_data=previous_hyp,
+                    critique_data=raw_critique,
+                    cycle=revisions_attempted,
+                )
+                rev_resp = self.provider.generate(
+                    role="Hypothesis Researcher",
+                    prompt=rev_prompt,
+                    schema_class=HypothesisPayload,
+                )
+                total_prompt_tokens += rev_resp.prompt_tokens
+                total_completion_tokens += rev_resp.completion_tokens
+                raw_hypothesis = rev_resp.structured_data
+                HypothesisPayload.model_validate(raw_hypothesis)
+
+                # Re-review revised hypothesis
+                re_crit_prompt = ResearchCoordinator._build_re_review_prompt(
+                    objective=task.objective_prompt,
+                    revised_hypothesis_data=raw_hypothesis,
+                    previous_hypothesis_data=previous_hyp,
+                    previous_critique_data=raw_critique,
+                    cycle=revisions_attempted,
+                )
+                re_crit_resp = self.provider.generate(
+                    role="Skeptical Reviewer",
+                    prompt=re_crit_prompt,
+                    schema_class=SkepticalReviewerOutput,
+                )
+                total_prompt_tokens += re_crit_resp.prompt_tokens
+                total_completion_tokens += re_crit_resp.completion_tokens
+                raw_critique = re_crit_resp.structured_data
+                critique_obj = SkepticalReviewerOutput.model_validate(raw_critique)
+
+            # Decision policy enforcement
+            if critique_obj.overall_recommendation == "RECOMMEND_APPROVAL":
+                # Stage 3: Generate Proposal if reviewer approved
                 prop_prompt = (
                     f"Task ID: {task.task_id}\n"
                     f"Formulate a preregistration proposal for hypothesis {raw_hypothesis.get('hypothesis_id', 'H-UNKNOWN')}.\n"
@@ -122,6 +166,27 @@ class ResearcherReviewerRunner:
                 PreregistrationProposalPayload.model_validate(raw_proposal)
                 decision = "PROCEEDED"
                 decision_rationale = f"Reviewer approved proposal: {critique_obj.critique_rationale}"
+
+            elif critique_obj.overall_recommendation == "RECOMMEND_REVISION":
+                decision = "REVISION_EXHAUSTED"
+                decision_rationale = (
+                    f"Reviewer requested revisions but max revision attempts ({self.max_revisions}) "
+                    f"were exhausted: {critique_obj.critique_rationale}"
+                )
+
+            elif critique_obj.overall_recommendation == "RECOMMEND_REJECTION" or (
+                critique_obj.lookahead_risk_score == 5 or critique_obj.snooping_risk_score == 5
+            ):
+                decision = "REJECTED"
+                decision_rationale = f"Independent reviewer rejected proposal: {critique_obj.critique_rationale}"
+
+            elif critique_obj.overall_recommendation in {"REVIEW_REQUIRED", "INSUFFICIENT_EVIDENCE"}:
+                decision = "REVIEW_REQUIRED"
+                decision_rationale = f"Independent reviewer flagged proposal for review: {critique_obj.critique_rationale}"
+
+            else:
+                decision = "REJECTED"
+                decision_rationale = f"Unknown reviewer recommendation '{critique_obj.overall_recommendation}': {critique_obj.critique_rationale}"
 
         except Exception as exc:
             error_msg = f"Researcher + Reviewer execution exception: {str(exc)}"

@@ -107,6 +107,7 @@ class LocalResearchAssistant(LLMProvider):
         seed: Optional[int] = None,
         api_key: str = "local-key",
         allow_external_endpoint: bool = False,
+        constrained_decoding: bool = False,
     ) -> None:
         super().__init__(name="local", model_identifier=model_identifier)
 
@@ -133,6 +134,7 @@ class LocalResearchAssistant(LLMProvider):
         self.seed = seed
         self.api_key = api_key
         self.allow_external_endpoint = allow_external_endpoint
+        self.constrained_decoding = constrained_decoding
         self.call_history: List[Dict[str, Any]] = []
 
         if not allow_external_endpoint:
@@ -154,6 +156,9 @@ class LocalResearchAssistant(LLMProvider):
             f"You are acting as the {role} in an autonomous quantitative research system. "
             "You must respond with valid JSON matching the requested schema. Do not include markdown code fences."
         )
+        if schema_class is not None:
+            schema_json = json.dumps(schema_class.model_json_schema(), indent=2)
+            system_instruction += f"\n\nRequired JSON Schema:\n{schema_json}"
 
         headers = {
             "Content-Type": "application/json",
@@ -180,6 +185,8 @@ class LocalResearchAssistant(LLMProvider):
                 "stream": False,
                 "options": options,
             }
+            if self.constrained_decoding and schema_class is not None:
+                request_body["format"] = schema_class.model_json_schema()
         else:
             request_body = {
                 "model": self.model_identifier,
@@ -195,6 +202,8 @@ class LocalResearchAssistant(LLMProvider):
                 request_body["top_p"] = self.top_p
             if self.seed is not None:
                 request_body["seed"] = self.seed
+            if self.constrained_decoding and schema_class is not None:
+                request_body["response_format"] = {"type": "json_object"}
 
         req = urllib.request.Request(
             self.endpoint_url,

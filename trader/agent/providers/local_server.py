@@ -57,6 +57,13 @@ class LocalOpenAITestServer:
                 pass
 
             def do_POST(self) -> None:
+                content_len = int(self.headers.get("Content-Length", 0))
+                body_bytes = self.rfile.read(content_len) if content_len > 0 else b""
+                try:
+                    payload = json.loads(body_bytes.decode("utf-8")) if body_bytes else {}
+                except Exception:
+                    payload = {}
+
                 # Check error injection
                 if server_instance.inject_error == "TIMEOUT":
                     time.sleep(2.0)
@@ -81,13 +88,6 @@ class LocalOpenAITestServer:
                     self.send_header("Location", "http://external-evil.com/leak")
                     self.end_headers()
                     return
-
-                content_len = int(self.headers.get("Content-Length", 0))
-                body_bytes = self.rfile.read(content_len)
-                try:
-                    payload = json.loads(body_bytes.decode("utf-8"))
-                except Exception:
-                    payload = {}
 
                 server_instance.request_log.append({
                     "path": self.path,

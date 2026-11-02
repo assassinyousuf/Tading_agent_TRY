@@ -24,6 +24,15 @@ from typing import Any, Dict, List, Optional
 
 from trader.agent.core.strategy_base import StrategyInterface
 from trader.agent.db.ledger import ResearchLedger
+import logging
+import traceback
+from trader.agent.evidence.manifest import (
+    EvidenceManifestContradictionError,
+    EvidenceManifestPersistenceError,
+    generate_evidence_manifest,
+)
+
+logger = logging.getLogger(__name__)
 from trader.agent.tools.market_bridge import (
     MarketDataProvider,
     SealedPartitionAccessViolation,
@@ -254,6 +263,7 @@ class ResearchExecutionEngine:
         )
 
         git_hash = get_code_git_hash()
+        start_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         # 4. Partition Data Retrieval
         try:
@@ -309,6 +319,40 @@ class ResearchExecutionEngine:
                 random_seed_63bit=request.random_seed,
                 code_git_hash=git_hash,
             )
+            # Record failure evidence manifest
+            try:
+                tb_str = traceback.format_exc()
+                tb_digest = hashlib.sha256(tb_str.encode("utf-8")).hexdigest()
+                fail_manifest = generate_evidence_manifest(
+                    experiment_id=exp_id,
+                    hypothesis_id=request.hypothesis_id,
+                    prereg_id=request.prereg_id,
+                    strategy_name=request.strategy.name,
+                    strategy_version=request.strategy.version,
+                    parameters=request.parameters,
+                    dataset_id=f"{request.symbol}_{request.partition}",
+                    partition_name=request.partition,
+                    dataset_fingerprint=data_hash,
+                    code_revision=git_hash,
+                    metrics={
+                        "error_type": type(exc).__name__,
+                        "error_message": str(exc),
+                        "traceback_digest": tb_digest,
+                    },
+                    result_status="FAILED",
+                    failure_or_interruption_status=f"FAILED: {type(exc).__name__}: {str(exc)}",
+                    start_timestamp_utc=start_iso,
+                    completion_timestamp_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    request_id=req_id,
+                    trial_id=trial_id,
+                    fee_assumptions=request.cost_model,
+                    benchmark_id=request.benchmark_id,
+                    random_seeds={"simulation_seed": request.random_seed},
+                )
+                self.ledger.record_evidence_manifest(fail_manifest.to_dict())
+            except Exception as man_exc:
+                logger.error(f"Failed to persist failure manifest: {str(man_exc)}")
+
             raise SimulationExecutionError(f"Strategy simulation failed: {str(exc)}") from exc
 
         # 6. Record Experiment Result Atomically
@@ -345,7 +389,47 @@ class ResearchExecutionEngine:
                 pass  # If DB is unresponsive, trial remains in STARTED and is reconciled on restart
             raise SimulationExecutionError(f"Failed to record experiment result: {str(exc)}") from exc
 
-        # 7. Finalize Trial as COMPLETED
+        # 7. Record Phase 2.6 Experiment Evidence Manifest
+        completion_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        try:
+            manifest = generate_evidence_manifest(
+                experiment_id=exp_id,
+                hypothesis_id=request.hypothesis_id,
+                prereg_id=request.prereg_id,
+                strategy_name=request.strategy.name,
+                strategy_version=request.strategy.version,
+                parameters=request.parameters,
+                dataset_id=f"{request.symbol}_{request.partition}",
+                partition_name=request.partition,
+                dataset_fingerprint=data_hash,
+                code_revision=git_hash,
+                metrics=sim_results["raw_metrics"],
+                result_status="COMPLETED",
+                start_timestamp_utc=start_iso,
+                completion_timestamp_utc=completion_iso,
+                request_id=req_id,
+                trial_id=trial_id,
+                fee_assumptions=request.cost_model,
+                benchmark_id=request.benchmark_id,
+                random_seeds={"simulation_seed": request.random_seed},
+            )
+            self.ledger.record_evidence_manifest(manifest.to_dict())
+        except Exception as exc:
+            self.ledger.update_execution_request(req_id, status="FAILED", experiment_id=exp_id, trial_id=trial_id)
+            try:
+                self.ledger.finalize_trial(
+                    trial_id=trial_id,
+                    disposition="FAILED",
+                    experiment_id=exp_id,
+                    notes=f"Evidence manifest persistence failed: {str(exc)}",
+                )
+            except Exception:
+                pass
+            raise EvidenceManifestPersistenceError(
+                f"Mandatory evidence manifest generation or persistence failed: {str(exc)}"
+            ) from exc
+
+        # 8. Finalize Trial as COMPLETED
         try:
             self.ledger.finalize_trial(
                 trial_id=trial_id,
